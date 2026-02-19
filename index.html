@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Page Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sticky Header -->
+    <header class="sticky-header">
+        <nav>
+            <div class="logo">HEP</div>
+            <ul class="nav-links">
+                <li><a href="#gelingendes-studium">Gelingendes Studium</a></li>
+                <li><a href="#ziele-meilensteine">Meilensteine</a></li>
+                <li><a href="#kurzportrait">Unsere Fakultäten</a></li>
+                <li><a href="#wissensspeicher-hawk">Wissensspeicher HAWK</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hauptgrafik -->
+        <section id="hauptgrafik" class="section">
+            <div class="container">
+                <div id="svg-container"></div>
+                <div id="svg-hint" class="svg-hint" aria-hidden="true"></div>
+            </div>
+        </section>
+
+        <!-- Einleitung -->
+        <section id="einleitung" class="section text-section">
+            <div class="container">
+                <article class="intro-card reveal-on-scroll">
+                    <div class="intro-content">
+                        <h2 class="intro-title">EINLEITUNG</h2>
+                        <div class="intro-columns">
+                            <p>„Gelingendes Studium“ in das Zentrum eines Hochschulentwick- lungsplans einer Hochschule für angewandte Wissenschaft und Kunst zu stellen, scheint auf den ersten Blick wenig innovativ. Was sollte daran neu sein? Haben wir das nicht schon immer gemacht? Die Antwortet lautet „Jein“. Ja – Studierende stehen schon immer im Zentrum der Vorhaben. Nein – nicht bis zur letzten Konsequenz. Eine Hochschule vom gelingenden Studium aus zu denken, erfordert zum einen eine Auseinandersetzung mit der Frage, was unter diesem Begriff zu verstehen ist und zum anderen das in Beziehung setzen aller Aufgaben der Hochschulen. Die Frage, was unter gelingendem Lernen und einer qualitativ hochwertigen Lehre grundsätzlich und konkret zu verstehen ist,</p>
+                            <p>ist dabei nicht abschließend zu beantworten bzw. sollte auch nicht abschließend beantwortet werden. Sie stellt für eine Hochschule vielmehr eine dauerhafte Entwicklungsaufgabe dar. Die „Charta guter Lehre“ des Stifterverbands für die Deutsche Wissenschaft bezeichnet den Prozess insofern zutreffend als eine „Annäherung.“ Unser Qualitätsverständnis beinhaltet dementsprechend, dass wir uns als Hochschule diese Frage systematisch immer wieder aufs Neue stellen, uns dieser annähern und die jeweilige Antwort in einem dauerhaft institutionalisierten, lebendigen Diskurs, an dem alle Statusgruppen mit ihrer jeweils spezifischen Perspektive beteiligt sind, formulieren. Die Frage nach der Qualität von Studium und Lehre und die vielfältigen Antworten darauf bilden so den Motor der ständigen Qualitätsentwicklung an der HAWK.</p>
+                            <p class="intro-footnote"><sup>1</sup> Bettina Jorzik (Hrsg.): Charta guter Lehre. Grundsätze und Leitlinien für eine bessere Lehrkuvltur. Essen: Stifterverband für die Deutsche Wissenschaft 2013.</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Gelingendes Studium -->
+        <section id="gelingendes-studium" class="section text-section">
+            <div class="container">
+                <h2>Gelingendes Studium</h2>
+                <p>Dieser Abschnitt bündelt die Maßnahmen und Strukturen für ein erfolgreiches Studium.</p>
+            </div>
+        </section>
+
+        <!-- Querschnittsthemen -->
+        <section id="querschnittsthemen" class="section text-section">
+            <div class="container">
+                <h2>Querschnittsthemen</h2>
+                <p>Hier werden übergreifende Perspektiven und Handlungsfelder zusammengeführt.</p>
+            </div>
+        </section>
+
+        <!-- Ziele / Meilensteine -->
+        <section id="ziele-meilensteine" class="section text-section">
+            <div class="container">
+                <h2>Ziele / Meilensteine</h2>
+                <p>Die Zielsetzung und der Fortschritt des Projekts sind hier strukturiert dargestellt.</p>
+            </div>
+        </section>
+
+        <!-- Kurzportrait -->
+        <section id="kurzportrait" class="section text-section">
+            <div class="container">
+                <h2>Kurzportrait</h2>
+                <p>Ein Überblick über beteiligte Bereiche und Fakultäten innerhalb der HAWK.</p>
+            </div>
+        </section>
+
+        <!-- Wissensspeicher HAWK -->
+        <section id="wissensspeicher-hawk" class="section text-section">
+            <div class="container">
+                <h2>Wissensspeicher HAWK</h2>
+                <p>Zentrale Ablage und Zugriffspunkt für Wissen, Materialien und Projektergebnisse.</p>
+            </div>
+        </section>
+    </main>
+
+    <a href="#hauptgrafik" id="back-to-graphic" class="back-to-graphic" aria-label="Zur Hauptgrafik">↑</a>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 MyWebsite. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Lade die SVG und mache Elemente interaktiv
+        fetch('1_Hauptgrafik.svg')
+            .then(response => response.text())
+            .then(svgText => {
+                document.getElementById('svg-container').innerHTML = svgText;
+                applyIntroAnimation();
+                initSVGInteractions();
+                initSectionReveal();
+            });
+
+        function initSectionReveal() {
+            const revealElements = document.querySelectorAll('.reveal-on-scroll');
+            if (!revealElements.length) return;
+
+            function updateTransforms() {
+                const windowHeight = window.innerHeight;
+                const headerOffset = 60; // passend zur sticky-header Höhe
+
+                revealElements.forEach(el => {
+                    const section = el.closest('.section');
+                    if (!section) return;
+                    
+                    const rect = section.getBoundingClientRect();
+                    
+                    // Fortschritt berechnen: 
+                    // 0 wenn der Abschnitt unten am Bildschirmrand auftaucht (rect.top = windowHeight)
+                    // 1 wenn der Abschnitt oben eingerastet ist (rect.top = headerOffset)
+                    let progress = (windowHeight - rect.top) / (windowHeight - headerOffset);
+                    progress = Math.max(0, Math.min(1, progress));
+                    
+                    // Lineare Verschiebung von -100% zu 0%
+                    const xPercent = (1 - progress) * -100;
+                    el.style.transform = `translateX(${xPercent}%)`;
+                    // Optional: Deckkraft parallel dazu einblenden
+                    el.style.opacity = progress;
+                });
+            }
+
+            window.addEventListener('scroll', updateTransforms, { passive: true });
+            updateTransforms();
+        }
+
+        function applyIntroAnimation() {
+            const loadingId = 'Gelingendes_Studium';
+            const buildGroups = [
+                { ids: ['Ziele'], delay: 0 },
+                { ids: ['K1', 'K2', 'K3', 'K4'], delay: 0.12 },
+                { ids: ['F', 'SGE', 'NHK', 'KIR', 'QST'], delay: 0.24 }
+            ];
+            const retractIds = ['F', 'SGE', 'KIR', 'NHK'];
+
+            const loadingElement = document.getElementById(loadingId);
+            if (loadingElement) {
+                loadingElement.classList.add('loading-symbol-minimal');
+            }
+            buildGroups.forEach(group => {
+                group.ids.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.classList.add('intro-hidden');
+                    }
+                });
+            });
+
+            const loadingDurationMs = 700;
+            const buildDurationMs = 900;
+            const lastBuildDelayMs = 240;
+            const buildEndBufferMs = 180;
+
+            setTimeout(() => {
+                if (loadingElement) {
+                    loadingElement.classList.remove('loading-symbol-minimal');
+                }
+
+                buildGroups.forEach(group => {
+                    group.ids.forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.classList.remove('intro-hidden');
+                            element.classList.add('intro-unit');
+                            element.style.animationDelay = `${group.delay}s`;
+                        }
+                    });
+                });
+
+                const retractStartMs = lastBuildDelayMs + buildDurationMs + buildEndBufferMs;
+
+                setTimeout(() => {
+                    retractIds.forEach((id, index) => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.classList.remove('intro-unit');
+                            element.classList.add('retract-unit');
+                            element.style.animationDelay = `${index * 0.16}s`;
+                        }
+                    });
+                }, retractStartMs);
+            }, loadingDurationMs);
+        }
+
+        function initSVGInteractions() {
+            // Liste der interaktiven Elemente
+            const elements = ['F', 'K1', 'K2', 'K3', 'K4', 'QST', 'SGE', 'NHK', 'KIR', 'Gelingendes_Studium', 'Ziele'];
+            const linkedSections = {
+                K2: 'F',
+                K3: 'SGE',
+                K4: 'NHK',
+                K1: 'KIR'
+            };
+            const scrollTargets = {
+                QST: { sectionId: 'querschnittsthemen', hint: 'Klicken: zu Querschnittsthemen' },
+                Gelingendes_Studium: { sectionId: 'gelingendes-studium', hint: 'Klicken: zu Gelingendes Studium' },
+                Ziele: { sectionId: 'ziele-meilensteine', hint: 'Klicken: zu Ziele / Meilensteine' }
+            };
+            const hoverHints = {
+                QST: 'Klicken: zu Querschnittsthemen',
+                Gelingendes_Studium: 'Klicken: zu Gelingendes Studium',
+                Ziele: 'Klicken: zu Ziele / Meilensteine',
+                K1: 'Aufklappen',
+                K2: 'Aufklappen',
+                K3: 'Aufklappen',
+                K4: 'Aufklappen'
+            };
+            const hint = document.getElementById('svg-hint');
+            const hoverLeaveTimers = new Map();
+            const activeTimers = new Map();
+            const backToGraphic = document.getElementById('back-to-graphic');
+
+            function updateBackToGraphicVisibility() {
+                if (!backToGraphic) return;
+                if (window.scrollY > 380) {
+                    backToGraphic.classList.add('visible');
+                } else {
+                    backToGraphic.classList.remove('visible');
+                }
+            }
+
+            updateBackToGraphicVisibility();
+            window.addEventListener('scroll', updateBackToGraphicVisibility, { passive: true });
+
+            function scrollToSection(sectionId) {
+                const targetSection = document.getElementById(sectionId);
+                if (!targetSection) return;
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function showHint(event, text) {
+                if (!hint) return;
+                hint.textContent = text;
+                hint.classList.add('visible');
+                const x = event.clientX + 14;
+                const y = event.clientY + 14;
+                hint.style.left = `${x}px`;
+                hint.style.top = `${y}px`;
+            }
+
+            function moveHint(event) {
+                if (!hint || !hint.classList.contains('visible')) return;
+                hint.style.left = `${event.clientX + 14}px`;
+                hint.style.top = `${event.clientY + 14}px`;
+            }
+
+            function hideHint() {
+                if (!hint) return;
+                hint.classList.remove('visible');
+            }
+
+            function clearHoverLeaveTimer(id) {
+                const timer = hoverLeaveTimers.get(id);
+                if (timer) {
+                    clearTimeout(timer);
+                    hoverLeaveTimers.delete(id);
+                }
+            }
+
+            function expandSection(sectionId) {
+                const section = document.getElementById(sectionId);
+                if (!section) return;
+
+                section.classList.remove('retract-unit', 'intro-hidden', 'intro-unit');
+                section.style.animationDelay = '0s';
+                void section.getBoundingClientRect();
+                section.classList.add('intro-unit');
+            }
+
+            function collapseSection(sectionId) {
+                const section = document.getElementById(sectionId);
+                if (!section) return;
+
+                section.classList.remove('intro-unit', 'intro-hidden', 'retract-unit');
+                section.style.animationDelay = '0s';
+                void section.getBoundingClientRect();
+                section.classList.add('retract-unit');
+            }
+
+            function toggleLinkedSection(controlId) {
+                const targetId = linkedSections[controlId];
+                if (!targetId) return;
+
+                const target = document.getElementById(targetId);
+                if (!target) return;
+
+                if (target.classList.contains('retract-unit') || target.classList.contains('intro-hidden')) {
+                    expandSection(targetId);
+                    return;
+                }
+
+                collapseSection(targetId);
+            }
+            
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    // Hover-Effekt
+                    element.addEventListener('mouseenter', function(e) {
+                        clearHoverLeaveTimer(id);
+                        this.classList.add('svg-element-hover');
+                        if (hoverHints[id]) {
+                            showHint(e, hoverHints[id]);
+                        }
+                        console.log(id + ' hovered');
+                    });
+
+                    element.addEventListener('mousemove', function(e) {
+                        if (hoverHints[id]) {
+                            moveHint(e);
+                        }
+                    });
+                    
+                    element.addEventListener('mouseleave', function() {
+                        clearHoverLeaveTimer(id);
+                        const timer = setTimeout(() => {
+                            this.classList.remove('svg-element-hover');
+                            hideHint();
+                            hoverLeaveTimers.delete(id);
+                        }, 110);
+                        hoverLeaveTimers.set(id, timer);
+                    });
+                    
+                    // Click-Effekt
+                    element.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        this.classList.add('svg-element-active');
+
+                        const currentTimer = activeTimers.get(id);
+                        if (currentTimer) {
+                            clearTimeout(currentTimer);
+                        }
+
+                        const timer = setTimeout(() => {
+                            this.classList.remove('svg-element-active');
+                            activeTimers.delete(id);
+                        }, 420);
+                        activeTimers.set(id, timer);
+
+                        toggleLinkedSection(id);
+
+                        if (scrollTargets[id]) {
+                            hideHint();
+                            scrollToSection(scrollTargets[id].sectionId);
+                        }
+
+                        console.log(id + ' clicked');
+                    });
+                    
+                    element.style.cursor = 'pointer';
+                }
+            });
+            
+            // Entferne die active-Klasse wenn Hintergrund geklickt wird
+            document.getElementById('svg-container').addEventListener('click', function() {
+                elements.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.remove('svg-element-active');
+                });
+                hideHint();
+            });
+        }
+    </script>
+</body>
+</html>
