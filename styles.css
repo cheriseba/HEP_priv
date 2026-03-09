@@ -7,7 +7,6 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-snap-type: y mandatory;
     scroll-padding-top: 60px;
 }
 
@@ -77,7 +76,7 @@ main {
 }
 
 .section:nth-child(odd) {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
 }
 
 .section:nth-child(even) {
@@ -125,6 +124,20 @@ main {
     height: auto;
     max-height: 80vh;
 }
+
+/* Main graphic text should be white; keep QST text gray */
+#svg-container svg text,
+#svg-container svg .st2 {
+    fill: #ffffff !important;
+}
+
+#svg-container svg #QST text,
+#svg-container svg #QST .st2 {
+    fill: #A7A7A8 !important;
+}
+
+
+
 
 #svg-container .intro-hidden {
     transform-box: view-box;
@@ -243,6 +256,138 @@ main {
     margin: 0 auto;
 }
 
+.glstu-svg-container {
+    margin: 0;
+    max-width: 760px;
+    width: 100%;
+    position: relative;
+}
+
+#gelingendes-studium.section {
+    padding: 0;
+}
+
+.glstu-split {
+    display: grid;
+    grid-template-columns: minmax(280px, 44%) minmax(320px, 56%);
+    gap: 0;
+    align-items: stretch;
+    width: 100%;
+    max-width: 100%;
+}
+
+.glstu-fixed {
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 3vw;
+    background: radial-gradient(circle at 30% 20%, rgba(36, 148, 202, 0.12), transparent 60%);
+}
+
+.glstu-scroll {
+    height: 100vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: 0;
+    background: #f6f8fb;
+    padding: 4rem 8vw 4rem 6vw;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.glstu-panel {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    text-align: left;
+    min-height: 100vh;
+    background: #ffffff;
+    color: #0f2b3d;
+    padding: 2.75rem 2.5rem;
+    border-radius: 24px;
+    box-shadow: 0 18px 45px rgba(0, 78, 158, 0.12);
+}
+
+.glstu-panel h2,
+.glstu-panel h3 {
+    margin-bottom: 1rem;
+}
+
+.glstu-title {
+    display: inline-block;
+    background: #004e94;
+    color: #ffffff;
+    padding: 0.35rem 2.5rem;
+    border-radius: 999px;
+    font-size: 1.9rem;
+    font-weight: bold;
+}
+
+@media (max-width: 900px) {
+    .glstu-split {
+        grid-template-columns: 1fr;
+    }
+
+    .glstu-fixed {
+        position: static;
+        height: auto;
+        padding: 3rem 8vw 1.5rem;
+    }
+
+    .glstu-scroll {
+        height: 100vh;
+        padding: 2rem 8vw 3rem;
+    }
+}
+
+.glstu-svg-container svg {
+    width: 100%;
+    height: auto;
+    pointer-events: auto;
+}
+
+.glstu-svg-container .glstu-layer {
+    cursor: pointer;
+    transform-box: view-box;
+    transform-origin: center center;
+    transition: transform 0.22s ease, filter 0.22s ease, opacity 0.22s ease;
+    will-change: transform, filter, opacity;
+}
+
+.glstu-svg-container .glstu-layer-hover {
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 6px rgba(36, 148, 202, 0.45)) brightness(1.08);
+}
+
+.glstu-svg-container g[id^="O_"],
+.glstu-svg-container g[id^="O_x5F_"] {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.glstu-svg-container g[id^="O_"].glstu-overlay-visible,
+.glstu-svg-container g[id^="O_x5F_"].glstu-overlay-visible {
+    opacity: 1;
+}
+
+.glstu-svg-container .glstu-overlay {
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.glstu-svg-container .glstu-overlay-hidden {
+    opacity: 0;
+}
+
+.glstu-svg-container .glstu-overlay-visible {
+    opacity: 1;
+}
+
+
 .intro-card {
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -288,6 +433,39 @@ main {
     line-height: 1.7; /* Slightly more line spacing for better readability */
 }
 
+.intro-card p {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    margin: 0;
+}
+
+/* Querschnittsthemen Intro Columns - 4 Spalten */
+.qst-intro-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+.qst-column {
+    color: #ffffff;
+}
+
+.qst-column h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.qst-column p {
+    max-width: 100%;
+    margin: 0;
+    color: #ffffff;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
 .intro-footnote {
     margin-top: 0rem;
     margin-bottom: 0;
@@ -301,6 +479,115 @@ main {
     will-change: transform;
     /* transition is removed or made very short for real-time response */
     transition: transform 0.1s linear; 
+}
+
+/* Gelingendes Studium – Sticky Image Left + Scrollable Text Right */
+.gelingendes-studium-section {
+    display: block;
+    padding: 0;
+    min-height: 0;
+}
+
+.gelingendes-studium-layout {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.gs-sticky-image {
+    position: sticky;
+    top: 60px;
+    width: 60%;
+    height: calc(100vh - 60px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+.gs-svg-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gs-svg-container svg {
+    width: 115%;
+    height: auto;
+    max-height: 100%;
+}
+
+.gs-svg-container .gs-svg-clickable {
+    cursor: pointer;
+}
+
+.gs-svg-container .gs-overlay {
+    transition: opacity 0.2s ease;
+}
+
+.gs-svg-container .gs-overlay-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.gs-svg-container .gs-overlay-visible {
+    opacity: 1;
+}
+
+.gs-text-column {
+    width: 40%;
+    flex-shrink: 0;
+}
+
+.gs-text-block {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3rem;
+}
+
+.gs-text-block:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.gs-text-block:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.gs-text-block h2,
+.gs-text-block h3 {
+    margin-bottom: 1.5rem;
+}
+
+.gs-text-block p {
+    max-width: 100%;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .gelingendes-studium-layout {
+        flex-direction: column;
+    }
+
+    .gs-sticky-image {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding: 2rem;
+    }
+
+    .gs-svg-container svg {
+        width: 100%;
+    }
+
+    .gs-text-column {
+        width: 100%;
+    }
 }
 
 .back-to-graphic {
@@ -409,6 +696,496 @@ p {
     font-size: 1.2rem;
 }
 
+/* Meilensteine Header */
+.meilensteine-header {
+    text-align: left;
+}
+
+.meilensteine-header h2 {
+    display: inline-block;
+    background: #004E9E; /* Vollflächig blau, kein Verlauf */
+    color: #ffffff;
+    padding: 0 10vw;
+    margin-left: -6vw;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 0;
+}
+
+/* Kurzportrait Section */
+#kurzportrait.section {
+    background: #ffffff;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.kurzportrait-header {
+    position: absolute;
+    top: clamp(1rem, 4vh, 3rem);
+    left: 0;
+    width: 100%;
+    text-align: left;
+    z-index: 5;
+}
+
+.kurzportrait-header h2 {
+    display: inline-block;
+    background: #ffffff;
+    color: #004E9E;
+    padding: 0 10vw;
+    margin-left: -6vw;
+    margin-bottom: 2.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 0;
+}
+
+.kurzportrait-top {
+    position: relative;
+    z-index: 4;
+    display: grid;
+    grid-template-columns: minmax(220px, 28%) 1fr;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    min-height: 100vh;
+    gap: clamp(1rem, 2vw, 2rem);
+    background: #ffffff;
+    padding: clamp(4.5rem, 10vh, 6.25rem) 6vw 2rem 4vw;
+}
+
+.kurzportrait-top-header {
+    grid-column: 1 / -1;
+    text-align: left;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+}
+
+.kurzportrait-top-header h2 {
+    display: inline-block;
+    background: #004E9E;
+    color: #ffffff;
+    padding: 0 10vw;
+    margin-left: 0;
+    margin-bottom: 0.65rem;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 0;
+}
+
+.kurzportrait-top-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.kurzportrait-top-logo img {
+    width: min(100%, 360px);
+    height: auto;
+    object-fit: contain;
+}
+
+.kurzportrait-top-text {
+    text-align: left;
+    max-width: 760px;
+}
+
+.kurzportrait-top-text p {
+    color: #0f2b3d;
+    margin: 0;
+    font-size: 1.08rem;
+    line-height: 1.58;
+}
+
+.karte-svg-container {
+    width: min(114vw, 1615px);
+    margin-left: auto;
+    margin-right: -19vw;
+    margin-top: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.karte-svg-container svg,
+.karte-svg-container img {
+    width: 100%;
+    height: auto;
+    max-height: 84vh;
+}
+
+.karte-svg-container .karte-city-layer {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.22s ease, filter 0.22s ease, opacity 0.22s ease;
+}
+
+.karte-svg-container .karte-city-layer-hover {
+    transform: scale(1.3);
+    filter: drop-shadow(0 0 8px rgba(36, 148, 202, 0.55));
+}
+
+.karte-svg-container .karte-city-card {
+    transition: opacity 0.28s ease;
+}
+
+.karte-svg-container .karte-city-card-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.karte-svg-container .karte-city-card-visible {
+    opacity: 1;
+}
+
+.karte-svg-container .karte-gebiet-hidden {
+    display: none;
+}
+
+#kurzportrait .container {
+    position: relative;
+}
+
+.kurzportrait-main {
+    position: relative;
+    min-height: 88vh;
+    background: #003e7e;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+.kurzportrait-layout {
+    min-height: 88vh;
+    position: relative;
+    display: flex;
+    align-items: end;
+    justify-content: flex-end;
+    padding: clamp(1rem, 3vh, 3rem) 2vw clamp(1rem, 4vh, 2.5rem);
+}
+
+.kurzportrait-side-text {
+    position: absolute;
+    left: 2vw;
+    bottom: clamp(3.4rem, 11.5vh, 7rem);
+    width: min(42vw, 760px);
+    max-width: calc(100% - 4vw);
+    height: clamp(13rem, 32vh, 20rem);
+    overflow: hidden;
+    z-index: 6;
+    text-align: left;
+    background: rgba(0, 62, 126, 0.48);
+    border-left: 4px solid #2494CA;
+}
+
+.kurzportrait-text-pages {
+    position: relative;
+    height: 100%;
+}
+
+.kurzportrait-text-page {
+    position: absolute;
+    inset: 0;
+    min-height: 100%;
+    padding: 1rem 1.1rem;
+    transform: translateY(120%);
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.kurzportrait-text-page:first-child {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.kurzportrait-side-text p {
+    color: #ffffff;
+    margin: 0;
+    font-size: 1.12rem;
+    line-height: 1.62;
+}
+
+.kurzportrait-third {
+    background: #ffffff;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(260px, 42%) 1fr;
+    align-items: center;
+    gap: clamp(1.2rem, 2.6vw, 3rem);
+    padding: clamp(2.5rem, 8vh, 5rem) 5vw;
+}
+
+.kurzportrait-third-graphic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kurzportrait-third-graphic img {
+    width: min(92%, 540px);
+    height: auto;
+}
+
+.kurzportrait-third-text {
+    display: grid;
+    gap: 1.35rem;
+    text-align: left;
+    padding-left: clamp(0.4rem, 1.6vw, 1.5rem);
+}
+
+.kurzportrait-third-block p {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.62;
+    color: #0f2b3d;
+}
+
+/* Wissensspeicher - erster Teilabschnitt */
+#wissensspeicher-hawk.section {
+    background: #ffffff;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+}
+
+.wissensspeicher-intro {
+    width: min(96vw, 1400px);
+    margin: 0 auto;
+    text-align: left;
+}
+
+.wissensspeicher-header h2 {
+    display: inline-block;
+    background: #004E9E;
+    color: #ffffff;
+    padding: 0 10vw;
+    margin-left: -10vw;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 0;
+}
+
+.wissensspeicher-intro .wissensspeicher-subtitle {
+    display: block;
+    max-width: 50%;
+    color: #0f2b3d;
+    font-size: 1.12rem;
+    line-height: 1.6;
+    margin: 1.4rem 0 2.6rem 2.2vw;
+}
+
+.wissensspeicher-steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: clamp(1rem, 2vw, 2rem);
+    align-items: start;
+    margin-top: 1.2rem;
+    padding-top: 0.6rem;
+}
+
+.wissensspeicher-steps::before {
+    content: '';
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    top: calc(0.6rem + min(11vw, 150px));
+    height: 4px;
+    background: linear-gradient(90deg, #003E7E 0%, #2494CA 100%);
+    border-radius: 999px;
+    opacity: 0.75;
+    z-index: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.8s ease;
+}
+
+.wissensspeicher-steps.wissensspeicher-steps-visible::before {
+    transform: scaleX(1);
+}
+
+.wissensspeicher-step {
+    position: relative;
+    z-index: 1;
+    width: clamp(220px, 18vw, 300px);
+    height: clamp(220px, 18vw, 300px);
+    border-radius: 50%;
+    background: linear-gradient(135deg, #003E7E 0%, #2494CA 100%);
+    color: #ffffff;
+    padding: clamp(1.5rem, 3.6vw, 2.4rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 16px 35px rgba(0, 62, 126, 0.22);
+    opacity: 0;
+    transform: translateY(26px) scale(0.96);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.wissensspeicher-step.wissensspeicher-step-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.wissensspeicher-step::before {
+    content: '';
+    position: absolute;
+    inset: clamp(8px, 1.1vw, 12px);
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.wissensspeicher-step p {
+    margin: 0;
+    font-size: clamp(0.76rem, 0.9vw, 0.9rem);
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.wissensspeicher-slidein-section {
+    min-height: 72vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.8rem 0;
+}
+
+.wissensspeicher-slidein-card {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background: linear-gradient(90deg, #004E9E 0%, #2494CA 100%);
+    color: #ffffff;
+    padding: clamp(2.5rem, 6vh, 4rem) 8vw;
+    text-align: left;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.55s ease;
+}
+
+.wissensspeicher-slidein-card.wissensspeicher-slidein-visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.wissensspeicher-slidein-card p {
+    max-width: 920px;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.62;
+}
+
+.wissensspeicher-final {
+    min-height: 78vh;
+    display: grid;
+    grid-template-columns: minmax(320px, 50%) 1fr;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+    padding: clamp(1.4rem, 4vh, 2.8rem) 5vw;
+    background: #ffffff;
+}
+
+.wissensspeicher-final-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 4vw, 3.5rem);
+}
+
+.wissensspeicher-final-image img {
+    width: min(100%, 720px);
+    height: auto;
+    max-height: 56vh;
+    object-fit: contain;
+}
+
+.wissensspeicher-final-content {
+    text-align: left;
+    display: grid;
+    gap: 1.25rem;
+}
+
+.wissensspeicher-final-content p {
+    margin: 0;
+    color: #0f2b3d;
+    font-size: 1.08rem;
+    line-height: 1.62;
+    max-width: 700px;
+}
+
+.wissensspeicher-final-link {
+    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: fit-content;
+    border: 2px solid #004E9E;
+    color: #004E9E;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0.55rem 0.8rem;
+    border-radius: 6px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.wissensspeicher-final-link:hover {
+    background: #004E9E;
+    color: #ffffff;
+}
+
+.wissensspeicher-link-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.meilensteine-layout {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.meilensteine-ziel {
+    background: linear-gradient(90deg, #c0c0c0 0%, #e8e8e8 60%, rgba(232, 232, 232, 0) 100%);
+    text-align: left;
+}
+
+.meilensteine-ziel h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.6rem; /* relativ groß */
+    font-weight: 700;
+    color: #2494CA; /* Blau des äußeren Rings */
+    text-align: left;
+}
+
+.meilensteine-ziel p {
+    margin: 0;
+    font-size: 1.2rem; /* etwas größer */
+    line-height: 1.6;
+    color: #000000; /* schwarzer Text */
+    text-align: left;
+
+}
+
+.meilensteine-rings {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transform: translateX(0); /* keine zusätzliche Verschiebung nach links */
+    padding-left: 7rem; /* SVG nach rechts einrücken */
+}
+
+.meilensteine-rings svg,
+.meilensteine-rings img {
+    max-width: 494px; /* ca. 30% größer als zuvor (380px) */
+    width: 100%;
+    height: auto;
+}
+
 /* Footer */
 footer {
     background-color: #333;
@@ -466,6 +1243,166 @@ footer {
     .intro-footnote {
         grid-column: 1;
     }
+
+    .meilensteine-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .meilensteine-rings svg {
+        max-width: 300px;
+    }
+
+    .kurzportrait-header h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .kurzportrait-header {
+        top: 0.5rem;
+    }
+
+    .kurzportrait-top {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+        padding: 3.5rem 1rem 1rem;
+    }
+
+    .kurzportrait-top-header h2 {
+        font-size: 1.6rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .kurzportrait-top-logo img {
+        width: min(82vw, 300px);
+    }
+
+    .kurzportrait-top-text {
+        text-align: left;
+    }
+
+    .kurzportrait-top-text p {
+        font-size: 0.95rem;
+    }
+
+    .karte-svg-container {
+        width: min(133vw, 931px);
+        margin-right: -14vw;
+    }
+
+    .kurzportrait-layout {
+        min-height: 72vh;
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: center;
+        padding: 3.5rem 0 1rem;
+    }
+
+    .kurzportrait-side-text {
+        position: static;
+        order: 2;
+        width: auto;
+        max-width: 92vw;
+        height: auto;
+        overflow: visible;
+        background: transparent;
+        border-left: none;
+        padding: 0 1rem;
+    }
+
+    .kurzportrait-text-page {
+        position: static;
+        inset: auto;
+        transform: none;
+        opacity: 1;
+        min-height: auto;
+        padding: 0;
+        margin-bottom: 0.85rem;
+    }
+
+    .kurzportrait-side-text p {
+        font-size: 0.95rem;
+    }
+
+    .kurzportrait-third {
+        min-height: 72vh;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 2rem 1rem;
+    }
+
+    .kurzportrait-third-graphic img {
+        width: min(92vw, 420px);
+    }
+
+    .kurzportrait-third-block p {
+        font-size: 0.95rem;
+    }
+
+    .wissensspeicher-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .wissensspeicher-intro .wissensspeicher-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+        margin-left: 0
+    }
+
+    .wissensspeicher-steps {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        justify-items: center;
+    }
+
+    .wissensspeicher-steps::before {
+        display: none;
+    }
+
+    .wissensspeicher-step {
+        width: min(86vw, 340px);
+        height: min(86vw, 340px);
+        max-width: 340px;
+    }
+
+    .wissensspeicher-step p {
+        font-size: 0.9rem;
+    }
+
+    .wissensspeicher-slidein-section {
+        min-height: 72vh;
+        padding: 1rem 0;
+    }
+
+    .wissensspeicher-slidein-card {
+        padding: 2rem 1rem;
+    }
+
+    .wissensspeicher-slidein-card p {
+        font-size: 0.98rem;
+        max-width: 92vw;
+    }
+
+    .wissensspeicher-final {
+        min-height: 72vh;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1.5rem 1rem 2rem;
+    }
+
+    .wissensspeicher-final-image {
+        padding: 0.5rem 0;
+    }
+
+    .wissensspeicher-final-image img {
+        width: min(94vw, 520px);
+        max-height: none;
+    }
+
+    .wissensspeicher-final-content p {
+        font-size: 0.95rem;
+        max-width: 92vw;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -487,5 +1424,609 @@ footer {
         opacity: 1;
         transform: none;
         transition: none;
+    }
+}
+
+/* Querschnittsthemen Slideshow */
+.qst-slideshow {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+}
+
+.qst-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qst-slide.active {
+    opacity: 1;
+    z-index: 10;
+}
+
+.qst-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.qst-text-overlay {
+    position: absolute;
+    bottom: 3rem;
+    left: 3rem;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 2rem;
+    max-width: 800px;
+    border-radius: 8px;
+    backdrop-filter: blur(8px);
+    z-index: 20;
+    animation: slideInUp 0.6s ease-out 0.3s both;
+}
+
+.qst-text-overlay h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.qst-text-overlay p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #e0e0e0;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Navigation Buttons */
+.qst-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    transition: all 0.3s ease;
+}
+
+.qst-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.qst-prev {
+    left: 2rem;
+}
+
+.qst-next {
+    right: 2rem;
+}
+
+/* Slide Indicators */
+.qst-indicators {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 30;
+}
+
+.qst-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.qst-indicator.active {
+    background: white;
+    width: 30px;
+    border-radius: 6px;
+}
+
+.qst-indicator:hover {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+/* Meilensteine Section */
+#ziele-meilensteine.section {
+    padding-left: 0;
+    padding-right: 0; /* Abschnitt ohne seitlichen Abstand bis zum Bildschirmrand */
+}
+
+.meilensteine-split {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    max-width: none; /* volle Breite bis zum Bildschirmrand */
+
+    padding: 0 0 0 2rem; /* links etwas Abstand zur Grafik, rechts bündig */
+}
+
+.meilensteine-left {
+    flex: 1.1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: center; /* Grafik vertikal mittig in der linken Spalte */
+}
+
+.meilensteine-subtitle {
+	font-size: 1.6rem; /* gleiche Größe wie ZIEL 1 */
+	font-weight: 700;
+	color: #004E9E;
+	text-align: left;
+	margin: 0 0 0.5rem 2rem; /* etwas eingerückt über der SVG */
+}
+
+.ziel-box {
+    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+    border-left: 4px solid #004E9E;
+    padding: 2rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.ziel-box h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #004E9E;
+}
+
+.ziel-box p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.ziel-box:hover {
+    box-shadow: 0 8px 16px rgba(0, 78, 158, 0.15);
+    transform: translateY(-4px);
+    border-left-color: #764ba2;
+}
+
+.ziel-box.active {
+    background: linear-gradient(135deg, #004E9E 0%, #2494CA 100%);
+    border-left-color: #764ba2;
+}
+
+.ziel-box.active h3,
+.ziel-box.active p {
+    color: white;
+}
+
+.meilensteine-right {
+    flex: 1.5; /* rechte Spalte etwas schmaler */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1.5rem; /* Abstand zwischen den Ziel-Karten */
+    width: 100%;
+}
+
+.meilensteine-ziel {
+    background: #d5d5d5;
+    background: linear-gradient(90deg, #d5d5d5 60%, #e8e8e8 100%);
+    border-left: 6px solid #2494CA;
+    padding: 1rem 4rem;
+    border-radius: 6px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    margin-left: 0; /* Karte bis zum rechten Rand laufen lassen */
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.meilensteine-ziel-content {
+    max-width: 70%; /* Text schmaler als die Karte */
+}
+
+.meilensteine-ziel-visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.meilensteine-ziel-hover {
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+    transform: translateY(-4px);
+    background: linear-gradient(90deg, #e2e2e2 50%, #f5f5f5 100%);
+}
+
+/* Farbzuordnung der Ziele zu den Ringfarben der SVG "Ziel.svg" */
+.meilensteine-ziel.ziel-1 {
+    border-left-color: #2494CA; /* äußerer Ring (bereits Standard) */
+    margin-left: 20%;
+    width: 80%;
+}
+
+.meilensteine-ziel.ziel-1 .meilensteine-ziel-content h3 {
+    color: #2494CA;
+}
+
+.meilensteine-ziel.ziel-2 {
+    border-left-color: #074F8D; /* mittlerer Ring */
+    margin-left: 10%;
+    width: 90%;
+}
+
+.meilensteine-ziel.ziel-2 .meilensteine-ziel-content h3 {
+    color: #074F8D;
+}
+
+.meilensteine-ziel.ziel-3 {
+    border-left-color: #003E7E; /* innerer Ring */
+    margin-left: 0;
+    width: 100%;
+}
+
+.meilensteine-ziel.ziel-3 .meilensteine-ziel-content h3 {
+    color: #003E7E;
+}
+
+/* Hover-Effekt für die Ringe der Ziel-SVG */
+.ziel-ring-hover {
+    filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.35));
+    transform: scale(1.05);
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.ziele-rings {
+    width: 100%;
+    max-width: 440px; /* ca. 10% größer als zuvor */
+    height: auto;
+}
+
+#ziele-svg-container #Außen,
+#ziele-svg-container #Außen path {
+    visibility: visible;
+    opacity: 1;
+    fill: #2494ca;
+}
+
+#ziele-svg-container #Mitte,
+#ziele-svg-container #Mitte path {
+    fill: #074f8d;
+}
+
+#ziele-svg-container #Innen,
+#ziele-svg-container #Innen path,
+#ziele-svg-container #Innen circle {
+    fill: #003e7e;
+}
+
+.ring-circle {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ring-circle:hover {
+    opacity: 1 !important;
+    stroke-width: 50;
+}
+
+.ring-label {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Teilziele Zeitstrahl */
+.meilensteine-teilziele {
+    width: 100%;
+    padding: 0 2rem;
+    margin-top: 3rem;
+    text-align: left;
+}
+
+.meilensteine-teilziele-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #004E9E;
+    margin: 0 0 1rem 0;
+}
+
+.teilziele-matrix {
+    display: grid;
+    grid-template-columns: minmax(220px, 320px) 1fr;
+    gap: 1.75rem;
+    align-items: start;
+    width: 100%;
+}
+
+.teilziele-sticky-goals {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #ffffff;
+    padding: 1.25rem 0 1rem 0;
+    display: grid;
+    gap: 1.1rem;
+    align-self: start;
+}
+
+.teilziele-sticky-spacer {
+    height: 2.05rem;
+    margin-bottom: 1.6rem;
+}
+
+.teilziele-sticky-goal {
+    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+    border-left: 6px solid #004E9E;
+    padding: 1rem 1.1rem;
+    border-radius: 6px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    color: #004E9E;
+    display: grid;
+    gap: 0.45rem;
+}
+
+.teilziele-sticky-goal-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.teilziele-sticky-goal-text {
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: normal;
+    text-transform: none;
+    line-height: 1.35;
+    color: #000000;
+    opacity: 0.82;
+}
+
+.teilziele-sticky-goal-1 {
+    border-left-color: #2494CA;
+    color: #2494CA;
+}
+
+.teilziele-sticky-goal-2 {
+    border-left-color: #074F8D;
+    color: #074F8D;
+}
+
+.teilziele-sticky-goal-3 {
+    border-left-color: #003E7E;
+    color: #003E7E;
+}
+
+.teilziele-timeline {
+    position: relative;
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-width: 0;
+    padding: 1.25rem 0 1rem 0;
+    scroll-snap-type: x mandatory;
+    scroll-snap-stop: always;
+    -webkit-overflow-scrolling: touch;
+}
+
+.teilziele-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 2.15rem;
+    height: 4px;
+    background: #004E9E;
+    border-radius: 2px;
+    opacity: 0.22;
+    pointer-events: none;
+}
+
+.teilziele-year {
+    flex: 0 0 min(520px, 85vw);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+}
+
+.teilziele-year-head {
+    display: inline-block;
+    background: #004E9E;
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    position: relative;
+    z-index: 1;
+}
+
+.teilziele-year-head::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(100% + 0.35rem);
+    width: 12px;
+    height: 12px;
+    background: #004E9E;
+    border-radius: 50%;
+    border: 6px solid rgba(0, 78, 158, 0.15);
+    box-sizing: content-box;
+}
+
+.teilziele-year-content {
+    margin-top: 1.6rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+}
+
+.teilziele-cell {
+    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+    border-left: 6px solid #004E9E;
+    padding: 1rem 1.25rem;
+    border-radius: 6px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.teilziele-cell ul {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.teilziele-cell li {
+    margin: 0.25rem 0;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: #000000;
+}
+
+.teilziele-cell-empty {
+    font-weight: 700;
+    opacity: 0.55;
+}
+
+.teilziele-cell-1 {
+    border-left-color: #2494CA;
+}
+
+.teilziele-cell-2 {
+    border-left-color: #074F8D;
+}
+
+.teilziele-cell-3 {
+    border-left-color: #003E7E;
+}
+
+@media (max-width: 1024px) {
+    .meilensteine-split {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .meilensteine-right {
+        padding: 2rem 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .meilensteine-split {
+        padding: 0 1rem;
+    }
+
+    .ziel-box {
+        padding: 1.5rem;
+    }
+
+    .ziel-box h3 {
+        font-size: 1rem;
+    }
+
+    .ziel-box p {
+        font-size: 0.9rem;
+    }
+
+    .meilensteine-teilziele {
+        padding: 0 1rem;
+        margin-top: 2.25rem;
+    }
+
+    .teilziele-matrix {
+        grid-template-columns: minmax(160px, 220px) 1fr;
+        gap: 1.25rem;
+    }
+
+    .teilziele-sticky-goals {
+        gap: 1.1rem;
+    }
+
+    .teilziele-sticky-goal {
+        padding: 0.9rem 0.85rem;
+        gap: 0.4rem;
+    }
+
+    .teilziele-sticky-goal-title {
+        font-size: 0.85rem;
+    }
+
+    .teilziele-sticky-goal-text {
+        font-size: 0.75rem;
+    }
+
+    .teilziele-year {
+        flex-basis: 86vw;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .qst-slideshow {
+        height: 60vh;
+    }
+
+    .qst-text-overlay {
+        bottom: 1.5rem;
+        left: 1.5rem;
+        max-width: 600px;
+        padding: 1.5rem;
+    }
+
+    .qst-text-overlay h3 {
+        font-size: 1.2rem;
+    }
+
+    .qst-text-overlay p {
+        font-size: 0.85rem;
+    }
+
+    .qst-nav-btn {
+        width: 50px;
+        height: 50px;
+        left: 1rem;
+    }
+
+    .qst-next {
+        right: 1rem;
+    }
+
+    .qst-indicators {
+        bottom: 1rem;
     }
 }
