@@ -2255,7 +2255,7 @@ footer {
 /* Teilziele Zeitstrahl */
 .meilensteine-teilziele {
     width: 100%;
-    padding: 1.4rem 2rem 1.25rem;
+    padding: 5rem 2rem 5rem;
     margin-top: 3rem;
     text-align: left;
     height: 100vh;
@@ -2372,15 +2372,15 @@ footer {
 .teilziele-sticky-spacer {
     min-height: 2.05rem;
     margin-bottom: 1.6rem;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     font-size: 0.92rem;
     font-weight: 700;
     color: #ffffff;
-    background: #1f6fb7;
-    border-radius: 999px;
-    padding: 0.35rem 0.9rem;
+    border-radius: 0;
+    padding: 0.5rem 0.9rem;
     width: fit-content;
+    margin-left: auto;
     text-transform: none;
     letter-spacing: 0.01em;
     position: relative;
@@ -2388,12 +2388,12 @@ footer {
 }
 
 .teilziele-sticky-goal {
-    background: linear-gradient(150deg, rgba(241, 246, 250, 0.18) 0%, rgba(208, 223, 236, 0.12) 100%);
+    background: rgba(255, 255, 255);
     border-left: 6px solid #004E9E;
     padding: 1rem 1.1rem;
     border-radius: 10px;
     box-shadow: 0 8px 18px rgba(4, 27, 46, 0.24);
-    color: #eff8ff;
+    color: #000000;
     display: grid;
     gap: 0.45rem;
     backdrop-filter: blur(1px);
@@ -2413,8 +2413,8 @@ footer {
     letter-spacing: normal;
     text-transform: none;
     line-height: 1.5;
-    color: #f3f9ff;
-    opacity: 0.92;
+    color: #000000;
+    opacity: 1;
 }
 
 .teilziele-sticky-goal-1 {
@@ -2423,13 +2423,13 @@ footer {
 }
 
 .teilziele-sticky-goal-2 {
-    border-left-color: #074F8D;
-    color: #074F8D;
+    border-left-color: #2494CA;
+    color: #2494CA;
 }
 
 .teilziele-sticky-goal-3 {
-    border-left-color: #003E7E;
-    color: #003E7E;
+    border-left-color: #2494CA;
+    color: #2494CA;
 }
 
 .teilziele-timeline {
@@ -2549,7 +2549,7 @@ footer {
     border-radius: 10px;
     box-shadow: 0 7px 14px rgba(8, 33, 58, 0.16);
     padding: 1.15rem 1.2rem;
-    border-left: 4px solid #004E9E;
+    border-left: 6px solid #004E9E;
     font-size: 1rem;
     line-height: 1.45;
     color: #000000;
@@ -2563,10 +2563,11 @@ footer {
     position: absolute;
     top: 0;
     right: 0;
-    width: 34px;
-    height: 34px;
-    transform: translate(35%, -35%);
+    width: 42px;
+    height: 42px;
+    transform: translate(28%, -28%);
     background: url('check.svg') center / contain no-repeat;
+    filter: drop-shadow(0 6px 12px rgba(25, 142, 14, 0.18));
     pointer-events: none;
     z-index: 2;
 }
@@ -2600,19 +2601,19 @@ footer {
 }
 
 .teilziele-cell-2 {
-    border-left-color: #074F8D;
+    border-left-color: #2494CA;
 }
 
 .teilziele-cell-2 li {
-    border-left-color: #074F8D;
+    border-left-color: #2494CA;
 }
 
 .teilziele-cell-3 {
-    border-left-color: #003E7E;
+    border-left-color: #2494CA;
 }
 
 .teilziele-cell-3 li {
-    border-left-color: #003E7E;
+    border-left-color: #2494CA;
 }
 
 /* Filterzustand: jeweils nur ein Ziel (Sticky + Jahreskarten) sichtbar halten. */
