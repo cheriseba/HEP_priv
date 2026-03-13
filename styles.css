@@ -1313,12 +1313,18 @@ p {
     justify-content: center;
 }
 
+.wissensspeicher-header {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    text-align: left;
+}
+
 .wissensspeicher-header h2 {
     display: inline-block;
     background: #004E9E;
     color: #ffffff;
     padding: 0 10vw;
-    margin-left: -10vw;
+    margin-left: 0;
     margin-bottom: 1rem;
     font-size: 2rem;
     font-weight: bold;
@@ -1350,7 +1356,7 @@ p {
     left: 12%;
     right: 12%;
     top: 50%;
-    height: 4px;
+    height: 8px;
     background: linear-gradient(90deg, #003E7E 0%, #2494CA 100%);
     border-radius: 999px;
     opacity: 0.75;

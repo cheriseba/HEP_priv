@@ -861,6 +861,8 @@ function initWissensspeicherReveal() {
     stepsWrap.dataset.revealBound = 'true';
 
     const steps = Array.from(stepsWrap.querySelectorAll('.wissensspeicher-step'));
+    const stepTransitionMs = 550;
+    const stepStaggerMs = 120;
     steps.forEach((step, index) => {
         step.style.transitionDelay = `${index * 0.12}s`;
     });
@@ -869,10 +871,16 @@ function initWissensspeicherReveal() {
         entries.forEach((entry) => {
             if (!entry.isIntersecting) return;
 
-            stepsWrap.classList.add('wissensspeicher-steps-visible');
             steps.forEach((step) => {
                 step.classList.add('wissensspeicher-step-visible');
             });
+
+            const firstStepFullyVisibleMs = stepTransitionMs;
+            const lineDelayMs = firstStepFullyVisibleMs + 40;
+            window.setTimeout(() => {
+                stepsWrap.classList.add('wissensspeicher-steps-visible');
+            }, lineDelayMs);
+
             obs.unobserve(entry.target);
         });
     }, {
