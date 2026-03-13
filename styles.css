@@ -915,13 +915,24 @@ p {
     padding-right: 0;
 }
 
-.kurzportrait-header {
+.kurzportrait-header-track {
     position: absolute;
-    top: clamp(1rem, 4vh, 3rem);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200dvh;
+    z-index: 8;
+    pointer-events: none;
+}
+
+.kurzportrait-header {
+    position: sticky;
+    top: calc(80px + 15vh);
     left: 0;
     width: 100%;
     text-align: left;
-    z-index: 5;
+    z-index: 8;
+    pointer-events: auto;
 }
 
 .kurzportrait-header h2 {
@@ -999,7 +1010,7 @@ p {
 .karte-svg-container {
     width: min(114vw, 1615px);
     margin-left: auto;
-    margin-right: -19vw;
+
     margin-top: 2vw;
     display: flex;
     justify-content: center;
@@ -1082,7 +1093,9 @@ p {
     top: 80px;
     height: calc(100dvh - 80px);
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    padding-top: 0;
+    padding-bottom: 20%;
 }
 
 .kurzportrait-text-display {
@@ -1090,6 +1103,7 @@ p {
     border-left: 4px solid #2494CA;
     background: rgba(0, 62, 126, 0.48);
     padding: clamp(1.1rem, 2.6vh, 2rem) clamp(0.9rem, 2.4vw, 1.6rem);
+    margin-top: 0;
 }
 
 .kurzportrait-scroll-steps {
@@ -1612,7 +1626,13 @@ footer {
     }
 
     .kurzportrait-header {
-        top: 0.5rem;
+        top: 15vh;
+    }
+
+    .kurzportrait-header-track {
+        position: static;
+        height: auto;
+        pointer-events: auto;
     }
 
     .kurzportrait-top {
@@ -1640,7 +1660,7 @@ footer {
 
     .karte-svg-container {
         width: min(133vw, 931px);
-        margin-right: -14vw;
+        margin-right: -6;
     }
 
     .kurzportrait-layout {
