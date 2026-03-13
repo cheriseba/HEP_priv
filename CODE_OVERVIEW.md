@@ -41,7 +41,7 @@ Die Seite wird ueber index.html strukturiert, ueber styles.css gestaltet und ueb
 - initGLSTUScrollNarrative(): seitenweises Scrollen durch GLSTU-Textseiten.
 - initKurzportraitScrollNarrative(): seitenweises Scrollen durch Kurzportrait-Textseiten.
 - initSectionSnapScrolling(): globales, schrittweises Springen zwischen (Teil-)Abschnitten.
-- initWissensspeicherReveal() / initWissensspeicherSlidein(): Einblend-Animationen..
+- initWissensspeicherReveal() / initWissensspeicherSlidein(): Einblend-Animationen.
 
 ## 4) Styles: Schnell orientieren
 
@@ -52,7 +52,7 @@ Die Seite wird ueber index.html strukturiert, ueber styles.css gestaltet und ueb
 - Kurzportrait: .kurzportrait-* Bereiche.
 - Wissensspeicher: .wissensspeicher-* Bereiche.
 
-## 5) Typische AenderungenS
+## 5) Typische Aenderungen
 
 - Neue Textseite bei GLSTU/Kurzportrait:
   - Neue article-Node mit Klasse .glstu-text-page oder .kurzportrait-text-page in index.html.
