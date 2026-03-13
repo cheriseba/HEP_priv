@@ -314,8 +314,8 @@ main {
 
 .glstu-svg-container {
     margin: 0;
-    max-width: 760px;
-    width: 100%;
+    width: clamp(82vw, 88vw, 96vw);
+    max-width: none;
     position: relative;
 }
 
@@ -335,12 +335,28 @@ main {
     min-height: 400vh;
 }
 
-.glstu-section-header {
+.glstu-header-track {
     position: absolute;
-    top: clamp(0.8rem, 2.4vh, 2rem);
+    top: 0;
     left: 0;
     width: 100%;
+    height: 300dvh;
     z-index: 7;
+    pointer-events: none;
+}
+
+.glstu-section-header {
+    position: sticky;
+    top: 20vh;
+    width: 100%;
+    text-align: right;
+    z-index: 7;
+    pointer-events: auto;
+}
+
+.glstu-section-header h2 {
+    margin-left: 0;
+    margin-right: -6vw;
 }
 
 .glstu-fixed {
@@ -350,7 +366,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem 3vw;
+    padding: 2rem 3vw 2rem 5vw;
     background: radial-gradient(circle at 30% 20%, rgba(36, 148, 202, 0.12), transparent 60%);
 }
 
@@ -366,6 +382,7 @@ main {
     text-align: left;
     background: transparent;
     border-left: none;
+    padding-left: clamp(1.4rem, 3vw, 3rem);
     padding-right: clamp(1rem, 3vw, 3rem);
 }
 
@@ -375,13 +392,16 @@ main {
     height: calc(100vh - 80px);
     display: flex;
     align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .glstu-text-display {
-    width: 100%;
+    width: min(100%, 70ch);
     border-left: 4px solid #a6a7a8;
     background: #ffffff;
     padding: clamp(1.1rem, 2.6vh, 2rem) clamp(0.9rem, 2.4vw, 1.6rem);
+    transform: translateY(-10%);
 }
 
 .glstu-scroll-steps {
@@ -511,12 +531,28 @@ main {
     .glstu-section-header {
         position: static;
         width: 100%;
+        text-align: right;
         margin-bottom: 0.8rem;
+    }
+
+    .glstu-header-track {
+        position: static;
+        height: auto;
+        pointer-events: auto;
+    }
+
+    .glstu-section-header h2 {
+        margin-right: 0;
+    }
+
+    .glstu-svg-container svg {
+        width: 100%;
     }
 }
 
 .glstu-svg-container svg {
-    width: 100%;
+    width: 118%;
+    max-width: none;
     height: auto;
     pointer-events: auto;
 }
@@ -906,6 +942,22 @@ p {
     font-size: 2rem;
     font-weight: bold;
     border-radius: 0;
+}
+
+/* GLSTU nutzt den Meilensteine-Header-Look, dockt aber rechts an. */
+.meilensteine-header.glstu-section-header {
+    text-align: right;
+}
+
+.meilensteine-header.glstu-section-header h2 {
+    margin-left: 0;
+    margin-right: calc(50% - 50vw);
+}
+
+@media (max-width: 900px) {
+    .meilensteine-header.glstu-section-header h2 {
+        margin-right: 0;
+    }
 }
 
 /* Kurzportrait Section */
@@ -1833,15 +1885,22 @@ footer {
 }
 
 /* Querschnittsthemen Slideshow */
+.qst-slideshow-section.section {
+    display: block;
+    height: 100vh;
+    height: 100svh;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 0;
+}
+
 .qst-slideshow {
     position: relative;
     width: 100vw;
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
-    height: 100vh;
-    height: 100svh;
-    min-height: 100vh;
-    min-height: 100svh;
+    height: 100%;
+    min-height: 100%;
     overflow: hidden;
     background: #000;
 }
@@ -3670,6 +3729,9 @@ footer {
         position: sticky !important;
         top: 80px !important;
         height: calc(100vh - 80px) !important;
+        align-items: center !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
     }
 
     .glstu-scroll-steps {

@@ -130,11 +130,14 @@ function initSectionReveal() {
             if (!section) return;
 
             const rect = section.getBoundingClientRect();
+            const endTop = section.id === 'querschnittsthemen'
+                ? headerOffset + (windowHeight * 0.18)
+                : headerOffset;
 
             // Fortschritt berechnen:
             // 0 wenn der Abschnitt unten am Bildschirmrand auftaucht (rect.top = windowHeight)
-            // 1 wenn der Abschnitt oben eingerastet ist (rect.top = headerOffset)
-            let progress = (windowHeight - rect.top) / (windowHeight - headerOffset);
+            // 1 wenn der Abschnitt am definierten Endpunkt ist (rect.top = endTop)
+            let progress = (windowHeight - rect.top) / (windowHeight - endTop);
             progress = Math.max(0, Math.min(1, progress));
 
             // Lineare Verschiebung von -100% zu 0%
