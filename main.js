@@ -1,3 +1,30 @@
+// Timeline-Menü Scroll-Tracking
+function initTimelineMenu() {
+    const steps = document.querySelectorAll('.timeline-step');
+    const sectionIds = Array.from(steps).map(step => step.getAttribute('data-section'));
+    const sections = sectionIds.map(id => document.getElementById(id));
+
+    function updateTimeline() {
+        let activeIdx = 0;
+        for (let i = 0; i < sections.length; i++) {
+            const rect = sections[i]?.getBoundingClientRect();
+            if (rect && rect.top - 80 < window.innerHeight * 0.33) {
+                activeIdx = i;
+            }
+        }
+        steps.forEach((step, i) => {
+            step.classList.remove('active', 'completed');
+            if (i < activeIdx) step.classList.add('completed');
+            if (i === activeIdx) step.classList.add('active');
+        });
+    }
+    window.addEventListener('scroll', updateTimeline, { passive: true });
+    updateTimeline();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    initTimelineMenu();
+});
 // ============================================================================
 // HEP Frontend Script
 // Dieses Skript orchestriert alle interaktiven Bereiche der Seite:
