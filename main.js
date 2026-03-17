@@ -1304,6 +1304,7 @@ function initSectionSnapScrolling() {
 function initializeApp() {
     initMeilesteine();
     initQSTSlideshow();
+    initFullscreenSlideshow();
     initTeilzieleFilter();
     initTeilzieleRowSync();
     initTeilzieleChecks();
@@ -1312,6 +1313,102 @@ function initializeApp() {
     // Globales Snap-Scrolling zwischen Abschnitten deaktiviert.
     initWissensspeicherReveal();
     initWissensspeicherSlidein();
+// Fullscreen Slideshow: transform-based horizontal slide transitions
+function initFullscreenSlideshow() {
+    let currentSlide = 1;
+    const totalSlides = 4;
+    const slides = Array.from(document.querySelectorAll('.fullscreen-slide'));
+    const indicators = Array.from(document.querySelectorAll('.fullscreen-indicator'));
+    const prevBtn = document.querySelector('.fullscreen-prev');
+    const nextBtn = document.querySelector('.fullscreen-next');
+
+    function updateSlides(target) {
+        slides.forEach((slide, idx) => {
+            slide.classList.remove('active', 'prev', 'next');
+            const slideNum = idx + 1;
+            if (slideNum === target) {
+                slide.classList.add('active');
+            } else if (slideNum < target) {
+                slide.classList.add('prev');
+            } else {
+                slide.classList.add('next');
+            }
+        });
+        indicators.forEach((indicator, idx) => {
+            indicator.classList.toggle('active', idx + 1 === target);
+        });
+        currentSlide = target;
+    }
+
+    function nextSlide() {
+        if (currentSlide < totalSlides) {
+            updateSlides(currentSlide + 1);
+        }
+    }
+
+    function prevSlide() {
+        let prev = currentSlide - 1;
+        if (prev < 1) prev = 1;
+        updateSlides(prev);
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+    }
+    if (prevBtn) {
+        prevBtn.addEventListener('click', prevSlide);
+    }
+    indicators.forEach((indicator, idx) => {
+        indicator.addEventListener('click', () => {
+            updateSlides(idx + 1);
+        });
+    });
+
+    document.addEventListener('keydown', (e) => {
+        const fullscreenSection = document.querySelector('.fullscreen-section');
+        if (!fullscreenSection) return;
+        const rect = fullscreenSection.getBoundingClientRect();
+        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (!isInView) return;
+        if ((e.key === 'ArrowRight' || e.key === ' ') && currentSlide < totalSlides) {
+            e.preventDefault();
+            nextSlide();
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            prevSlide();
+        }
+    });
+
+    function updateNavState() {
+        if (nextBtn) {
+            nextBtn.disabled = currentSlide === totalSlides;
+        }
+        if (prevBtn) {
+            prevBtn.disabled = currentSlide === 1;
+        }
+    }
+
+    function updateSlides(target) {
+        slides.forEach((slide, idx) => {
+            slide.classList.remove('active', 'prev', 'next');
+            const slideNum = idx + 1;
+            if (slideNum === target) {
+                slide.classList.add('active');
+            } else if (slideNum < target) {
+                slide.classList.add('prev');
+            } else {
+                slide.classList.add('next');
+            }
+        });
+        indicators.forEach((indicator, idx) => {
+            indicator.classList.toggle('active', idx + 1 === target);
+        });
+        currentSlide = target;
+        updateNavState();
+    }
+
+    updateSlides(1);
+}
 }
 
 // Einheitlicher Bootstrapping-Pfad:
