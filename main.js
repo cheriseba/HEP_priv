@@ -1319,8 +1319,9 @@ function initFullscreenSlideshow() {
     const totalSlides = 4;
     const slides = Array.from(document.querySelectorAll('.fullscreen-slide'));
     const indicators = Array.from(document.querySelectorAll('.fullscreen-indicator'));
-    const prevBtn = document.querySelector('.fullscreen-prev');
-    const nextBtn = document.querySelector('.fullscreen-next');
+    // Get all prev/next buttons inside slides
+    const prevBtns = Array.from(document.querySelectorAll('.fullscreen-slide .fullscreen-prev'));
+    const nextBtns = Array.from(document.querySelectorAll('.fullscreen-slide .fullscreen-next'));
 
     function updateSlides(target) {
         slides.forEach((slide, idx) => {
@@ -1338,6 +1339,7 @@ function initFullscreenSlideshow() {
             indicator.classList.toggle('active', idx + 1 === target);
         });
         currentSlide = target;
+        updateNavState();
     }
 
     function nextSlide() {
@@ -1352,12 +1354,14 @@ function initFullscreenSlideshow() {
         updateSlides(prev);
     }
 
-    if (nextBtn) {
-        nextBtn.addEventListener('click', nextSlide);
-    }
-    if (prevBtn) {
-        prevBtn.addEventListener('click', prevSlide);
-    }
+    // Attach event listeners to all nav buttons
+    nextBtns.forEach(btn => {
+        btn.addEventListener('click', nextSlide);
+    });
+    prevBtns.forEach(btn => {
+        btn.addEventListener('click', prevSlide);
+    });
+
     indicators.forEach((indicator, idx) => {
         indicator.addEventListener('click', () => {
             updateSlides(idx + 1);
@@ -1380,31 +1384,13 @@ function initFullscreenSlideshow() {
     });
 
     function updateNavState() {
-        if (nextBtn) {
-            nextBtn.disabled = currentSlide === totalSlides;
-        }
-        if (prevBtn) {
-            prevBtn.disabled = currentSlide === 1;
-        }
-    }
-
-    function updateSlides(target) {
+        // Disable only the nav buttons in the active slide
         slides.forEach((slide, idx) => {
-            slide.classList.remove('active', 'prev', 'next');
-            const slideNum = idx + 1;
-            if (slideNum === target) {
-                slide.classList.add('active');
-            } else if (slideNum < target) {
-                slide.classList.add('prev');
-            } else {
-                slide.classList.add('next');
-            }
+            const prev = slide.querySelector('.fullscreen-prev');
+            const next = slide.querySelector('.fullscreen-next');
+            if (prev) prev.disabled = (idx + 1 === 1);
+            if (next) next.disabled = (idx + 1 === totalSlides);
         });
-        indicators.forEach((indicator, idx) => {
-            indicator.classList.toggle('active', idx + 1 === target);
-        });
-        currentSlide = target;
-        updateNavState();
     }
 
     updateSlides(1);
