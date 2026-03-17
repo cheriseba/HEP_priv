@@ -78,13 +78,10 @@
 }
 .fullscreen-text-overlay h3 {
     margin: 0 0 1rem 0;
-    font-size: 1.5rem;
-    font-weight: 600;
     letter-spacing: 0.5px;
 }
 .fullscreen-text-overlay p {
     margin: 0;
-    font-size: 0.95rem;
     line-height: 1.5;
     color: #e0e0e0;
 }
@@ -128,12 +125,7 @@
     height: 38px;
     stroke-width: 3.2;
 }
-.fullscreen-prev {
-    /* left: 1.25rem; */
-}
-.fullscreen-next {
-    /* right: 1.25rem; */
-}
+
 .fullscreen-indicators {
     position: absolute;
     bottom: 2rem;
@@ -191,6 +183,45 @@
     ============================================================================ */
 
 /* Reset and Base Styles */
+/* Einheitliche Schriftgrößen für das gesamte Projekt */
+
+h3, .teilziele-sticky-goal-title, .unterueberschrift, .gs-text-block h3, .qst-text-overlay h3, .glstu-display-title, .fullscreen-text-overlay h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+}
+
+h4, .teilziele-year-head, .teilziele-sticky-goal-text,.box, .box {
+    font-size: 1.22rem;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.teilziele-year-head {
+    font-weight: 700;
+    }
+
+p,.teilziele-filter-label, .teilziele-filter-select, .intro-content, .meilensteine-ziel-content, .glstu-display-body, .fullscreen-text-overlay p, .teilziele-sticky-spacer {
+    font-size: 1.22rem;
+    line-height: 1.6;
+}
+
+li, .kreise {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+h2, .intro-title, .ueberschrift-klein {
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.7em;
+}
+h1, .ueberschrift-gross {
+    font-size: 2rem; 
+    font-weight: 700;
+    margin-bottom: 1em;
+}
 * {
     margin: 0;
     padding: 0;
@@ -209,6 +240,27 @@ body {
     color: #333;
     overflow-x: clip;
 }
+
+/* Schriftgrößen-Vereinheitlichung */
+p, .intro-content, .meilensteine-ziel-content, .glstu-display-body, .fullscreen-text-overlay p {
+    
+    line-height: 1.6;
+}
+h3, .unterueberschrift {
+    
+    margin-bottom: 0.5em;
+}
+h2, .intro-title, .glstu-display-title, .fullscreen-text-overlay h3, .ueberschrift-klein {
+
+    letter-spacing: 0.5px;
+    margin-bottom: 0.7em;
+}
+h1, .ueberschrift-gross {
+
+    margin-bottom: 1em;
+}
+
+
 
 /* Fallback fuer Browser ohne clip-Unterstuetzung */
 @supports not (overflow: clip) {
@@ -241,13 +293,11 @@ body {
 
 .orientation-gate-card h2 {
     margin: 0 0 0.45rem 0;
-    font-size: clamp(1.1rem, 4.4vw, 1.5rem);
     color: #004E9E;
 }
 
 .orientation-gate-card p {
     margin: 0;
-    font-size: clamp(0.92rem, 3.5vw, 1rem);
     color: #153149;
     line-height: 1.45;
 }
@@ -371,8 +421,6 @@ body.mobile-portrait-blocked .orientation-gate {
 .timeline-step a {
     color: #fff;
     text-decoration: none;
-    font-weight: 500;
-    font-size: 1.05rem;
     margin-top: 3.3rem;
     transition: color 0.2s;
     position: relative;
@@ -384,7 +432,6 @@ body.mobile-portrait-blocked .orientation-gate {
 
 .timeline-step.active a {
     color: #fff;
-    font-weight: 700;
 }
 
 .timeline-step.completed a {
@@ -434,13 +481,9 @@ main {
 }
 
 #hauptgrafik h1 {
-    font-size: 3rem;
     margin-bottom: 1rem;
 }
 
-#hauptgrafik p {
-    font-size: 1.5rem;
-}
 
 /* Main Graphic */
 #svg-container {
@@ -576,7 +619,6 @@ main {
     color: #ffffff;
     padding: 0.35rem 0.55rem;
     border-radius: 6px;
-    font-size: 0.82rem;
     opacity: 0;
     transform: translateY(4px);
     transition: opacity 0.15s ease, transform 0.15s ease;
@@ -748,7 +790,6 @@ main {
 .glstu-side-text p {
     color: #000000;
     margin: 0;
-    font-size: 1.05rem;
     line-height: 1.6;
 }
 
@@ -804,7 +845,6 @@ main {
 
     .glstu-side-text p {
         color: #0f2b3d;
-        font-size: 0.98rem;
     }
 
     .glstu-side-text h2,
@@ -942,8 +982,6 @@ main {
     padding: 0.08rem 2rem;
     border-radius: 0;
     margin-bottom: 2rem;
-    font-size: 2rem;
-    font-weight: bold;
     align-items: center;
     width: fit-content;
 }
@@ -963,7 +1001,6 @@ main {
 }
 
 .intro-card p {
-    font-size: 1.25rem;
     line-height: 1.8;
     margin: 0;
 }
@@ -1002,8 +1039,6 @@ main {
 
 .qst-column h3 {
     margin: 0 0 1rem 0;
-    font-size: 1.1rem;
-    font-weight: 600;
     color: #ffffff;
 }
 
@@ -1012,13 +1047,11 @@ main {
     margin: 0;
     color: #ffffff;
     line-height: 1.6;
-    font-size: 0.95rem;
 }
 
 .intro-footnote {
     margin-top: 0rem;
     margin-bottom: 0;
-    font-size: 0.85rem;
     opacity: 0.8;
     grid-column: 2;
     justify-self: start;
@@ -1155,7 +1188,6 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
     opacity: 0;
     transform: translateY(8px);
     transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
@@ -1190,18 +1222,15 @@ main {
 
 /* Section Headings */
 h2 {
-    font-size: 2.5rem;
     margin-bottom: 2rem;
     color: #667eea;
 }
 
 h3 {
-    font-size: 1.5rem;
     margin-bottom: 1rem;
 }
 
 p {
-    font-size: 1.1rem;
     margin-bottom: 1rem;
 }
 
@@ -1241,14 +1270,12 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
     min-height: 200px;
 }
 
 /* Contact Section */
 .contact-info {
     margin-top: 2rem;
-    font-size: 1.2rem;
 }
 
 /* Meilensteine Header */
@@ -1264,8 +1291,6 @@ p {
     padding-left: 160px;
     margin-left: -6vw;
     margin-bottom: 2rem;
-    font-size: 2rem;
-    font-weight: bold;
     border-radius: 0;
 }
 
@@ -1319,8 +1344,6 @@ p {
     padding: 0 10vw;
     margin-left: -6vw;
     margin-bottom: 2.5rem;
-    font-size: 2rem;
-    font-weight: bold;
     border-radius: 0;
 }
 
@@ -1362,8 +1385,6 @@ p {
     padding: 0 10vw;
     margin-left: 0;
     margin-bottom: 0.65rem;
-    font-size: 2rem;
-    font-weight: bold;
     border-radius: 0;
 }
 
@@ -1401,7 +1422,6 @@ p {
 .kurzportrait-top-text p {
     color: #fff;
     margin: 0;
-    font-size: 1.08rem;
     line-height: 1.58;
     position: relative;
     z-index: 1;
@@ -1573,7 +1593,6 @@ p {
 .kurzportrait-side-text p {
     color: #ffffff;
     margin: 0;
-    font-size: 1.12rem;
     line-height: 1.62;
 }
 
@@ -1700,7 +1719,6 @@ p {
 
 .kurzportrait-third-block p {
     margin: 0;
-    font-size: 1.1rem;
     line-height: 1.62;
     color: #0f2b3d;
 }
@@ -1735,8 +1753,6 @@ p {
     padding: 0 10vw;
     margin-left: 0;
     margin-bottom: 1rem;
-    font-size: 2rem;
-    font-weight: bold;
     border-radius: 0;
 }
 
@@ -1744,7 +1760,6 @@ p {
     display: block;
     max-width: 50%;
     color: #0f2b3d;
-    font-size: 1.12rem;
     line-height: 1.6;
     margin: 1.4rem 0 2.6rem 2.2vw;
 }
@@ -1814,8 +1829,6 @@ p {
 
 .wissensspeicher-step p {
     margin: 0;
-    font-size: clamp(0.76rem, 0.9vw, 0.9rem);
-    font-weight: 700;
     line-height: 1.4;
 }
 
@@ -1851,7 +1864,7 @@ p {
 .wissensspeicher-slidein-card p {
     max-width: 1100px;
     margin: 0 auto;
-    font-size: 1.2rem;
+
     line-height: 1.62;
     text-align: center;
 }
@@ -1892,7 +1905,6 @@ p {
 .wissensspeicher-final-content p {
     margin: 0;
     color: #0f2b3d;
-    font-size: 1.08rem;
     line-height: 1.62;
     max-width: 700px;
 }
@@ -1906,7 +1918,6 @@ p {
     border: 2px solid #004E9E;
     color: #004E9E;
     text-decoration: none;
-    font-weight: 700;
     padding: 0.55rem 0.8rem;
     border-radius: 6px;
     transition: background 0.2s ease, color 0.2s ease;
@@ -1938,15 +1949,12 @@ p {
 
 .meilensteine-ziel h3 {
     margin: 0 0 0.5rem 0;
-    font-size: 1.6rem; /* relativ groß */
-    font-weight: 700;
     color: #2494CA; /* Blau des äußeren Rings */
     text-align: left;
 }
 
 .meilensteine-ziel p {
     margin: 0;
-    font-size: 1.02rem;
     line-height: 1.45;
     color: #000000; /* schwarzer Text */
     text-align: left;
@@ -1981,20 +1989,8 @@ footer {
 @media (max-width: 768px) {
     .nav-links {
         gap: 1rem;
-        font-size: 0.9rem;
-    }
+            }
 
-    #hauptgrafik h1 {
-        font-size: 2rem;
-    }
-
-    #hauptgrafik p {
-        font-size: 1.2rem;
-    }
-
-    h2 {
-        font-size: 2rem;
-    }
 
     .services-grid,
     .portfolio-grid {
@@ -2002,7 +1998,7 @@ footer {
     }
 
     .svg-hint {
-        font-size: 0.75rem;
+        
         white-space: normal;
         max-width: 80vw;
     }
@@ -2014,9 +2010,6 @@ footer {
         padding: 1.2rem;
     }
 
-    .intro-title {
-        font-size: 1.6rem;
-    }
 
     .intro-columns {
         grid-template-columns: 1fr;
@@ -2037,8 +2030,7 @@ footer {
     }
 
     .kurzportrait-header h2 {
-        font-size: 1.6rem;
-        margin-bottom: 1.25rem;
+                margin-bottom: 1.25rem;
     }
 
     .kurzportrait-header {
@@ -2058,8 +2050,7 @@ footer {
     }
 
     .kurzportrait-top-header h2 {
-        font-size: 1.6rem;
-        margin-bottom: 0.8rem;
+                margin-bottom: 0.8rem;
     }
 
     .kurzportrait-top-logo img {
@@ -2070,9 +2061,6 @@ footer {
         text-align: left;
     }
 
-    .kurzportrait-top-text p {
-        font-size: 0.95rem;
-    }
 
     .karte-svg-container {
         width: min(98vw, 1100px);
@@ -2132,9 +2120,6 @@ footer {
         margin-bottom: 0.85rem;
     }
 
-    .kurzportrait-side-text p {
-        font-size: 0.95rem;
-    }
 
     .kurzportrait-third {
         min-height: 100vh;
@@ -2148,16 +2133,11 @@ footer {
         width: min(92vw, 420px);
     }
 
-    .kurzportrait-third-block p {
-        font-size: 0.95rem;
-    }
 
-    .wissensspeicher-header h2 {
-        font-size: 1.6rem;
-    }
+
 
     .wissensspeicher-intro .wissensspeicher-subtitle {
-        font-size: 0.95rem;
+        
         margin-bottom: 1.25rem;
         margin-left: 0
     }
@@ -2178,9 +2158,6 @@ footer {
         max-width: 340px;
     }
 
-    .wissensspeicher-step p {
-        font-size: 0.9rem;
-    }
 
     .wissensspeicher-slidein-section {
         min-height: 100vh;
@@ -2193,7 +2170,7 @@ footer {
     }
 
     .wissensspeicher-slidein-card p {
-        font-size: 0.98rem;
+        
         max-width: 92vw;
     }
 
@@ -2215,7 +2192,7 @@ footer {
     }
 
     .wissensspeicher-final-content p {
-        font-size: 0.95rem;
+        
         max-width: 92vw;
     }
 }
@@ -2306,14 +2283,11 @@ footer {
 
 .qst-text-overlay h3 {
     margin: 0 0 1rem 0;
-    font-size: 1.5rem;
-    font-weight: 600;
     letter-spacing: 0.5px;
 }
 
 .qst-text-overlay p {
     margin: 0;
-    font-size: 0.95rem;
     line-height: 1.5;
     color: #e0e0e0;
 }
@@ -2434,8 +2408,6 @@ footer {
 }
 
 .meilensteine-subtitle {
-	font-size: 1.6rem; /* gleiche Größe wie ZIEL 1 */
-	font-weight: 700;
 	color: #004E9E;
 	text-align: left;
 	margin: 0 0 0.5rem 2rem; /* etwas eingerückt über der SVG */
@@ -2452,14 +2424,11 @@ footer {
 
 .ziel-box h3 {
     margin: 0 0 1rem 0;
-    font-size: 1.2rem;
-    font-weight: 600;
     color: #004E9E;
 }
 
 .ziel-box p {
     margin: 0;
-    font-size: 0.95rem;
     line-height: 1.6;
     color: #333;
 }
@@ -2646,7 +2615,6 @@ footer {
     inset: 0;
     background-image: linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
                       linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 42px 42px;
     opacity: 0.12;
     pointer-events: none;
 }
@@ -2665,8 +2633,6 @@ footer {
     padding: 0 10vw;
     margin-left: -6vw;
     margin-bottom: 1.25rem;
-    font-size: 2rem;
-    font-weight: bold;
     border-radius: 0;
     box-shadow: 0 5px 14px rgba(7, 37, 64, 0.2);
 }
@@ -2682,8 +2648,6 @@ footer {
 }
 
 .teilziele-filter-label {
-    font-size: 0.85rem;
-    font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: #e8f1f9;
@@ -2696,8 +2660,6 @@ footer {
     padding: 0.42rem 0.9rem;
     background: rgba(14, 61, 104, 0.78);
     color: #edf6fd;
-    font-weight: 600;
-    font-size: 0.92rem;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
@@ -2733,8 +2695,6 @@ footer {
     margin-bottom: 1.6rem;
     display: flex;
     align-items: center;
-    font-size: 0.92rem;
-    font-weight: 700;
     color: #ffffff;
     border-radius: 0;
     padding: 0.5rem 0.9rem;
@@ -2759,16 +2719,12 @@ footer {
 }
 
 .teilziele-sticky-goal-title {
-    font-size: 1.02rem;
-    font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     line-height: 1.2;
 }
 
 .teilziele-sticky-goal-text {
-    font-size: 1.02rem;
-    font-weight: 500;
     letter-spacing: normal;
     text-transform: none;
     line-height: 1.5;
@@ -2856,7 +2812,6 @@ footer {
     display: inline-block;
     background: #eaf6ff;
     color: #004E9E;
-    font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     padding: 0.32rem 0.95rem;
@@ -2909,7 +2864,6 @@ footer {
     box-shadow: 0 7px 14px rgba(8, 33, 58, 0.16);
     padding: 1.15rem 1.2rem;
     border-left: 6px solid #004E9E;
-    font-size: 1rem;
     line-height: 1.45;
     color: #000000;
     width: min(100%, clamp(200px, 66%, 360px));
@@ -2932,7 +2886,6 @@ footer {
 }
 
 .teilziele-cell-empty {
-    font-weight: 700;
     color: #e4f2ff;
     opacity: 0.85;
 }
@@ -3017,13 +2970,6 @@ footer {
         padding: 1.5rem;
     }
 
-    .ziel-box h3 {
-        font-size: 1rem;
-    }
-
-    .ziel-box p {
-        font-size: 0.9rem;
-    }
 
     .meilensteine-teilziele {
         padding: 0 1rem;
@@ -3050,13 +2996,8 @@ footer {
         gap: 0.4rem;
     }
 
-    .teilziele-sticky-goal-title {
-        font-size: 0.95rem;
-    }
-
     .teilziele-sticky-goal-text {
-        font-size: 1rem;
-        line-height: 1.45;
+              line-height: 1.45;
     }
 
     .teilziele-year {
@@ -3080,13 +3021,6 @@ footer {
         padding: 1.5rem;
     }
 
-    .qst-text-overlay h3 {
-        font-size: 1.2rem;
-    }
-
-    .qst-text-overlay p {
-        font-size: 0.85rem;
-    }
 
     .qst-nav-btn {
         width: 50px;
@@ -3149,7 +3083,6 @@ footer {
     }
 
     .intro-title {
-        font-size: clamp(1.1rem, 5vw, 1.45rem);
         margin-bottom: 0.45rem;
     }
 
@@ -3161,7 +3094,6 @@ footer {
     }
 
     .intro-card p {
-        font-size: clamp(0.88rem, 3.5vw, 0.98rem);
         line-height: 1.5;
     }
 
@@ -3248,7 +3180,6 @@ footer {
     .glstu-side-text p,
     .wissensspeicher-intro .wissensspeicher-subtitle,
     .wissensspeicher-final-content p {
-        font-size: clamp(0.84rem, 3.2vw, 0.96rem);
         line-height: 1.45;
     }
 }
@@ -3259,9 +3190,6 @@ footer {
         scroll-padding-top: 52px;
     }
 
-    body {
-        font-size: clamp(13px, 1.35vw, 15px);
-    }
 
     .sticky-header {
         min-height: 52px;
@@ -3271,17 +3199,11 @@ footer {
         padding: 0.45rem 3.2%;
     }
 
-    .logo {
-        font-size: clamp(1rem, 1.55vw, 1.2rem);
-    }
 
     .nav-links {
         gap: 1rem;
     }
 
-    .nav-links a {
-        font-size: clamp(0.8rem, 1.08vw, 0.92rem);
-    }
 
     main {
         margin-top: 52px;
@@ -3291,13 +3213,6 @@ footer {
         padding: 2.1rem 1.25rem;
     }
 
-    .meilensteine-header h2,
-    .kurzportrait-top-header h2,
-    .kurzportrait-header h2,
-    .teilziele-copied-heading h2,
-    .wissensspeicher-header h2 {
-        font-size: clamp(1.2rem, 2.2vw, 1.7rem);
-    }
 
     #svg-container {
         max-height: calc(100dvh - 70px);
@@ -3370,12 +3285,10 @@ footer {
     }
 
     .meilensteine-ziel-content h3 {
-        font-size: clamp(0.82rem, 1vw, 0.95rem);
         margin-bottom: 0.2rem;
     }
 
     .meilensteine-ziel-content p {
-        font-size: clamp(0.68rem, 0.86vw, 0.8rem);
         line-height: 1.26;
     }
 
@@ -3412,7 +3325,6 @@ footer {
 
     .teilziele-cell li {
         width: min(100%, clamp(180px, 72%, 320px));
-        font-size: clamp(0.75rem, 0.95vw, 0.9rem);
         line-height: 1.35;
         padding: 0.56rem 0.62rem;
     }
@@ -3446,7 +3358,6 @@ footer {
     }
 
     .kurzportrait-top-text p {
-        font-size: clamp(0.72rem, 0.92vw, 0.84rem);
         line-height: 1.33;
     }
 
@@ -3485,13 +3396,7 @@ footer {
         overflow: auto;
     }
 
-    .qst-text-overlay h3 {
-        font-size: clamp(0.88rem, 1.2vw, 1.15rem);
-    }
 
-    .qst-text-overlay p {
-        font-size: clamp(0.75rem, 0.92vw, 0.88rem);
-    }
 
     .qst-nav-btn {
         width: 44px;
@@ -3510,7 +3415,6 @@ footer {
     }
 
     .wissensspeicher-step p {
-        font-size: clamp(0.55rem, 0.72vw, 0.64rem);
         line-height: 1.25;
     }
 }
@@ -3541,24 +3445,6 @@ footer {
         gap: 0.6rem;
     }
 
-    .nav-links a {
-        font-size: clamp(0.7rem, 0.92vw, 0.8rem);
-    }
-
-    h2 {
-        font-size: clamp(0.96rem, 1.45vw, 1.2rem);
-        margin-bottom: 0.5rem;
-    }
-
-    h3 {
-        font-size: clamp(0.78rem, 1vw, 0.95rem);
-        margin-bottom: 0.35rem;
-    }
-
-    p {
-        font-size: clamp(0.7rem, 0.88vw, 0.82rem);
-        line-height: 1.32;
-    }
 
     .intro-card,
     #einleitung .container,
@@ -3612,13 +3498,10 @@ footer {
         border-left-width: 4px;
     }
 
-    .teilziele-sticky-goal-title {
-        font-size: 0.78rem;
-    }
 
     .teilziele-sticky-goal-text,
     .teilziele-cell li {
-        font-size: 0.68rem;
+        
         line-height: 1.28;
     }
 
@@ -3671,7 +3554,6 @@ footer {
     }
 
     .wissensspeicher-step p {
-        font-size: clamp(0.55rem, 0.72vw, 0.64rem);
         line-height: 1.25;
     }
 }
@@ -3736,11 +3618,6 @@ footer {
 
     .teilziele-year {
         flex: 0 0 min(390px, 80vw);
-    }
-
-    .teilziele-cell li,
-    .teilziele-sticky-goal-text {
-        font-size: clamp(0.7rem, 0.9vw, 0.83rem);
     }
 
     .wissensspeicher-steps {
