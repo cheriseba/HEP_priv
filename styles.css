@@ -113,7 +113,7 @@
     box-shadow: none;
     opacity: 0.6;
 }
-}
+
 .fullscreen-nav-btn:hover {
     background: #0065ca;
     transform: translateY(-50%) scale(1.08);
