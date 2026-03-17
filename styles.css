@@ -1015,6 +1015,13 @@ p {
     gap: clamp(1rem, 2vw, 2rem);
     background: #ffffff;
     padding: 3vw 6vw 2rem 4vw;
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.55s ease;
+}
+.kurzportrait-top.reveal-on-scroll {
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .kurzportrait-top-header {
