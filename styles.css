@@ -317,6 +317,7 @@ main {
     width: clamp(82vw, 88vw, 96vw);
     max-width: none;
     position: relative;
+    transform: translateX(-10%);
 }
 
 #gelingendes-studium.section {
@@ -1376,7 +1377,7 @@ p {
 /* Wissensspeicher - erster Teilabschnitt */
 #wissensspeicher-hawk.section {
     background: #ffffff;
-    padding-top: 2.5rem;
+    padding-top: 0rem;
     padding-bottom: 2.5rem;
 }
 
@@ -1384,13 +1385,10 @@ p {
     width: min(96vw, 1400px);
     margin: 0 auto;
     text-align: left;
-    height: 100vh;
-    height: 100svh;
-    min-height: 100vh;
-    min-height: 100svh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    padding-top: 13vh;
+    padding-bottom: 8vh;
 }
 
 .wissensspeicher-header {
@@ -1491,14 +1489,11 @@ p {
 }
 
 .wissensspeicher-slidein-section {
-    height: 100vh;
-    height: 100svh;
-    min-height: 100vh;
-    min-height: 100svh;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 0.8rem 0;
+    margin-top: 10rem;
 }
 
 .wissensspeicher-slidein-card {
@@ -1507,8 +1502,11 @@ p {
     margin-right: calc(50% - 50vw);
     background: linear-gradient(90deg, #004E9E 0%, #2494CA 100%);
     color: #ffffff;
-    padding: clamp(2.5rem, 6vh, 4rem) 8vw;
-    text-align: left;
+    padding: clamp(2.5rem, 6vh, 4rem) 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     transform: translateX(-100%);
     opacity: 0;
     transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.55s ease;
@@ -1520,10 +1518,11 @@ p {
 }
 
 .wissensspeicher-slidein-card p {
-    max-width: 920px;
-    margin: 0;
+    max-width: 1100px;
+    margin: 0 auto;
     font-size: 1.2rem;
     line-height: 1.62;
+    text-align: center;
 }
 
 .wissensspeicher-final {
@@ -1535,7 +1534,7 @@ p {
     grid-template-columns: minmax(320px, 50%) 1fr;
     align-items: center;
     gap: clamp(1rem, 2.5vw, 2.5rem);
-    padding: clamp(1.4rem, 4vh, 2.8rem) 5vw;
+    padding: 0.5rem 5vw 2.8rem 5vw;
     background: #ffffff;
 }
 
