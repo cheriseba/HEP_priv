@@ -465,6 +465,10 @@ function initGLSTUInteractions() {
         baseLayer.addEventListener('click', event => {
             event.stopPropagation();
             showOverlay(overlayId);
+            // Pulsieren nach erstem Klick entfernen
+            document.querySelectorAll('.glstu-layer').forEach(layer => {
+                layer.style.animation = 'none';
+            });
         });
     });
 }
