@@ -957,6 +957,8 @@ function initKurzportraitStickyTextObserver() {
     const sourcePages = Array.from(section.querySelectorAll('.kurzportrait-text-source .kurzportrait-text-page'));
     const steps = Array.from(section.querySelectorAll('.kurzportrait-scroll-step'));
     const bodyElement = section.querySelector('.kurzportrait-display-body');
+    const progressDots = Array.from(section.querySelectorAll('.kurzportrait-progress-dot'));
+    const progressCount = section.querySelector('.kurzportrait-progress-count');
 
     if (!sourcePages.length || !steps.length || !bodyElement) return;
 
@@ -983,6 +985,17 @@ function initKurzportraitStickyTextObserver() {
         bodyElement.classList.remove('kurzportrait-display-enter');
         void bodyElement.offsetWidth;
         bodyElement.classList.add('kurzportrait-display-enter');
+
+        if (progressDots.length) {
+            progressDots.forEach((dot, dotIndex) => {
+                dot.classList.toggle('is-active', dotIndex === safeIndex);
+            });
+        }
+        if (progressCount) {
+            progressCount.textContent = `${safeIndex + 1}/${payload.length}`;
+        }
+
+        section.classList.toggle('kurzportrait-show-scroll-hint', safeIndex === 0);
     }
 
     function teardownObserver() {
@@ -1030,6 +1043,8 @@ function initGLSTUStickyTextObserver() {
     const steps = Array.from(section.querySelectorAll('.glstu-scroll-step'));
     const titleElement = section.querySelector('.glstu-display-title');
     const bodyElement = section.querySelector('.glstu-display-body');
+    const progressDots = Array.from(section.querySelectorAll('.glstu-progress-dot'));
+    const progressCount = section.querySelector('.glstu-progress-count');
 
     if (!sourcePages.length || !steps.length || !bodyElement) return;
 
@@ -1066,6 +1081,15 @@ function initGLSTUStickyTextObserver() {
         bodyElement.classList.remove('glstu-text-display-enter');
         void bodyElement.offsetWidth;
         bodyElement.classList.add('glstu-text-display-enter');
+
+        if (progressDots.length) {
+            progressDots.forEach((dot, dotIndex) => {
+                dot.classList.toggle('is-active', dotIndex === safeIndex);
+            });
+        }
+        if (progressCount) {
+            progressCount.textContent = `${safeIndex + 1}/${payload.length}`;
+        }
 
         section.classList.toggle('glstu-show-scroll-hint', safeIndex === 0);
     }

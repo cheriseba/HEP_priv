@@ -757,8 +757,55 @@ main {
     animation: glstuHintPulse 1.25s ease-in-out infinite;
 }
 
+.glstu-progress-indicator {
+    margin-top: 0.35rem;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    pointer-events: none;
+}
+
+.glstu-progress {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(36, 148, 202, 0.12);
+}
+
+.glstu-progress-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.26rem;
+}
+
+.glstu-progress-dot {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: rgba(15, 76, 127, 0.32);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.glstu-progress-dot.is-active {
+    background: #0f4c7f;
+    transform: scale(1.15);
+}
+
+.glstu-progress-count {
+    font-size: 0.78em;
+    font-weight: 700;
+    color: #0f4c7f;
+    min-width: 2.2em;
+}
+
 @media (max-width: 900px) {
     .glstu-scroll-hint {
+        display: none;
+    }
+
+    .glstu-progress-indicator {
         display: none;
     }
 }
@@ -1567,6 +1614,8 @@ p {
     top: 80px;
     height: calc(100dvh - 80px);
     display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     align-items: flex-end;
     padding-top: 0;
     padding-bottom: 20%;
@@ -1578,6 +1627,74 @@ p {
     background: rgba(0, 62, 126, 0.48);
     padding: clamp(1.1rem, 2.6vh, 2rem) clamp(0.9rem, 2.4vw, 1.6rem);
     margin-top: 0;
+}
+
+.kurzportrait-scroll-hint {
+    margin-top: clamp(0.8rem, 2vh, 1.2rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #bfe6ff;
+    font-size: clamp(0.82rem, 0.26vw + 0.72rem, 0.95rem);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+}
+
+#kurzportrait.kurzportrait-show-scroll-hint .kurzportrait-scroll-hint {
+    opacity: 0.95;
+    transform: translateY(0);
+}
+
+.kurzportrait-scroll-hint-arrow {
+    display: inline-block;
+    animation: kurzportraitHintPulse 1.25s ease-in-out infinite;
+}
+
+.kurzportrait-progress-indicator {
+    margin-top: 0.35rem;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    pointer-events: none;
+}
+
+.kurzportrait-progress {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(191, 230, 255, 0.12);
+}
+
+.kurzportrait-progress-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.26rem;
+}
+
+.kurzportrait-progress-dot {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: rgba(191, 230, 255, 0.32);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.kurzportrait-progress-dot.is-active {
+    background: #bfe6ff;
+    transform: scale(1.15);
+}
+
+.kurzportrait-progress-count {
+    font-size: 0.78em;
+    font-weight: 700;
+    color: #bfe6ff;
+    min-width: 2.2em;
 }
 
 .kurzportrait-scroll-steps {
@@ -1646,6 +1763,25 @@ p {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes kurzportraitHintPulse {
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.9;
+    }
+    50% {
+        transform: translateY(4px);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .kurzportrait-scroll-hint,
+    .kurzportrait-progress-indicator {
+        display: none;
     }
 }
 
