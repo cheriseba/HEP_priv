@@ -58,8 +58,8 @@
     height: 80vh;
     object-fit: cover;
     display: block;
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.22);
+    border-radius: 1.125rem;
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.22);
 }
 .fullscreen-text-overlay {
     position: absolute;
@@ -68,17 +68,17 @@
     background: rgba(0, 78, 158, 0.92);
     color: white;
     padding: 2rem;
-    max-width: 800px;
-    border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.35);
-    box-shadow: 0 14px 34px rgba(0, 35, 70, 0.4);
-    backdrop-filter: blur(5px);
+    max-width: 50rem;
+    border-radius: 0.625rem;
+    border: 0.125rem solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0.875rem 2.125rem rgba(0, 35, 70, 0.4);
+    backdrop-filter: blur(0.3125rem);
     z-index: 20;
     animation: slideInUp 0.6s ease-out 0.3s both;
 }
 .fullscreen-text-overlay h3 {
     margin: 0 0 1rem 0;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03125rem;
 }
 .fullscreen-text-overlay p {
     margin: 0;
@@ -90,16 +90,16 @@
     margin: 0 2vw;
     background: #004E9E;
     color: #ffffff;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    width: 76px;
-    height: 76px;
-    border-radius: 10px;
+    border: 0.125rem solid rgba(255, 255, 255, 0.2);
+    width: 4.75rem;
+    height: 4.75rem;
+    border-radius: 0.625rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 30;
-    box-shadow: 0 12px 28px rgba(0, 25, 50, 0.45);
+    box-shadow: 0 0.75rem 1.75rem rgba(0, 25, 50, 0.45);
     transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 .fullscreen-nav-btn:disabled {
@@ -113,16 +113,16 @@
 
 .fullscreen-nav-btn:hover {
     background: #0065ca;
-    box-shadow: 0 16px 34px rgba(0, 25, 50, 0.55);
+    box-shadow: 0 1rem 2.125rem rgba(0, 25, 50, 0.55);
     /* Subtile Animation: Kein Versatz, kein starkes Scaling */
 }
 .fullscreen-nav-btn:focus-visible {
-    outline: 3px solid rgba(255, 255, 255, 0.95);
-    outline-offset: 2px;
+    outline: 0.1875rem solid rgba(255, 255, 255, 0.95);
+    outline-offset: 0.125rem;
 }
 .fullscreen-nav-btn svg {
-    width: 38px;
-    height: 38px;
+    width: 2.375rem;
+    height: 2.375rem;
     stroke-width: 3.2;
 }
 
@@ -136,8 +136,8 @@
     z-index: 30;
 }
 .fullscreen-indicator {
-    width: 12px;
-    height: 12px;
+    width: 0.75rem;
+    height: 0.75rem;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.4);
     border: none;
@@ -146,8 +146,8 @@
 }
 .fullscreen-indicator.active {
     background: white;
-    width: 30px;
-    border-radius: 6px;
+    width: 1.875rem;
+    border-radius: 0.375rem;
 }
 .fullscreen-indicator:hover {
     background: rgba(255, 255, 255, 0.7);
@@ -190,7 +190,7 @@ li, .kreise {
 h2, .intro-title, .ueberschrift-klein {
     font-size: 2.5rem;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03125rem;
     margin-bottom: 0.7em;
 }
 h1, .ueberschrift-gross {
@@ -205,17 +205,17 @@ h1, .ueberschrift-gross {
 }
 
 :root {
-    --header-height: 60px;
-    --glstu-sticky-top: 80px;
+    --header-height: 3.75rem;
+    --glstu-sticky-top: 5rem;
     --glstu-sticky-height: calc(100vh - var(--glstu-sticky-top));
     --glstu-min-height: 400vh;
     --glstu-header-track-height: 300dvh;
-    --glstu-grid-columns: minmax(280px, 44%) minmax(320px, 56%);
-    --desktop-sticky-top: 80px;
+    --glstu-grid-columns: minmax(17.5rem, 44%) minmax(20rem, 56%);
+    --desktop-sticky-top: 5rem;
     --desktop-sticky-height: calc(100vh - var(--desktop-sticky-top));
     --desktop-scroll-stage-height: calc(100% - (100dvh - var(--desktop-sticky-top)));
     --kurzportrait-main-height: 300dvh;
-    --gs-sticky-top: 60px;
+    --gs-sticky-top: 3.75rem;
     --gs-sticky-height: calc(100vh - var(--gs-sticky-top));
 }
 
@@ -243,7 +243,7 @@ h3, .unterueberschrift {
 }
 h2, .intro-title, .glstu-display-title, .fullscreen-text-overlay h3, .ueberschrift-klein {
 
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03125rem;
     margin-bottom: 0.7em;
 }
 h1, .ueberschrift-gross {
@@ -270,16 +270,16 @@ h1, .ueberschrift-gross {
     justify-content: center;
     padding: 1.2rem;
     background: rgba(10, 22, 35, 0.92);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(0.25rem);
 }
 
 .orientation-gate-card {
-    width: min(92vw, 520px);
-    border-radius: 12px;
+    width: min(92vw, 32.5rem);
+    border-radius: 0.75rem;
     background: #ffffff;
     padding: 1.1rem 1rem;
     text-align: center;
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0.875rem 1.875rem rgba(0, 0, 0, 0.25);
 }
 
 .orientation-gate-card h2 {
@@ -309,7 +309,7 @@ body.mobile-portrait-blocked .orientation-gate {
     left: 0;
     width: 100%;
     background: #004E9E;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.08);
     z-index: 1000;
 }
 
@@ -328,22 +328,22 @@ body.mobile-portrait-blocked .orientation-gate {
 /* Timeline Logo Styling */
 .timeline-logo-container {
     position: relative;
-    width: 110px;
-    height: 130px;
+    width: 6.875rem;
+    height: 8.125rem;
     display: flex;
     align-items: flex-start;
     z-index: 2;
     margin-right: 0.5vw;
 }
 .timeline-logo {
-    width: 110px;
-    height: 110px;
+    width: 6.875rem;
+    height: 6.875rem;
     object-fit: contain;
     position: absolute;
     left: 40%;
-    top: 30px;
+    top: 1.875rem;
     z-index: 2;
-    filter: drop-shadow(0 2px 8px rgba(36, 148, 202, 0.10));
+    filter: drop-shadow(0 0.125rem 0.5rem rgba(36, 148, 202, 0.10));
     pointer-events: none;
 }
 
@@ -357,16 +357,16 @@ body.mobile-portrait-blocked .orientation-gate {
     margin: 0 auto;
     height: var(--header-height);
     justify-content: center;
-    max-width: 1800px;
+    max-width: 112.5rem;
 }
 
 .timeline-menu::before {
     content: "";
     position: absolute;
     top: 50%;
-    left: 140px;
-    right: 32px;
-    height: 4px;
+    left: 8.75rem;
+    right: 2rem;
+    height: 0.25rem;
     background: linear-gradient(90deg, #2494CA 0%, #667eea 100%);
     z-index: 0;
     transform: translateY(-50%);
@@ -377,7 +377,7 @@ body.mobile-portrait-blocked .orientation-gate {
     flex-direction: column;
     align-items: center;
     position: relative;
-        min-width: 210px;
+        min-width: 13.125rem;
     z-index: 1;
     height: var(--header-height);
     justify-content: flex-start;
@@ -385,12 +385,12 @@ body.mobile-portrait-blocked .orientation-gate {
 }
 
 .timeline-circle {
-    width: 28px;
-    height: 28px;
+    width: 1.75rem;
+    height: 1.75rem;
     border-radius: 50%;
     background: #1a3570;
-    border: 4px solid #004E9E;
-    box-shadow: 0 2px 8px rgba(36, 148, 202, 0.08);
+    border: 0.25rem solid #004E9E;
+    box-shadow: 0 0.125rem 0.5rem rgba(36, 148, 202, 0.08);
     transition: background 0.3s, box-shadow 0.3s;
     display: block;
     position: absolute;
@@ -402,7 +402,7 @@ body.mobile-portrait-blocked .orientation-gate {
 
 .timeline-step.active .timeline-circle {
     background: #fff;
-    box-shadow: 0 0 0 4px #2494CA99;
+    box-shadow: 0 0 0 0.25rem #2494CA99;
 }
 
 .timeline-step.completed .timeline-circle {
@@ -435,29 +435,29 @@ body.mobile-portrait-blocked .orientation-gate {
 
 /* Menü- und Logo-Fix: Höhe und Überlappung. */
 .sticky-header {
-    min-height: 60px;
+    min-height: 3.75rem;
 }
 
 .timeline-nav {
     padding: 0.5rem 0 0.9rem 0;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 }
 
 .timeline-logo-container {
-    height: 70px;
+    height: 4.375rem;
 }
 
 .timeline-logo {
-    left: 60px;
-    top: 25px;
+    left: 3.75rem;
+    top: 1.5625rem;
 }
 
 .timeline-menu {
-    height: 40px;
+    height: 2.5rem;
 }
 
 .timeline-step {
-    height: 40px;
+    height: 2.5rem;
 }
 
 .timeline-step a {
@@ -641,9 +641,9 @@ main {
     background: rgba(35, 39, 47, 0.92);
     color: #ffffff;
     padding: 0.35rem 0.55rem;
-    border-radius: 6px;
+    border-radius: 0.375rem;
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(0.25rem);
     transition: opacity 0.15s ease, transform 0.15s ease;
     white-space: nowrap;
 }
@@ -654,7 +654,7 @@ main {
 }
 
 .text-section p {
-    max-width: 900px;
+    max-width: 56.25rem;
     margin: 0 auto;
 }
 
@@ -751,7 +751,7 @@ main {
 
 .glstu-text-display {
     width: min(100%, 70ch);
-    border-left: 4px solid #a6a7a8;
+    border-left: 0.25rem solid #a6a7a8;
     background: #ffffff;
     padding: clamp(1.1rem, 2.6vh, 2rem) clamp(0.9rem, 2.4vw, 1.6rem);
     transform: translateY(-10%);
@@ -767,7 +767,7 @@ main {
     font-weight: 600;
     letter-spacing: 0.02em;
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(0.375rem);
     transition: opacity 0.25s ease, transform 0.25s ease;
     pointer-events: none;
 }
@@ -795,7 +795,7 @@ main {
     align-items: center;
     gap: 0.45rem;
     padding: 0.2rem 0.45rem;
-    border-radius: 999px;
+    border-radius: 62.4375rem;
     background: rgba(36, 148, 202, 0.12);
 }
 
@@ -832,7 +832,7 @@ main {
         opacity: 0.9;
     }
     50% {
-        transform: translateY(4px);
+        transform: translateY(0.25rem);
         opacity: 1;
     }
 }
@@ -880,7 +880,7 @@ main {
 @keyframes glstuFadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(0.625rem);
     }
     to {
         opacity: 1;
@@ -900,7 +900,7 @@ main {
     line-height: 1.6;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 56.25rem) {
     .glstu-scroll-hint {
         display: none;
     }
@@ -1027,7 +1027,7 @@ main {
 .glstu-svg-container .glstu-layer-hover {
     animation: pulse-hover 1.2s infinite;
     transform: scale(1.025);
-    filter: drop-shadow(0 0 6px rgba(36, 148, 202, 0.45)) brightness(1.08);
+    filter: drop-shadow(0 0 0.375rem rgba(36, 148, 202, 0.45)) brightness(1.08);
 }
 
 @keyframes pulse-hover {
@@ -1123,7 +1123,7 @@ main {
     min-height: auto;
     padding-top: 2.2rem;
     padding-bottom: 2.2rem;
-    scroll-margin-top: clamp(180px, 30vh, 340px);
+    scroll-margin-top: clamp(11.25rem, 30vh, 21.25rem);
     margin-bottom: 20rem;
 }
 
@@ -1138,7 +1138,7 @@ main {
 }
 
 #querschnittsthemen .intro-content {
-    width: min(80vw, 1050px);
+    width: min(80vw, 65.625rem);
 }
 
 /* Querschnittsthemen Intro Columns - 4 Spalten */
@@ -1279,7 +1279,7 @@ main {
     height: auto;
     min-height: 2.1rem;
     padding: 0.35rem 0.7rem;
-    border-radius: 999px;
+    border-radius: 62.4375rem;
     background: rgba(255, 255, 255, 0.72);
     color: #0f4c7f;
     text-decoration: none;
@@ -1292,10 +1292,10 @@ main {
     font-weight: 500;
     line-height: 1;
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(0.5rem);
     transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
     z-index: 1100;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(0.125rem);
 }
 
 .back-to-graphic.visible {
@@ -1340,7 +1340,7 @@ p {
 /* Services Grid */
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(15.625rem, 1fr));
     gap: 2rem;
     margin-top: 2rem;
 }
@@ -1348,19 +1348,19 @@ p {
 .service-card {
     background: white;
     padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.625rem;
+    box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
 .service-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-0.3125rem);
 }
 
 /* Portfolio Grid */
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
     gap: 1.5rem;
     margin-top: 2rem;
 }
@@ -1369,11 +1369,11 @@ p {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 3rem;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 200px;
+    min-height: 12.5rem;
 }
 
 /* Contact Section */
@@ -1391,7 +1391,7 @@ p {
     background: #004E9E; /* Vollflächig blau, kein Verlauf */
     color: #ffffff;
     padding: 0 10vw;
-    padding-left: 160px;
+    padding-left: 10rem;
     margin-left: -6vw;
     margin-bottom: 2rem;
     border-radius: 0;
@@ -1407,7 +1407,7 @@ p {
     margin-right: calc(50% - 50vw);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 56.25rem) {
     .meilensteine-header.glstu-section-header h2 {
         margin-right: 0;
     }
@@ -1416,7 +1416,7 @@ p {
 /* Kurzportrait Section */
 #kurzportrait.section {
     background: #ffffff;
-    scroll-margin-top: 72px;
+    scroll-margin-top: 4.5rem;
     align-items: flex-start;
     justify-content: flex-start;
     padding-top: 0;
@@ -1483,7 +1483,7 @@ p {
 .kurzportrait-intro-logo::before {
     content: "";
     position: absolute;
-    width: clamp(260px, 30vw, 420px);
+    width: clamp(16.25rem, 30vw, 26.25rem);
     aspect-ratio: 1 / 1;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(0, 78, 158, 0.14) 0%, rgba(0, 78, 158, 0.08) 48%, rgba(0, 78, 158, 0) 72%);
@@ -1491,13 +1491,13 @@ p {
 }
 
 .kurzportrait-intro-logo img {
-    width: clamp(300px, 34vw, 460px);
+    width: clamp(18.75rem, 34vw, 28.75rem);
     max-width: 100%;
     height: auto;
     object-fit: contain;
     position: relative;
     z-index: 1;
-    filter: drop-shadow(0 12px 24px rgba(0, 45, 90, 0.2));
+    filter: drop-shadow(0 0.75rem 1.5rem rgba(0, 45, 90, 0.2));
 }
 
 .kurzportrait-header-track {
@@ -1512,7 +1512,7 @@ p {
 
 .kurzportrait-header {
     position: sticky;
-    top: calc(80px + 15vh);
+    top: calc(5rem + 15vh);
     left: 0;
     width: 100%;
     text-align: left;
@@ -1532,7 +1532,7 @@ p {
 
 
 .karte-svg-container {
-    width: min(114vw, 1615px);
+    width: min(114vw, 100.9375rem);
     margin-left: auto;
 
     margin-top: 2vw;
@@ -1560,7 +1560,7 @@ p {
 
 .karte-svg-container .karte-city-layer-hover {
     transform: scale(1.3);
-    filter: drop-shadow(0 0 8px rgba(36, 148, 202, 0.55));
+    filter: drop-shadow(0 0 0.5rem rgba(36, 148, 202, 0.55));
 }
 
 .karte-svg-container .karte-city-layer-pulse.karte-city-layer-hover {
@@ -1612,7 +1612,7 @@ p {
     min-height: 100%;
     position: relative;
     display: grid;
-    grid-template-columns: minmax(320px, 46%) minmax(320px, 54%);
+    grid-template-columns: minmax(20rem, 46%) minmax(20rem, 54%);
     align-items: stretch;
     padding: clamp(1rem, 3vh, 3rem) 2vw 0;
 }
@@ -1633,8 +1633,8 @@ p {
 
 .kurzportrait-text-stage {
     position: sticky;
-    top: 80px;
-    height: calc(100dvh - 80px);
+    top: 5rem;
+    height: calc(100dvh - 5rem);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -1645,7 +1645,7 @@ p {
 
 .kurzportrait-text-display {
     width: 100%;
-    border-left: 4px solid #2494CA;
+    border-left: 0.25rem solid #2494CA;
     background: rgba(0, 62, 126, 0.48);
     padding: clamp(1.1rem, 2.6vh, 2rem) clamp(0.9rem, 2.4vw, 1.6rem);
     margin-top: 0;
@@ -1661,7 +1661,7 @@ p {
     font-weight: 600;
     letter-spacing: 0.02em;
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(0.375rem);
     transition: opacity 0.25s ease, transform 0.25s ease;
     pointer-events: none;
 }
@@ -1689,7 +1689,7 @@ p {
     align-items: center;
     gap: 0.45rem;
     padding: 0.2rem 0.45rem;
-    border-radius: 999px;
+    border-radius: 62.4375rem;
     background: rgba(191, 230, 255, 0.12);
 }
 
@@ -1721,8 +1721,8 @@ p {
 
 .kurzportrait-scroll-steps {
     position: relative;
-    height: calc(100% - (100dvh - 80px));
-    min-height: calc(100% - (100dvh - 80px));
+    height: calc(100% - (100dvh - 5rem));
+    min-height: calc(100% - (100dvh - 5rem));
     pointer-events: none;
     display: flex;
     flex-direction: column;
@@ -1763,8 +1763,8 @@ p {
 .kurzportrait-sticky-graphic {
     grid-column: 2;
     position: sticky;
-    top: 80px;
-    height: calc(100vh - 80px);
+    top: 5rem;
+    height: calc(100vh - 5rem);
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -1780,7 +1780,7 @@ p {
 @keyframes kurzportraitFadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(0.625rem);
     }
     to {
         opacity: 1;
@@ -1795,7 +1795,7 @@ p {
         opacity: 0.9;
     }
     50% {
-        transform: translateY(4px);
+        transform: translateY(0.25rem);
         opacity: 1;
     }
 }
@@ -1809,7 +1809,7 @@ p {
     position: relative;
     z-index: 8;
     display: grid;
-    grid-template-columns: minmax(260px, 42%) 1fr;
+    grid-template-columns: minmax(16.25rem, 42%) 1fr;
     align-items: center;
     gap: clamp(1.2rem, 2.6vw, 3rem);
     padding: clamp(2.5rem, 8vh, 5rem) 5vw;
@@ -1822,7 +1822,7 @@ p {
 }
 
 .kurzportrait-third-graphic img {
-    width: min(92%, 540px);
+    width: min(92%, 33.75rem);
     height: auto;
 }
 
@@ -1847,7 +1847,7 @@ p {
 }
 
 .wissensspeicher-intro {
-    width: min(96vw, 1400px);
+    width: min(96vw, 87.5rem);
     margin: 0 auto;
     text-align: left;
     display: flex;
@@ -1883,7 +1883,7 @@ p {
 .wissensspeicher-steps {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    grid-template-columns: repeat(3, minmax(13.75rem, 1fr));
     gap: clamp(1rem, 2vw, 2rem);
     align-items: start;
     margin-top: 1.2rem;
@@ -1896,9 +1896,9 @@ p {
     left: 12%;
     right: 12%;
     top: 50%;
-    height: 8px;
+    height: 0.5rem;
     background: linear-gradient(90deg, #003E7E 0%, #2494CA 100%);
-    border-radius: 999px;
+    border-radius: 62.4375rem;
     opacity: 0.75;
     z-index: 0;
     transform: translateY(-50%) scaleX(0);
@@ -1913,12 +1913,12 @@ p {
 .wissensspeicher-step {
     position: relative;
     z-index: 1;
-    width: clamp(240px, 19.5vw, 330px);
-    height: clamp(240px, 19.5vw, 330px);
+    width: clamp(15rem, 19.5vw, 20.625rem);
+    height: clamp(15rem, 19.5vw, 20.625rem);
     border-radius: 50%;
     display: block;
     opacity: 0;
-    transform: translateY(26px) scale(0.96);
+    transform: translateY(1.625rem) scale(0.96);
     transition: opacity 0.55s ease, transform 0.55s ease;
 }
 
@@ -1963,7 +1963,7 @@ p {
 }
 
 .wissensspeicher-slidein-card p {
-    max-width: 1100px;
+    max-width: 68.75rem;
     margin: 0 auto;
 
     line-height: 1.6;
@@ -1976,7 +1976,7 @@ p {
     min-height: 100vh;
     min-height: 100svh;
     display: grid;
-    grid-template-columns: minmax(320px, 50%) 1fr;
+    grid-template-columns: minmax(20rem, 50%) 1fr;
     align-items: center;
     gap: clamp(1rem, 2.5vw, 2.5rem);
     padding: 0.5rem 5vw 2.8rem 5vw;
@@ -1991,7 +1991,7 @@ p {
 }
 
 .wissensspeicher-final-image img {
-    width: min(100%, 720px);
+    width: min(100%, 45rem);
     height: auto;
     max-height: 56vh;
     object-fit: contain;
@@ -2007,7 +2007,7 @@ p {
     margin: 0;
     color: #0f2b3d;
     line-height: 1.6;
-    max-width: 700px;
+    max-width: 43.75rem;
 }
 
 .wissensspeicher-final-link {
@@ -2016,11 +2016,11 @@ p {
     align-items: center;
     gap: 0.65rem;
     width: fit-content;
-    border: 2px solid #004E9E;
+    border: 0.125rem solid #004E9E;
     color: #004E9E;
     text-decoration: none;
     padding: 0.55rem 0.8rem;
-    border-radius: 6px;
+    border-radius: 0.375rem;
     transition: background 0.2s ease, color 0.2s ease;
 }
 
@@ -2073,7 +2073,7 @@ p {
 
 .meilensteine-rings svg,
 .meilensteine-rings img {
-    max-width: 494px; /* ca. 30% größer als zuvor (380px) */
+    max-width: 30.875rem; /* ca. 30% groesser als zuvor (23.75rem) */
     width: 100%;
     height: auto;
 }
@@ -2092,9 +2092,9 @@ footer a {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
     #querschnittsthemen.section {
-        scroll-margin-top: 96px;
+        scroll-margin-top: 6rem;
     }
 
     .kurzportrait-scroll-hint,
@@ -2160,7 +2160,7 @@ footer a {
     }
 
     .meilensteine-rings svg {
-        max-width: 300px;
+        max-width: 18.75rem;
     }
 
     .kurzportrait-intro {
@@ -2174,7 +2174,7 @@ footer a {
     }
 
     .kurzportrait-intro-logo img {
-        width: min(100%, 900px);
+        width: min(100%, 56.25rem);
     }
 
     .kurzportrait-header h2 {
@@ -2192,7 +2192,7 @@ footer a {
     }
 
     .karte-svg-container {
-        width: min(98vw, 1100px);
+        width: min(98vw, 68.75rem);
         margin-right: -7vw;
     }
 
@@ -2259,7 +2259,7 @@ footer a {
     }
 
     .kurzportrait-third-graphic img {
-        width: min(92vw, 420px);
+        width: min(92vw, 26.25rem);
     }
 
 
@@ -2282,9 +2282,9 @@ footer a {
     }
 
     .wissensspeicher-step {
-        width: min(88vw, 360px);
-        height: min(88vw, 360px);
-        max-width: 360px;
+        width: min(88vw, 22.5rem);
+        height: min(88vw, 22.5rem);
+        max-width: 22.5rem;
     }
 
 
@@ -2316,7 +2316,7 @@ footer a {
     }
 
     .wissensspeicher-final-image img {
-        width: min(94vw, 520px);
+        width: min(94vw, 32.5rem);
         max-height: none;
     }
 
@@ -2401,18 +2401,18 @@ footer a {
     background: rgba(0, 78, 158, 0.92);
     color: white;
     padding: 2rem;
-    max-width: 800px;
-    border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.35);
-    box-shadow: 0 14px 34px rgba(0, 35, 70, 0.4);
-    backdrop-filter: blur(5px);
+    max-width: 50rem;
+    border-radius: 0.625rem;
+    border: 0.125rem solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0.875rem 2.125rem rgba(0, 35, 70, 0.4);
+    backdrop-filter: blur(0.3125rem);
     z-index: 20;
     animation: slideInUp 0.6s ease-out 0.3s both;
 }
 
 .qst-text-overlay h3 {
     margin: 0 0 1rem 0;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03125rem;
 }
 
 .qst-text-overlay p {
@@ -2423,7 +2423,7 @@ footer a {
 
 @keyframes slideInUp {
     from {
-        transform: translateY(20px);
+        transform: translateY(1.25rem);
         opacity: 0;
     }
     to {
@@ -2439,33 +2439,33 @@ footer a {
     transform: translateY(-50%);
     background: #004E9E;
     color: #ffffff;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    width: 76px;
-    height: 76px;
-    border-radius: 10px;
+    border: 0.125rem solid rgba(255, 255, 255, 0.2);
+    width: 4.75rem;
+    height: 4.75rem;
+    border-radius: 0.625rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 30;
-    box-shadow: 0 12px 28px rgba(0, 25, 50, 0.45);
+    box-shadow: 0 0.75rem 1.75rem rgba(0, 25, 50, 0.45);
     transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .qst-nav-btn:hover {
     background: #0065ca;
     transform: translateY(-50%) scale(1.08);
-    box-shadow: 0 16px 34px rgba(0, 25, 50, 0.55);
+    box-shadow: 0 1rem 2.125rem rgba(0, 25, 50, 0.55);
 }
 
 .qst-nav-btn:focus-visible {
-    outline: 3px solid rgba(255, 255, 255, 0.95);
-    outline-offset: 2px;
+    outline: 0.1875rem solid rgba(255, 255, 255, 0.95);
+    outline-offset: 0.125rem;
 }
 
 .qst-nav-btn svg {
-    width: 38px;
-    height: 38px;
+    width: 2.375rem;
+    height: 2.375rem;
     stroke-width: 3.2;
 }
 
@@ -2489,8 +2489,8 @@ footer a {
 }
 
 .qst-indicator {
-    width: 12px;
-    height: 12px;
+    width: 0.75rem;
+    height: 0.75rem;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.4);
     border: none;
@@ -2500,8 +2500,8 @@ footer a {
 
 .qst-indicator.active {
     background: white;
-    width: 30px;
-    border-radius: 6px;
+    width: 1.875rem;
+    border-radius: 0.375rem;
 }
 
 .qst-indicator:hover {
@@ -2544,9 +2544,9 @@ footer a {
 
 .ziel-box {
     background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
-    border-left: 4px solid #004E9E;
+    border-left: 0.25rem solid #004E9E;
     padding: 2rem;
-    border-radius: 4px;
+    border-radius: 0.25rem;
     transition: all 0.3s ease;
     cursor: pointer;
 }
@@ -2563,8 +2563,8 @@ footer a {
 }
 
 .ziel-box:hover {
-    box-shadow: 0 8px 16px rgba(0, 78, 158, 0.15);
-    transform: translateY(-4px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 78, 158, 0.15);
+    transform: translateY(-0.25rem);
     border-left-color: #764ba2;
 }
 
@@ -2591,13 +2591,13 @@ footer a {
 .meilensteine-ziel {
     background: #d5d5d5;
     background: linear-gradient(90deg, #d5d5d5 60%, #e8e8e8 100%);
-    border-left: 6px solid #2494CA;
+    border-left: 0.375rem solid #2494CA;
     padding: 1rem 4rem;
-    border-radius: 6px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 0.375rem;
+    box-shadow: 0 0.625rem 1.5625rem rgba(0, 0, 0, 0.08);
     width: 100%;
     margin-left: 0; /* Karte bis zum rechten Rand laufen lassen */
-    transform: translateX(-20px);
+    transform: translateX(-1.25rem);
     opacity: 0;
     transition: box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
 }
@@ -2607,8 +2607,8 @@ footer a {
 }
 
 .meilensteine-ziel[data-goal-target]:focus-visible {
-    outline: 3px solid rgba(36, 148, 202, 0.45);
-    outline-offset: 2px;
+    outline: 0.1875rem solid rgba(36, 148, 202, 0.45);
+    outline-offset: 0.125rem;
 }
 
 .meilensteine-ziel-content {
@@ -2621,14 +2621,14 @@ footer a {
 }
 
 .meilensteine-ziel-hover {
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
-    transform: translateY(-4px);
+    box-shadow: 0 1.125rem 2.375rem rgba(0, 0, 0, 0.22);
+    transform: translateY(-0.25rem);
     background: linear-gradient(90deg, #e2e2e2 50%, #f5f5f5 100%);
 }
 
 .meilensteine-ziel[data-goal-target]:hover {
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
-    transform: translateY(-4px);
+    box-shadow: 0 1.125rem 2.375rem rgba(0, 0, 0, 0.22);
+    transform: translateY(-0.25rem);
     background: linear-gradient(90deg, #e2e2e2 50%, #f5f5f5 100%);
 }
 
@@ -2665,14 +2665,14 @@ footer a {
 
 /* Hover-Effekt für die Ringe der Ziel-SVG */
 .ziel-ring-hover {
-    filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.35));
+    filter: drop-shadow(0 0 0.875rem rgba(0, 0, 0, 0.35));
     transform: scale(1.05);
     transition: transform 0.25s ease, filter 0.25s ease;
 }
 
 .ziele-rings {
     width: 100%;
-    max-width: 440px; /* ca. 10% größer als zuvor */
+    max-width: 27.5rem; /* ca. 10% größer als zuvor */
     height: auto;
 }
 
@@ -2724,8 +2724,8 @@ footer a {
     flex-direction: column;
     justify-content: center;
     background: linear-gradient(145deg, #0b3f74 0%, #0d4d86 52%, #2b6f97 100%);
-    border-radius: 14px;
-    box-shadow: 0 14px 30px rgba(7, 28, 49, 0.28);
+    border-radius: 0.875rem;
+    box-shadow: 0 0.875rem 1.875rem rgba(7, 28, 49, 0.28);
 }
 
 .meilensteine-teilziele::before {
@@ -2742,8 +2742,8 @@ footer a {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.055) 0.0625rem, transparent 0.0625rem),
+                      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0.0625rem, transparent 0.0625rem);
     opacity: 0.12;
     pointer-events: none;
 }
@@ -2763,7 +2763,7 @@ footer a {
     margin-left: -6vw;
     margin-bottom: 1.25rem;
     border-radius: 0;
-    box-shadow: 0 5px 14px rgba(7, 37, 64, 0.2);
+    box-shadow: 0 0.3125rem 0.875rem rgba(7, 37, 64, 0.2);
 }
 
 .teilziele-filter-wrap {
@@ -2783,23 +2783,23 @@ footer a {
 }
 
 .teilziele-filter-select {
-    min-width: 140px;
-    border: 1px solid rgba(198, 217, 234, 0.62);
-    border-radius: 999px;
+    min-width: 8.75rem;
+    border: 0.0625rem solid rgba(198, 217, 234, 0.62);
+    border-radius: 62.4375rem;
     padding: 0.42rem 0.9rem;
     background: rgba(14, 61, 104, 0.78);
     color: #edf6fd;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0.0625rem 0 rgba(255, 255, 255, 0.08);
 }
 
 .teilziele-filter-select:focus {
-    outline: 2px solid rgba(170, 223, 255, 0.65);
-    outline-offset: 1px;
+    outline: 0.125rem solid rgba(170, 223, 255, 0.65);
+    outline-offset: 0.0625rem;
 }
 
 .teilziele-matrix {
     display: grid;
-    grid-template-columns: minmax(220px, 320px) 1fr;
+    grid-template-columns: minmax(13.75rem, 20rem) 1fr;
     gap: 1.75rem;
     align-items: center;
     width: 100%;
@@ -2837,14 +2837,14 @@ footer a {
 
 .teilziele-sticky-goal {
     background: rgba(255, 255, 255);
-    border-left: 6px solid #004E9E;
+    border-left: 0.375rem solid #004E9E;
     padding: 1rem 1.1rem;
-    border-radius: 10px;
-    box-shadow: 0 8px 18px rgba(4, 27, 46, 0.24);
+    border-radius: 0.625rem;
+    box-shadow: 0 0.5rem 1.125rem rgba(4, 27, 46, 0.24);
     color: #000000;
     display: grid;
     gap: 0.45rem;
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(0.0625rem);
 }
 
 .teilziele-sticky-goal-title {
@@ -2883,7 +2883,7 @@ footer a {
     min-width: 0;
     padding: 1.4rem 0.35rem 1rem 0.1rem;
     -webkit-overflow-scrolling: touch;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     background: linear-gradient(180deg, rgba(14, 63, 106, 0.3) 0%, rgba(10, 47, 82, 0.2) 100%);
 }
 
@@ -2902,11 +2902,11 @@ footer a {
     left: 0;
     right: 1rem;
     top: 1.07rem;
-    height: 5px;
+    height: 0.3125rem;
     background: linear-gradient(90deg, #a6a7a8 0%, #c6d9ea 24%, #c6d9ea 76%, #a6a7a8 100%);
-    border-radius: 999px;
+    border-radius: 62.4375rem;
     opacity: 0.72;
-    box-shadow: 0 0 7px rgba(166, 167, 168, 0.22);
+    box-shadow: 0 0 0.4375rem rgba(166, 167, 168, 0.22);
     pointer-events: none;
 }
 
@@ -2917,16 +2917,16 @@ footer a {
     top: 1.02rem;
     width: 0;
     height: 0;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-left: 12px solid #c9ddec;
+    border-top: 0.375rem solid transparent;
+    border-bottom: 0.375rem solid transparent;
+    border-left: 0.75rem solid #c9ddec;
     opacity: 0.82;
     transform: translateY(-50%);
     pointer-events: none;
 }
 
 .teilziele-year {
-    flex: 0 0 min(520px, 85vw);
+    flex: 0 0 min(32.5rem, 85vw);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -2944,11 +2944,11 @@ footer a {
     letter-spacing: 0.04em;
     text-transform: uppercase;
     padding: 0.32rem 0.95rem;
-    border-radius: 999px;
+    border-radius: 62.4375rem;
     position: relative;
     z-index: 1;
     text-align: center;
-    box-shadow: 0 5px 12px rgba(8, 36, 61, 0.2);
+    box-shadow: 0 0.3125rem 0.75rem rgba(8, 36, 61, 0.2);
 }
 
 .teilziele-year-head::before {
@@ -2957,11 +2957,11 @@ footer a {
     left: 50%;
     transform: translateX(-50%);
     top: calc(100% + 0.26rem);
-    width: 12px;
-    height: 12px;
+    width: 0.75rem;
+    height: 0.75rem;
     background: #dff2ff;
     border-radius: 50%;
-    border: 6px solid rgba(0, 78, 158, 0.34);
+    border: 0.375rem solid rgba(0, 78, 158, 0.34);
     box-sizing: content-box;
 }
 
@@ -2989,13 +2989,13 @@ footer a {
 .teilziele-cell li {
     margin: 0;
     background: linear-gradient(160deg, rgba(255, 255, 255, 0.94) 0%, rgba(239, 247, 255, 0.9) 100%);
-    border-radius: 10px;
-    box-shadow: 0 7px 14px rgba(8, 33, 58, 0.16);
+    border-radius: 0.625rem;
+    box-shadow: 0 0.4375rem 0.875rem rgba(8, 33, 58, 0.16);
     padding: 1.15rem 1.2rem;
-    border-left: 6px solid #004E9E;
+    border-left: 0.375rem solid #004E9E;
     line-height: 1.45;
     color: #000000;
-    width: min(100%, clamp(200px, 66%, 360px));
+    width: min(100%, clamp(12.5rem, 66%, 22.5rem));
     min-height: fit-content;
     position: relative;
 }
@@ -3005,11 +3005,11 @@ footer a {
     position: absolute;
     top: 0;
     right: 0;
-    width: 42px;
-    height: 42px;
+    width: 2.625rem;
+    height: 2.625rem;
     transform: translate(28%, -28%);
     background: url('check.svg') center / contain no-repeat;
-    filter: drop-shadow(0 6px 12px rgba(25, 142, 14, 0.18));
+    filter: drop-shadow(0 0.375rem 0.75rem rgba(25, 142, 14, 0.18));
     pointer-events: none;
     z-index: 2;
 }
@@ -3020,17 +3020,17 @@ footer a {
 }
 
 .teilziele-timeline::-webkit-scrollbar {
-    height: 10px;
+    height: 0.625rem;
 }
 
 .teilziele-timeline::-webkit-scrollbar-track {
     background: rgba(7, 44, 78, 0.36);
-    border-radius: 999px;
+    border-radius: 62.4375rem;
 }
 
 .teilziele-timeline::-webkit-scrollbar-thumb {
     background: linear-gradient(90deg, #a6a7a8 0%, #b6cfdf 100%);
-    border-radius: 999px;
+    border-radius: 62.4375rem;
 }
 
 .teilziele-cell-1 {
@@ -3079,7 +3079,7 @@ footer a {
     display: none;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 64rem) {
     .meilensteine-split {
         flex-direction: column;
         gap: 2rem;
@@ -3090,7 +3090,7 @@ footer a {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 48rem) {
     .meilensteine-split {
         padding: 0 1rem;
     }
@@ -3112,7 +3112,7 @@ footer a {
     }
 
     .teilziele-matrix {
-        grid-template-columns: minmax(160px, 220px) 1fr;
+        grid-template-columns: minmax(10rem, 13.75rem) 1fr;
         gap: 1.25rem;
     }
 
@@ -3143,14 +3143,14 @@ footer a {
     .qst-text-overlay {
         bottom: 1.5rem;
         left: 1.5rem;
-        max-width: 600px;
+        max-width: 37.5rem;
         padding: 1.5rem;
     }
 
 
     .qst-nav-btn {
-        width: 50px;
-        height: 50px;
+        width: 3.125rem;
+        height: 3.125rem;
         left: 1rem;
     }
 
@@ -3164,10 +3164,10 @@ footer a {
 }
 
 /* Handy hochformat: alle Teilabschnitte viewport-hoch, Inhalte bei Bedarf intern scrollen. */
-@media (max-width: 768px) and (orientation: portrait) {
+@media (max-width: 48rem) and (orientation: portrait) {
     :root {
-        --mobile-portrait-header-height: 56px;
-        --mobile-portrait-sticky-top: 64px;
+        --mobile-portrait-header-height: 3.5rem;
+        --mobile-portrait-sticky-top: 4rem;
         --mobile-portrait-sticky-height: calc(100dvh - var(--mobile-portrait-sticky-top));
         --mobile-portrait-intro-height: calc(100dvh - var(--mobile-portrait-header-height));
         --mobile-portrait-scroll-stage-height: calc(100% - (100dvh - var(--mobile-portrait-sticky-top)));
@@ -3241,7 +3241,7 @@ footer a {
     }
 
     .glstu-split {
-        grid-template-columns: minmax(250px, 44%) minmax(280px, 56%);
+        grid-template-columns: minmax(15.625rem, 44%) minmax(17.5rem, 56%);
     }
 
     .glstu-fixed {
@@ -3278,7 +3278,7 @@ footer a {
     .kurzportrait-layout {
         height: 100%;
         min-height: 100%;
-        grid-template-columns: minmax(260px, 46%) minmax(280px, 54%);
+        grid-template-columns: minmax(16.25rem, 46%) minmax(17.5rem, 54%);
         padding: 2.1rem 1.5vw 0;
     }
 
@@ -3320,10 +3320,10 @@ footer a {
 }
 
 /* Handy querformat: Desktop-aehnliches Layout beibehalten, aber dynamisch skalieren. */
-@media (orientation: landscape) and (max-height: 540px) and (max-width: 960px) {
+@media (orientation: landscape) and (max-height: 33.75rem) and (max-width: 60rem) {
     :root {
-        --landscape-header-height: 52px;
-        --landscape-glstu-sticky-top: 64px;
+        --landscape-header-height: 3.25rem;
+        --landscape-glstu-sticky-top: 4rem;
         --landscape-glstu-sticky-height: calc(100dvh - var(--landscape-glstu-sticky-top));
         --landscape-stage-height: calc(100dvh - var(--landscape-header-height));
         --landscape-scroll-stage-height: calc(100% - (100dvh - var(--landscape-header-height)));
@@ -3358,7 +3358,7 @@ footer a {
 
 
     #svg-container {
-        max-height: calc(100dvh - 70px);
+        max-height: calc(100dvh - 4.375rem);
         margin: 0.8rem auto;
     }
 
@@ -3368,7 +3368,7 @@ footer a {
     }
 
     .glstu-split {
-        grid-template-columns: minmax(180px, 44%) minmax(240px, 56%);
+        grid-template-columns: minmax(11.25rem, 44%) minmax(15rem, 56%);
     }
 
     .glstu-fixed {
@@ -3422,8 +3422,8 @@ footer a {
 
     .meilensteine-ziel {
         padding: 0.52rem 0.95rem;
-        border-left-width: 4px;
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+        border-left-width: 0.25rem;
+        box-shadow: 0 0.375rem 0.875rem rgba(0, 0, 0, 0.08);
     }
 
     .meilensteine-ziel-content h3 {
@@ -3443,17 +3443,17 @@ footer a {
     }
 
     .teilziele-matrix {
-        grid-template-columns: minmax(180px, 250px) 1fr;
+        grid-template-columns: minmax(11.25rem, 15.625rem) 1fr;
         gap: 0.85rem;
     }
 
     .teilziele-year {
-        flex: 0 0 min(440px, 82vw);
+        flex: 0 0 min(27.5rem, 82vw);
     }
 
     .teilziele-timeline {
         padding: 0.8rem 0.25rem 0.45rem 0.1rem;
-        max-height: calc(100dvh - 165px);
+        max-height: calc(100dvh - 10.3125rem);
     }
 
     .teilziele-year-content {
@@ -3466,7 +3466,7 @@ footer a {
     }
 
     .teilziele-cell li {
-        width: min(100%, clamp(180px, 72%, 320px));
+        width: min(100%, clamp(11.25rem, 72%, 20rem));
         line-height: 1.35;
         padding: 0.56rem 0.62rem;
     }
@@ -3479,7 +3479,7 @@ footer a {
     .kurzportrait-layout {
         height: 100%;
         min-height: 100%;
-        grid-template-columns: minmax(260px, 46%) minmax(280px, 54%);
+        grid-template-columns: minmax(16.25rem, 46%) minmax(17.5rem, 54%);
         padding: 2.1rem 1.5vw 0;
     }
 
@@ -3505,41 +3505,41 @@ footer a {
     }
 
     .karte-svg-container {
-        width: min(98vw, 1100px);
+        width: min(98vw, 68.75rem);
         margin-right: -7vw;
     }
 
     .qst-text-overlay {
         left: 1rem;
         bottom: 0.9rem;
-        max-width: min(80vw, 760px);
+        max-width: min(80vw, 47.5rem);
         padding: 0.8rem 1rem;
-        max-height: calc(100dvh - 130px);
+        max-height: calc(100dvh - 8.125rem);
         overflow: auto;
     }
 
 
 
     .qst-nav-btn {
-        width: 44px;
-        height: 44px;
+        width: 2.75rem;
+        height: 2.75rem;
     }
 
     .wissensspeicher-steps {
-        grid-template-columns: repeat(3, minmax(116px, 1fr));
+        grid-template-columns: repeat(3, minmax(7.25rem, 1fr));
         gap: 0.45rem;
     }
 
     .wissensspeicher-step {
-        width: clamp(124px, 19vw, 168px);
-        height: clamp(124px, 19vw, 168px);
+        width: clamp(7.75rem, 19vw, 10.5rem);
+        height: clamp(7.75rem, 19vw, 10.5rem);
     }
 }
 
-/* Profil A: sehr niedrige Landscape-Hoehe (typisch iPhone quer, etwa 390-430px). */
-@media (orientation: landscape) and (max-width: 1024px) and (pointer: coarse) and (max-height: 430px) {
+/* Profil A: sehr niedrige Landscape-Hoehe (typisch iPhone quer, etwa 24.375rem-26.875rem). */
+@media (orientation: landscape) and (max-width: 64rem) and (pointer: coarse) and (max-height: 26.875rem) {
     :root {
-        --landscape-a-header-height: 48px;
+        --landscape-a-header-height: 3rem;
         --landscape-a-stage-height: calc(100dvh - var(--landscape-a-header-height));
         --landscape-a-scroll-stage-height: calc(100% - (100dvh - var(--landscape-a-header-height)));
     }
@@ -3596,7 +3596,7 @@ footer a {
     }
 
     .intro-columns {
-        max-height: calc(100dvh - 138px);
+        max-height: calc(100dvh - 8.625rem);
         gap: 0.65rem;
     }
 
@@ -3606,7 +3606,7 @@ footer a {
     }
 
     .teilziele-matrix {
-        grid-template-columns: minmax(155px, 220px) 1fr;
+        grid-template-columns: minmax(9.6875rem, 13.75rem) 1fr;
         gap: 0.6rem;
     }
 
@@ -3617,7 +3617,7 @@ footer a {
 
     .teilziele-sticky-goal {
         padding: 0.55rem 0.6rem;
-        border-left-width: 4px;
+        border-left-width: 0.25rem;
     }
 
 
@@ -3628,12 +3628,12 @@ footer a {
     }
 
     .teilziele-timeline {
-        max-height: calc(100dvh - 165px);
+        max-height: calc(100dvh - 10.3125rem);
         padding: 0.45rem 0.2rem 0.3rem 0.08rem;
     }
 
     .teilziele-year {
-        flex: 0 0 min(350px, 78vw);
+        flex: 0 0 min(21.875rem, 78vw);
     }
 
     .teilziele-year-content {
@@ -3650,14 +3650,14 @@ footer a {
     }
 
     .qst-text-overlay {
-        max-height: calc(100dvh - 110px);
-        max-width: min(74vw, 580px);
+        max-height: calc(100dvh - 6.875rem);
+        max-width: min(74vw, 36.25rem);
         padding: 0.52rem 0.62rem;
     }
 
     .qst-nav-btn {
-        width: 34px;
-        height: 34px;
+        width: 2.125rem;
+        height: 2.125rem;
     }
 
     .qst-indicators {
@@ -3665,20 +3665,20 @@ footer a {
     }
 
     .wissensspeicher-steps {
-        grid-template-columns: repeat(3, minmax(116px, 1fr));
+        grid-template-columns: repeat(3, minmax(7.25rem, 1fr));
         gap: 0.45rem;
     }
 
     .wissensspeicher-step {
-        width: clamp(124px, 19vw, 168px);
-        height: clamp(124px, 19vw, 168px);
+        width: clamp(7.75rem, 19vw, 10.5rem);
+        height: clamp(7.75rem, 19vw, 10.5rem);
     }
 }
 
-/* Profil B: mittlere Landscape-Hoehe (viele Android-Geraete, etwa 431-520px). */
-@media (orientation: landscape) and (max-width: 1024px) and (pointer: coarse) and (min-height: 431px) and (max-height: 520px) {
+/* Profil B: mittlere Landscape-Hoehe (viele Android-Geraete, etwa 26.9375rem-32.5rem). */
+@media (orientation: landscape) and (max-width: 64rem) and (pointer: coarse) and (min-height: 26.9375rem) and (max-height: 32.5rem) {
     :root {
-        --landscape-b-header-height: 50px;
+        --landscape-b-header-height: 3.125rem;
         --landscape-b-stage-height: calc(100dvh - var(--landscape-b-header-height));
         --landscape-b-scroll-stage-height: calc(100% - (100dvh - var(--landscape-b-header-height)));
     }
@@ -3726,30 +3726,30 @@ footer a {
     }
 
     .intro-columns {
-        max-height: calc(100dvh - 152px);
+        max-height: calc(100dvh - 9.5rem);
     }
 
     .teilziele-matrix {
-        grid-template-columns: minmax(168px, 235px) 1fr;
+        grid-template-columns: minmax(10.5rem, 14.6875rem) 1fr;
         gap: 0.7rem;
     }
 
     .teilziele-timeline {
-        max-height: calc(100dvh - 174px);
+        max-height: calc(100dvh - 10.875rem);
     }
 
     .teilziele-year {
-        flex: 0 0 min(390px, 80vw);
+        flex: 0 0 min(24.375rem, 80vw);
     }
 
     .wissensspeicher-steps {
-        grid-template-columns: repeat(3, minmax(125px, 1fr));
+        grid-template-columns: repeat(3, minmax(7.8125rem, 1fr));
         gap: 0.52rem;
     }
 
     .wissensspeicher-step {
-        width: clamp(122px, 18.5vw, 166px);
-        height: clamp(122px, 18.5vw, 166px);
+        width: clamp(7.625rem, 18.5vw, 10.375rem);
+        height: clamp(7.625rem, 18.5vw, 10.375rem);
     }
 }
 
@@ -3808,7 +3808,7 @@ footer a {
     .kurzportrait-layout {
         height: 100%;
         min-height: 100%;
-        grid-template-columns: minmax(320px, 46%) minmax(320px, 54%);
+        grid-template-columns: minmax(20rem, 46%) minmax(20rem, 54%);
     }
 
     .kurzportrait-side-text {
