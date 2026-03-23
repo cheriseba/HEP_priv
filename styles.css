@@ -638,10 +638,12 @@ main {
 
 .glstu-svg-container {
     margin: 0;
-    width: clamp(82vw, 88vw, 96vw);
+    margin-left: 5rem;
+    margin-bottom: 3rem;
+    width: clamp(90vw, 96vw, 108vw);
     max-width: none;
     position: relative;
-    transform: translateX(-10%) translateY(3rem);
+    transform: translateX(-13%) translateY(3rem);
     overflow: visible;
 }
 
@@ -963,12 +965,12 @@ main {
     }
 
     .glstu-svg-container svg {
-        width: 100%;
+        width: 112%;
     }
 }
 
 .glstu-svg-container svg {
-    width: 118%;
+    width: 128%;
     max-width: none;
     height: auto;
     pointer-events: auto;
