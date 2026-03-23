@@ -7,7 +7,7 @@ Dieses Projekt ist eine statische One-Page-Anwendung mit interaktiven SVGs und g
 - index.html: Seitenstruktur, inhaltliche Abschnitte, semantische Marker und IDs.
 - styles.css: gesamtes Layout, Animationen, Responsive-Verhalten und Abschnittsdesign.
 - main.js: Interaktionen, SVG-Laden, Filterlogik, Narrative-Textsteuerung, globales Snap-Scrolling.
-- QST_Bilder/: Bildmaterial fuer die Querschnittsthemen-Slideshow.
+- assets/images/: gesamtes Bildmaterial (SVG, Logos, Animationen, Fotos, QST und Kreise) in Unterordnern.
 
 ## Wichtige Bereiche fuer schnelle Anpassungen
 

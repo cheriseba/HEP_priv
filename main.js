@@ -78,7 +78,7 @@ window.addEventListener('DOMContentLoaded', () => {
 // ============================================================================
 
 // Initiales Laden der Hauptgrafik und Start aller intro-nahen Effekte.
-fetch('1_Hauptgrafik.svg')
+fetch('assets/images/svg/1_Hauptgrafik.svg')
     .then(response => response.text())
     .then(svgText => {
         document.getElementById('svg-container').innerHTML = svgText;
@@ -88,7 +88,7 @@ fetch('1_Hauptgrafik.svg')
     });
 
 // Laden der Grafik fuer den Abschnitt "Gelingendes Studium".
-fetch('GLSTU.svg')
+fetch('assets/images/svg/GLSTU.svg')
     .then(response => response.text())
     .then(svgText => {
         const glstuContainer = document.getElementById('glstu-svg-container');
@@ -103,7 +103,7 @@ const narrativeControllers = {
 };
 
 // Laden der Ziel-Ringe fuer die Meilenstein-Sektion inklusive Hover-Verknuepfung.
-fetch('Ziel.svg')
+fetch('assets/images/svg/Ziel.svg')
     .then(response => response.text())
     .then(svgText => {
         const zieleContainer = document.getElementById('ziele-svg-container');
@@ -118,7 +118,7 @@ fetch('Ziel.svg')
     });
 
 // Laden der Standortkarte fuer das Kurzportrait.
-fetch('Karte.svg')
+fetch('assets/images/svg/Karte.svg')
     .then(response => response.text())
     .then(svgText => {
         const karteContainer = document.getElementById('karte-svg-container');
