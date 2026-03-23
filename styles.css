@@ -2080,10 +2080,15 @@ p {
 
 /* Footer */
 footer {
-    background-color: #333;
+    background-color: #004e9e;
     color: white;
     text-align: center;
     padding: 2rem;
+}
+
+footer a {
+    color: inherit;
+    text-decoration: underline;
 }
 
 /* Responsive Design */
