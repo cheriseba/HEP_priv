@@ -98,6 +98,8 @@ function initKarteInteractions() {
     }
 
     const cardIds = Object.values(cityToCardMap);
+    let hasCityBeenClicked = false;
+
     cardIds.forEach((cardId) => {
         const cardLayer = document.getElementById(cardId);
         if (!cardLayer) return;
@@ -125,7 +127,7 @@ function initKarteInteractions() {
         const cityLayer = document.getElementById(cityId);
         if (!cityLayer) return;
 
-        cityLayer.classList.add('karte-city-layer');
+        cityLayer.classList.add('karte-city-layer', 'karte-city-layer-pulse');
         cityLayer.style.cursor = 'pointer';
 
         cityLayer.addEventListener('mouseenter', () => {
@@ -138,6 +140,17 @@ function initKarteInteractions() {
 
         cityLayer.addEventListener('click', (event) => {
             event.stopPropagation();
+
+            if (!hasCityBeenClicked) {
+                hasCityBeenClicked = true;
+                Object.keys(cityToCardMap).forEach((layerId) => {
+                    const layer = document.getElementById(layerId);
+                    if (layer) {
+                        layer.classList.remove('karte-city-layer-pulse');
+                    }
+                });
+            }
+
             showCityCard(cardId);
         });
     });

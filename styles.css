@@ -1554,9 +1554,28 @@ p {
     transition: transform 0.22s ease, filter 0.22s ease, opacity 0.22s ease;
 }
 
+.karte-svg-container .karte-city-layer-pulse {
+    animation: karteCityPulse 1.8s ease-in-out infinite;
+}
+
 .karte-svg-container .karte-city-layer-hover {
     transform: scale(1.3);
     filter: drop-shadow(0 0 8px rgba(36, 148, 202, 0.55));
+}
+
+.karte-svg-container .karte-city-layer-pulse.karte-city-layer-hover {
+    animation: none;
+    transform: scale(1.04);
+}
+
+@keyframes karteCityPulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
 }
 
 .karte-svg-container .karte-city-card {
