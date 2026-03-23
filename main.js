@@ -341,6 +341,18 @@ function initSVGInteractions() {
         const target = document.getElementById(targetId);
         if (!target) return;
 
+        // Verhindert visuelle Artefakte durch Ueberlagerung:
+        // Immer nur ein Segment gleichzeitig offen lassen.
+        const allLinkedTargets = Object.values(linkedSections);
+        allLinkedTargets.forEach((id) => {
+            if (id === targetId) return;
+            const other = document.getElementById(id);
+            if (!other) return;
+            if (!(other.classList.contains('retract-unit') || other.classList.contains('intro-hidden'))) {
+                collapseSection(id);
+            }
+        });
+
         if (target.classList.contains('retract-unit') || target.classList.contains('intro-hidden')) {
             expandSection(targetId);
             return;

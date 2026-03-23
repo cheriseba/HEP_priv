@@ -495,12 +495,14 @@ main {
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden;
 }
 
 #svg-container svg {
     width: 100%;
     height: auto;
     max-height: 80vh;
+    overflow: hidden;
 }
 
 /* Main graphic text should be white; keep QST text gray */
@@ -589,9 +591,9 @@ main {
 
 /* SVG Element Interactions */
 #svg-container g[id] {
-    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.24s ease, filter 0.24s ease;
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.24s ease;
     transform-origin: center;
-    will-change: transform, opacity, filter;
+    will-change: transform, opacity;
 }
 
 #svg-container g[id]:hover {
@@ -602,12 +604,11 @@ main {
 .svg-element-hover {
     opacity: 0.96 !important;
     transform: scale(1.012) !important;
-    filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.35)) !important;
 }
 
 .svg-element-active {
     opacity: 1 !important;
-    filter: drop-shadow(0 0 20px rgba(102, 126, 234, 1)) brightness(1.3) !important;
+    filter: brightness(1.12) !important;
     animation: pulse 0.5s ease-out;
 }
 
