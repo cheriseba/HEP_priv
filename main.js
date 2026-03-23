@@ -1066,6 +1066,8 @@ function initGLSTUStickyTextObserver() {
         bodyElement.classList.remove('glstu-text-display-enter');
         void bodyElement.offsetWidth;
         bodyElement.classList.add('glstu-text-display-enter');
+
+        section.classList.toggle('glstu-show-scroll-hint', safeIndex === 0);
     }
 
     function teardownObserver() {
