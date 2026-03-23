@@ -1,4 +1,46 @@
 // Timeline-Menü Scroll-Tracking
+function initMobileOrientationGate() {
+    const gate = document.getElementById('orientation-gate');
+    if (!gate || !document.body) return;
+
+    const coarsePointerQuery = window.matchMedia('(pointer: coarse)');
+    const phoneWidthQuery = window.matchMedia('(max-width: 56.25rem)');
+    const portraitQuery = window.matchMedia('(orientation: portrait)');
+
+    function isPortraitFallback() {
+        return window.innerHeight >= window.innerWidth;
+    }
+
+    function shouldBlockPortraitView() {
+        return coarsePointerQuery.matches
+            && phoneWidthQuery.matches
+            && (portraitQuery.matches || isPortraitFallback());
+    }
+
+    function updateOrientationGate() {
+        const blocked = shouldBlockPortraitView();
+        document.body.classList.toggle('mobile-portrait-blocked', blocked);
+        gate.setAttribute('aria-hidden', blocked ? 'false' : 'true');
+    }
+
+    if (document.body.dataset.orientationGateBound !== 'true') {
+        document.body.dataset.orientationGateBound = 'true';
+
+        [coarsePointerQuery, phoneWidthQuery, portraitQuery].forEach((query) => {
+            if (typeof query.addEventListener === 'function') {
+                query.addEventListener('change', updateOrientationGate);
+            } else if (typeof query.addListener === 'function') {
+                query.addListener(updateOrientationGate);
+            }
+        });
+
+        window.addEventListener('resize', updateOrientationGate, { passive: true });
+        window.addEventListener('orientationchange', updateOrientationGate, { passive: true });
+    }
+
+    updateOrientationGate();
+}
+
 function initTimelineMenu() {
     const steps = document.querySelectorAll('.timeline-step');
     const sectionIds = Array.from(steps).map(step => step.getAttribute('data-section'));
@@ -23,6 +65,7 @@ function initTimelineMenu() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    initMobileOrientationGate();
     initTimelineMenu();
 });
 // ============================================================================
@@ -1353,6 +1396,7 @@ function initSectionSnapScrolling() {
 
 // Startet alle Initialisierer in einer klaren, zentralen Reihenfolge.
 function initializeApp() {
+    initMobileOrientationGate();
     initMeilesteine();
     initQSTSlideshow();
     initFullscreenSlideshow();

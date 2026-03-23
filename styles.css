@@ -269,28 +269,121 @@ h1, .ueberschrift-gross {
     align-items: center;
     justify-content: center;
     padding: 1.2rem;
-    background: rgba(10, 22, 35, 0.92);
-    backdrop-filter: blur(0.25rem);
+    background: rgba(7, 20, 33, 0.56);
+    backdrop-filter: blur(0.5rem);
 }
 
 .orientation-gate-card {
     width: min(92vw, 32.5rem);
-    border-radius: 0.75rem;
-    background: #ffffff;
-    padding: 1.1rem 1rem;
+    border-radius: 1.1rem;
+    background: rgba(255, 255, 255);
+    border: 0.0625rem solid rgba(255, 255, 255);
+    padding: 1.35rem 1.15rem 1.15rem;
     text-align: center;
-    box-shadow: 0 0.875rem 1.875rem rgba(0, 0, 0, 0.25);
+    display: grid;
+    justify-items: center;
+    gap: 0.15rem;
+    box-shadow: 0 0.65rem 1.65rem rgba(4, 20, 35, 0.2);
+    backdrop-filter: blur(0.2rem);
+}
+
+.orientation-gate-graphic {
+    width: min(52vw, 9.2rem);
+    aspect-ratio: 1 / 1;
+    margin: 0 auto 0.6rem;
+    display: grid;
+    place-items: center;
+}
+
+.orientation-gate-graphic img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 0.7rem;
+}
+
+.orientation-gate-ring {
+    fill: rgba(240, 248, 255, 0.9);
+    stroke: rgba(167, 198, 224, 0.55);
+    stroke-width: 2;
+}
+
+.orientation-gate-phone-group {
+    transform-origin: center;
+    animation: orientationPhoneRotate 1.6s ease-in-out infinite;
+}
+
+.orientation-gate-arrow {
+    fill: none;
+    stroke: #2f86b7;
+    stroke-width: 3.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 160;
+    stroke-dashoffset: 0;
+    animation: orientationArrowPulse 1.6s ease-in-out infinite;
+}
+
+.orientation-gate-arrow-head {
+    fill: #2f86b7;
+    transform-origin: 88px 81px;
+    animation: orientationArrowHeadPulse 1.6s ease-in-out infinite;
 }
 
 .orientation-gate-card h2 {
-    margin: 0 0 0.45rem 0;
-    color: #004E9E;
+    margin: 0;
+    color: rgba(0, 62, 119, 0.88);
+    font-weight: 500;
+    letter-spacing: 0.01em;
 }
 
 .orientation-gate-card p {
     margin: 0;
-    color: #153149;
-    line-height: 1.45;
+    color: rgba(21, 49, 73, 0.78);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    max-width: 29ch;
+}
+
+@keyframes orientationPhoneRotate {
+    0%,
+    22% {
+        transform: rotate(0deg);
+    }
+    55% {
+        transform: rotate(90deg);
+    }
+    78%,
+    100% {
+        transform: rotate(90deg);
+    }
+}
+
+@keyframes orientationArrowPulse {
+    0%,
+    25% {
+        stroke-dashoffset: 28;
+        opacity: 0.62;
+    }
+    60%,
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes orientationArrowHeadPulse {
+    0%,
+    25% {
+        transform: scale(0.9);
+        opacity: 0.62;
+    }
+    60%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 body.mobile-portrait-blocked {
