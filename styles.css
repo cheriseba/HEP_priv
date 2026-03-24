@@ -220,6 +220,7 @@ h1, .ueberschrift-gross {
 }
 
 html {
+   
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
     overflow-x: clip;
@@ -1538,10 +1539,8 @@ p {
     grid-template-columns: 1fr 1fr;
     align-items: start;
     gap: clamp(2rem, 4vw, 4rem);
-    height: 100vh;
-    height: 100svh;
-    min-height: 100vh;
-    min-height: 100svh;
+    height: auto;
+    min-height: calc(100svh - clamp(3.7rem, calc(11vh - 0.5rem), 7.5rem) - clamp(1.8rem, 3.8vh, 2.8rem));
     padding: clamp(2.8rem, calc(1.8vh + 2rem), 3.6rem) clamp(2rem, 4vw, 6rem) clamp(2rem, 4vh, 3rem);
     background: #ffffff;
     margin-bottom: 0;
@@ -2613,10 +2612,9 @@ footer a {
     align-items: stretch;
     width: 100%;
     max-width: none; /* volle Breite bis zum Bildschirmrand */
-    height: 100vh;
-    height: 100svh;
-    min-height: 100vh;
-    min-height: 100svh;
+    height: auto;
+    min-height: calc(100vh - 8rem - 2rem);
+    min-height: calc(100svh - 8rem - 2rem);
 
     padding: 0 0 0 2rem; /* links etwas Abstand zur Grafik, rechts bündig */
 }
