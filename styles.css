@@ -2199,8 +2199,8 @@ p {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    transform: translate(0, -40%);
-    margin-top: clamp(2rem, 5vh, 4rem);
+    transform: none;
+    margin-top: 0;
     padding-left: 7rem; /* SVG nach rechts einrücken */
 }
 
@@ -2648,16 +2648,49 @@ footer a {
     padding-top: 8rem;
 }
 
+#ziele-meilensteine .meilensteine-header h2 {
+    margin-bottom: 0rem;
+}
+
 .meilensteine-split {
     display: flex;
     align-items: stretch;
     width: 100%;
     max-width: none; /* volle Breite bis zum Bildschirmrand */
-    height: auto;
-    min-height: calc(100vh - 8rem - 2rem);
-    min-height: calc(100svh - 8rem - 2rem);
+    --meilensteine-content-scale: 0.96;
+    height: 100vh;
+    height: 100svh;
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+    margin-top: clamp(-6.2rem, -10.5vh, -4.6rem);
 
-    padding: 0 0 0 2rem; /* links etwas Abstand zur Grafik, rechts bündig */
+    padding: 0 0 1.1rem 2rem; /* links etwas Abstand zur Grafik, rechts bündig */
+}
+
+.meilensteine-left,
+.meilensteine-right {
+    transform: scale(var(--meilensteine-content-scale));
+    transform-origin: top left;
+}
+
+@media (min-width: 64.0625rem) and (max-height: 56rem) {
+    .meilensteine-split {
+        --meilensteine-content-scale: 0.91;
+    }
+}
+
+@media (min-width: 64.0625rem) and (max-height: 50rem) {
+    .meilensteine-split {
+        --meilensteine-content-scale: 0.85;
+    }
+}
+
+@media (min-width: 64.0625rem) and (max-height: 44rem) {
+    .meilensteine-split {
+        --meilensteine-content-scale: 0.79;
+    }
 }
 
 .meilensteine-left {
@@ -2718,6 +2751,12 @@ footer a {
     justify-content: flex-start;
     gap: 1.5rem; /* Abstand zwischen den Ziel-Karten */
     width: 100%;
+}
+
+@media (min-width: 64.0625rem) {
+    .meilensteine-right {
+        justify-content: center;
+    }
 }
 
 .meilensteine-ziel {
