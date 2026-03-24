@@ -1414,6 +1414,8 @@ function initFullscreenSlideshow() {
     const totalSlides = 4;
     const slides = Array.from(document.querySelectorAll('.fullscreen-slide'));
     const indicators = Array.from(document.querySelectorAll('.fullscreen-indicator'));
+    const progressDots = Array.from(document.querySelectorAll('.fullscreen-progress-dot'));
+    const progressCount = document.querySelector('.fullscreen-progress-count');
     // Get all prev/next buttons inside slides
     const prevBtns = Array.from(document.querySelectorAll('.fullscreen-slide .fullscreen-prev'));
     const nextBtns = Array.from(document.querySelectorAll('.fullscreen-slide .fullscreen-next'));
@@ -1433,6 +1435,12 @@ function initFullscreenSlideshow() {
         indicators.forEach((indicator, idx) => {
             indicator.classList.toggle('active', idx + 1 === target);
         });
+        progressDots.forEach((dot, idx) => {
+            dot.classList.toggle('is-active', idx + 1 === target);
+        });
+        if (progressCount) {
+            progressCount.textContent = `${target}/${totalSlides}`;
+        }
         currentSlide = target;
         updateNavState();
     }
