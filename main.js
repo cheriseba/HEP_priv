@@ -1020,18 +1020,19 @@ function initWissensspeicherSlidein() {
 }
 
 function initKurzportraitStickyTextObserver() {
-    // Textwechsel analog GLSTU: Scroll-Schritte triggern Inhalt im sticky Textfeld.
+    // Textwechsel via Klick-Pfeile neben den Indikatoren.
     const section = document.getElementById('kurzportrait');
     if (!section) return;
     if (section.dataset.kurzportraitObserverBound === 'true') return;
 
     const sourcePages = Array.from(section.querySelectorAll('.kurzportrait-text-source .kurzportrait-text-page'));
-    const steps = Array.from(section.querySelectorAll('.kurzportrait-scroll-step'));
     const bodyElement = section.querySelector('.kurzportrait-display-body');
     const progressDots = Array.from(section.querySelectorAll('.kurzportrait-progress-dot'));
     const progressCount = section.querySelector('.kurzportrait-progress-count');
+    const prevButton = section.querySelector('.kurzportrait-nav-btn-prev');
+    const nextButton = section.querySelector('.kurzportrait-nav-btn-next');
 
-    if (!sourcePages.length || !steps.length || !bodyElement) return;
+    if (!sourcePages.length || !bodyElement) return;
 
     section.dataset.kurzportraitObserverBound = 'true';
 
@@ -1042,7 +1043,10 @@ function initKurzportraitStickyTextObserver() {
     });
 
     let activeIndex = -1;
-    let observer = null;
+    function updateNavState() {
+        if (prevButton) prevButton.disabled = activeIndex <= 0;
+        if (nextButton) nextButton.disabled = activeIndex >= payload.length - 1;
+    }
 
     function setActiveText(index) {
         const safeIndex = Math.max(0, Math.min(payload.length - 1, index));
@@ -1065,62 +1069,40 @@ function initKurzportraitStickyTextObserver() {
         if (progressCount) {
             progressCount.textContent = `${safeIndex + 1}/${payload.length}`;
         }
+        updateNavState();
 
         // Im 2. Kurzportrait-Abschnitt soll die Gebietsebene sichtbar sein.
         setKarteGebietVisible(safeIndex === 1);
 
-        section.classList.toggle('kurzportrait-show-scroll-hint', safeIndex === 0);
+        section.classList.toggle('kurzportrait-show-scroll-hint', false);
     }
 
-    function teardownObserver() {
-        if (!observer) return;
-        observer.disconnect();
-        observer = null;
+    if (prevButton) {
+        prevButton.addEventListener('click', () => setActiveText(activeIndex - 1));
+    }
+    if (nextButton) {
+        nextButton.addEventListener('click', () => setActiveText(activeIndex + 1));
     }
 
-    function setupObserver() {
-        teardownObserver();
-
-        setActiveText(0);
-        if (mediaQuery.matches) return;
-
-        observer = new IntersectionObserver((entries) => {
-            const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-            if (!visibleEntries.length) return;
-
-            visibleEntries.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-            const bestEntry = visibleEntries[0];
-            const nextIndex = Number(bestEntry.target.dataset.stepIndex || '0');
-            setActiveText(nextIndex);
-        }, {
-            root: null,
-            threshold: [0.5]
-        });
-
-        steps.forEach((step, index) => {
-            step.dataset.stepIndex = String(index);
-            observer.observe(step);
-        });
-    }
-
-    mediaQuery.addEventListener('change', setupObserver);
-    setupObserver();
+    mediaQuery.addEventListener('change', () => setActiveText(Math.max(activeIndex, 0)));
+    setActiveText(0);
 }
 
 function initGLSTUStickyTextObserver() {
-    // Textwechsel wie im Demo-Muster: Scroll-Schritte triggern per IntersectionObserver.
+    // Textwechsel via Klick-Pfeile neben den Indikatoren.
     const section = document.getElementById('gelingendes-studium');
     if (!section) return;
     if (section.dataset.glstuObserverBound === 'true') return;
 
     const sourcePages = Array.from(section.querySelectorAll('.glstu-text-source .glstu-text-page'));
-    const steps = Array.from(section.querySelectorAll('.glstu-scroll-step'));
     const titleElement = section.querySelector('.glstu-display-title');
     const bodyElement = section.querySelector('.glstu-display-body');
     const progressDots = Array.from(section.querySelectorAll('.glstu-progress-dot'));
     const progressCount = section.querySelector('.glstu-progress-count');
+    const prevButton = section.querySelector('.glstu-nav-btn-prev');
+    const nextButton = section.querySelector('.glstu-nav-btn-next');
 
-    if (!sourcePages.length || !steps.length || !bodyElement) return;
+    if (!sourcePages.length || !bodyElement) return;
 
     section.dataset.glstuObserverBound = 'true';
 
@@ -1136,7 +1118,10 @@ function initGLSTUStickyTextObserver() {
     });
 
     let activeIndex = -1;
-    let observer = null;
+    function updateNavState() {
+        if (prevButton) prevButton.disabled = activeIndex <= 0;
+        if (nextButton) nextButton.disabled = activeIndex >= payload.length - 1;
+    }
 
     function setActiveText(index) {
         const safeIndex = Math.max(0, Math.min(payload.length - 1, index));
@@ -1164,44 +1149,20 @@ function initGLSTUStickyTextObserver() {
         if (progressCount) {
             progressCount.textContent = `${safeIndex + 1}/${payload.length}`;
         }
+        updateNavState();
 
-        section.classList.toggle('glstu-show-scroll-hint', safeIndex === 0);
+        section.classList.toggle('glstu-show-scroll-hint', false);
     }
 
-    function teardownObserver() {
-        if (!observer) return;
-        observer.disconnect();
-        observer = null;
+    if (prevButton) {
+        prevButton.addEventListener('click', () => setActiveText(activeIndex - 1));
+    }
+    if (nextButton) {
+        nextButton.addEventListener('click', () => setActiveText(activeIndex + 1));
     }
 
-    function setupObserver() {
-        teardownObserver();
-
-        setActiveText(0);
-        if (mediaQuery.matches) return;
-
-        observer = new IntersectionObserver((entries) => {
-            const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-            if (!visibleEntries.length) return;
-
-            visibleEntries.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-            const bestEntry = visibleEntries[0];
-            const nextIndex = Number(bestEntry.target.dataset.stepIndex || '0');
-            setActiveText(nextIndex);
-        }, {
-            root: null,
-            threshold: [0.5],
-            rootMargin: '-18% 0px -30% 0px'
-        });
-
-        steps.forEach((step, index) => {
-            step.dataset.stepIndex = String(index);
-            observer.observe(step);
-        });
-    }
-
-    mediaQuery.addEventListener('change', setupObserver);
-    setupObserver();
+    mediaQuery.addEventListener('change', () => setActiveText(Math.max(activeIndex, 0)));
+    setActiveText(0);
 }
 
 function initSectionSnapScrolling() {

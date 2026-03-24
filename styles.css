@@ -240,13 +240,21 @@ h1, .ueberschrift-gross {
     --glstu-sticky-top: 5rem;
     --glstu-content-offset: 5rem;
     --glstu-sticky-height: calc(100vh - var(--glstu-sticky-top));
-    --glstu-min-height: 400vh;
-    --glstu-header-track-height: 300dvh;
+    --glstu-text-offset: 10rem;
+     /* Legacy scroll-narrative heights (restore if needed):
+         --glstu-min-height: 400vh;
+         --glstu-header-track-height: 300dvh;
+     */
+    --glstu-min-height: 100dvh;
+    --glstu-header-track-height: 180dvh;
     --glstu-grid-columns: minmax(17.5rem, 44%) minmax(20rem, 56%);
     --desktop-sticky-top: 5rem;
     --desktop-sticky-height: calc(100vh - var(--desktop-sticky-top));
     --desktop-scroll-stage-height: calc(100% - (100dvh - var(--desktop-sticky-top)));
-    --kurzportrait-main-height: 300dvh;
+     /* Legacy scroll-narrative height (restore if needed):
+         --kurzportrait-main-height: 300dvh;
+     */
+    --kurzportrait-main-height: 100dvh;
     --gs-sticky-top: 3.75rem;
     --gs-sticky-height: calc(100vh - var(--gs-sticky-top));
 }
@@ -794,23 +802,28 @@ main {
 
 .glstu-svg-container {
     margin: 0;
+    scale: 1;
     margin-left: 5rem;
-    margin-bottom: 3rem;
-    width: clamp(90vw, 96vw, 108vw);
+    margin-bottom: 0.5rem;
+    width: clamp(72rem, 120vmin, 132rem);
     max-width: none;
     position: relative;
-    transform: translateX(-13%) translateY(3.6rem);
+    transform: translateX(-20%) translateY(-1rem);
     overflow: visible;
 }
 
 #gelingendes-studium.section {
     padding: 0;
     min-height: var(--glstu-min-height);
+    scroll-margin-top: calc(var(--header-height) + 1rem);
 }
 
 .glstu-split {
     display: grid;
     grid-template-columns: var(--glstu-grid-columns);
+    grid-template-areas:
+        "header header"
+        "graphic text";
     gap: 0;
     align-items: stretch;
     width: 100%;
@@ -822,44 +835,41 @@ main {
 }
 
 .glstu-header-track {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: static;
+    grid-area: header;
     width: 100%;
-    height: var(--glstu-header-track-height);
-    z-index: 7;
-    pointer-events: none;
+    height: auto;
 }
 
 .glstu-section-header {
-    position: sticky;
-    top: 20vh;
+    position: static;
     width: 100%;
     text-align: right;
-    z-index: 7;
-    pointer-events: auto;
+    margin-top: 5rem;
 }
 
 .glstu-section-header h2 {
     margin-left: 0;
-    margin-right: -6vw;
+    margin-right: 0;
+    margin-bottom: 0.15rem;
 }
 
 .glstu-fixed {
+    grid-area: graphic;
     position: sticky;
     top: calc(var(--glstu-sticky-top) + var(--glstu-content-offset));
     height: var(--glstu-sticky-height);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    padding: 2rem 3vw 2rem 5vw;
+    padding: 0rem 3vw 2rem 5vw;
     background: transparent;
 }
 
 /* GLSTU rechts: sticky Textfeld, Inhalte wechseln pro Scroll-Schritt. */
 .glstu-side-text {
+    grid-area: text;
     position: relative;
-    grid-column: 2;
     width: 100%;
     max-width: none;
     height: auto;
@@ -868,7 +878,7 @@ main {
     text-align: left;
     background: transparent;
     border-left: none;
-    padding-left: clamp(1.4rem, 3vw, 3rem);
+
     padding-right: clamp(1rem, 3vw, 3rem);
 }
 
@@ -879,8 +889,8 @@ main {
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
-    padding-top: clamp(0.5rem, 1.2vh, 0.9rem);
+    justify-content: flex-start;
+    padding-top: var(--glstu-text-offset);
     padding-bottom: 0;
 }
 
@@ -889,7 +899,7 @@ main {
     border-left: 0.25rem solid #a6a7a8;
     background: #ffffff;
     padding: clamp(1.1rem, 2.6vh, 2rem) clamp(0.9rem, 2.4vw, 1.6rem);
-    transform: translateY(-7%);
+    transform: none;
 }
 
 .glstu-scroll-hint {
@@ -907,6 +917,11 @@ main {
     pointer-events: none;
 }
 
+.glstu-scroll-hint,
+.kurzportrait-scroll-hint {
+    display: none;
+}
+
 #gelingendes-studium.glstu-show-scroll-hint .glstu-scroll-hint {
     opacity: 0.95;
     transform: translateY(0);
@@ -922,7 +937,40 @@ main {
     display: flex;
     justify-content: flex-start;
     width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    pointer-events: auto;
+}
+
+.glstu-progress {
     pointer-events: none;
+}
+
+.glstu-nav-btn {
+    border: 0;
+    background: rgba(15, 76, 127, 0.14);
+    color: #0f4c7f;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.78rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.glstu-nav-btn:hover {
+    background: rgba(15, 76, 127, 0.26);
+    transform: scale(1.05);
+}
+
+.glstu-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+    transform: none;
 }
 
 .glstu-progress {
@@ -1046,11 +1094,15 @@ main {
 
     #gelingendes-studium.section,
     .glstu-split {
-        min-height: auto;
+        min-height: var(--glstu-min-height);
     }
 
     .glstu-split {
         grid-template-columns: 1fr;
+        grid-template-areas:
+            "header"
+            "graphic"
+            "text";
     }
 
     .glstu-fixed {
@@ -1061,7 +1113,7 @@ main {
 
     .glstu-side-text {
         position: static;
-        order: 2;
+        order: initial;
         width: auto;
         max-width: 92vw;
         height: auto;
@@ -1104,18 +1156,19 @@ main {
 
     .glstu-section-header {
         position: static;
+        top: auto;
         width: 100%;
-        text-align: right;
-        margin-bottom: 0.8rem;
+        text-align: left;
+        margin-bottom: 0;
     }
 
     .glstu-header-track {
         position: static;
         height: auto;
-        pointer-events: auto;
     }
 
     .glstu-section-header h2 {
+        margin-left: -6vw;
         margin-right: 0;
     }
 
@@ -1125,7 +1178,7 @@ main {
 }
 
 .glstu-svg-container svg {
-    width: 128%;
+    width: 155%;
     max-width: none;
     height: auto;
     pointer-events: auto;
@@ -1538,12 +1591,14 @@ p {
 }
 
 .meilensteine-header.glstu-section-header h2 {
+    padding-left: clamp(12rem, 18vw, 19.5rem);
     margin-left: 0;
     margin-right: calc(50% - 50vw);
 }
 
 @media (max-width: 56.25rem) {
     .meilensteine-header.glstu-section-header h2 {
+        padding-left: clamp(3.3rem, 12vw, 6.3rem);
         margin-right: 0;
     }
 }
@@ -1634,23 +1689,16 @@ p {
 }
 
 .kurzportrait-header-track {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: static;
     width: 100%;
-    height: 200dvh;
-    z-index: 8;
-    pointer-events: none;
+    height: auto;
 }
 
 .kurzportrait-header {
-    position: sticky;
-    top: calc(5rem + 15vh);
-    left: 0;
+    position: static;
     width: 100%;
     text-align: left;
-    z-index: 8;
-    pointer-events: auto;
+    margin-top: 5rem;
 }
 
 .kurzportrait-header h2 {
@@ -1668,7 +1716,7 @@ p {
     width: min(114vw, 100.9375rem);
     margin-left: auto;
 
-    margin-top: 2vw;
+    margin-top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1771,8 +1819,8 @@ p {
 }
 
 .kurzportrait-text-stage {
-    position: sticky;
-    top: 5rem;
+    position: relative;
+    top: auto;
     height: calc(100dvh - 5rem);
     display: flex;
     flex-direction: column;
@@ -1820,7 +1868,40 @@ p {
     display: flex;
     justify-content: flex-start;
     width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+    pointer-events: auto;
+}
+
+.kurzportrait-progress {
     pointer-events: none;
+}
+
+.kurzportrait-nav-btn {
+    border: 0;
+    background: rgba(191, 230, 255, 0.2);
+    color: #bfe6ff;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 0.78rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.kurzportrait-nav-btn:hover {
+    background: rgba(191, 230, 255, 0.34);
+    transform: scale(1.05);
+}
+
+.kurzportrait-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+    transform: none;
 }
 
 .kurzportrait-progress {
@@ -1901,11 +1982,11 @@ p {
 
 .kurzportrait-sticky-graphic {
     grid-column: 2;
-    position: sticky;
-    top: 5rem;
+    position: relative;
+    top: -5rem;
     height: calc(100vh - 5rem);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-end;
     z-index: 3;
 }
@@ -2321,13 +2402,12 @@ footer a {
     }
 
     .kurzportrait-header {
-        top: 15vh;
+        top: auto;
     }
 
     .kurzportrait-header-track {
         position: static;
         height: auto;
-        pointer-events: auto;
     }
 
     .karte-svg-container {
@@ -2346,8 +2426,8 @@ footer a {
 
     .kurzportrait-main,
     .kurzportrait-layout {
-        height: auto;
-        min-height: auto;
+        height: var(--kurzportrait-main-height);
+        min-height: var(--kurzportrait-main-height);
     }
 
     .kurzportrait-side-text {
@@ -3414,7 +3494,7 @@ footer a {
 
     #gelingendes-studium.section,
     .glstu-split {
-        min-height: 400dvh;
+        min-height: var(--glstu-min-height);
     }
 
     .glstu-split {
@@ -3541,7 +3621,7 @@ footer a {
 
     #gelingendes-studium.section,
     .glstu-split {
-        min-height: 400dvh;
+        min-height: var(--glstu-min-height);
     }
 
     .glstu-split {
@@ -3958,7 +4038,7 @@ footer a {
         top: calc(var(--desktop-sticky-top) + var(--glstu-content-offset));
         height: var(--desktop-sticky-height);
         align-items: center;
-        padding-top: 0;
+        padding-top: var(--glstu-text-offset);
         padding-bottom: 0;
     }
 
@@ -3995,9 +4075,10 @@ footer a {
 
     .kurzportrait-text-stage {
         display: flex;
-        position: sticky;
-        top: var(--desktop-sticky-top);
+        position: relative;
+        top: auto;
         height: var(--desktop-sticky-height);
+        transform: translateY(-10rem);
     }
 
     .kurzportrait-scroll-steps {
@@ -4011,9 +4092,11 @@ footer a {
     }
 
     .kurzportrait-sticky-graphic {
+        scale: 0.95;
         display: flex;
-        position: sticky;
-        top: var(--desktop-sticky-top);
+        position: relative;
+        top: -10rem;
         height: var(--desktop-sticky-height);
+        transform: none;
     }
 }
