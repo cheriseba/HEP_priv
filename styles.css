@@ -1707,7 +1707,7 @@ p {
         transform: scale(1);
     }
     50% {
-        transform: scale(1.02);
+        transform: scale(1.08);
     }
 }
 
@@ -1724,8 +1724,14 @@ p {
     opacity: 1;
 }
 
-.karte-svg-container .karte-gebiet-hidden {
-    display: none;
+.karte-svg-container #Gebiet {
+    opacity: 0.8;
+    transition: opacity 0.75s ease;
+}
+
+.karte-svg-container #Gebiet.karte-gebiet-hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
 #kurzportrait .container {

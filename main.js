@@ -127,6 +127,12 @@ fetch('assets/images/svg/Karte.svg')
         initKarteInteractions();
     });
 
+function setKarteGebietVisible(isVisible) {
+    const gebietLayer = document.getElementById('Gebiet');
+    if (!gebietLayer) return;
+    gebietLayer.classList.toggle('karte-gebiet-hidden', !isVisible);
+}
+
 function initKarteInteractions() {
     // Zuordnung der klickbaren Stadt-Layer zu ihren Info-Karten in der SVG.
     const cityToCardMap = {
@@ -135,10 +141,7 @@ function initKarteInteractions() {
         Hildesheim: 'Karte_Hildesheim'
     };
 
-    const gebietLayer = document.getElementById('Gebiet');
-    if (gebietLayer) {
-        gebietLayer.classList.add('karte-gebiet-hidden');
-    }
+    setKarteGebietVisible(false);
 
     const cardIds = Object.values(cityToCardMap);
     let hasCityBeenClicked = false;
@@ -1062,6 +1065,9 @@ function initKurzportraitStickyTextObserver() {
         if (progressCount) {
             progressCount.textContent = `${safeIndex + 1}/${payload.length}`;
         }
+
+        // Im 2. Kurzportrait-Abschnitt soll die Gebietsebene sichtbar sein.
+        setKarteGebietVisible(safeIndex === 1);
 
         section.classList.toggle('kurzportrait-show-scroll-hint', safeIndex === 0);
     }
