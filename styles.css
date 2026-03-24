@@ -16,6 +16,9 @@
 /* Fullscreen Slideshow Styles */
 .fullscreen-slideshow {
     position: relative;
+    --fs-img-width: 80vw;
+    --fs-nav-size: 4.75rem;
+    --fs-nav-gap: 2vw;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
@@ -54,7 +57,7 @@
     transform: translateX(100vw);
 }
 .fullscreen-slide img {
-    width: 80vw;
+    width: var(--fs-img-width);
     height: 80vh;
     object-fit: cover;
     display: block;
@@ -64,11 +67,14 @@
 .fullscreen-text-overlay {
     position: absolute;
     bottom: 3rem;
-    left: 3rem;
+    left: max(1rem, calc((100vw - (var(--fs-img-width) + var(--fs-nav-size) + var(--fs-nav-size) + var(--fs-nav-gap) + var(--fs-nav-gap) + var(--fs-nav-gap) + var(--fs-nav-gap))) / 2 + var(--fs-nav-gap)));
     background: rgba(0, 78, 158, 0.92);
     color: white;
     padding: 2rem;
-    max-width: 50rem;
+    width: min(64vw, 56rem);
+    max-width: calc(100vw - 12rem);
+    max-height: min(20rem, calc(50vh - 4.5rem));
+    overflow: hidden;
     border-radius: 0.625rem;
     border: 0.125rem solid rgba(255, 255, 255, 0.35);
     box-shadow: 0 0.875rem 2.125rem rgba(0, 35, 70, 0.4);
@@ -85,14 +91,22 @@
     line-height: 1.6;
     color: #e0e0e0;
 }
+
+@media (max-height: 48rem) {
+    .fullscreen-text-overlay {
+        padding: 1.25rem;
+        max-height: min(18rem, calc(50vh - 4rem));
+    }
+}
+
 .fullscreen-nav-btn {
     position: static;
-    margin: 0 2vw;
+    margin: 0 var(--fs-nav-gap);
     background: #004E9E;
     color: #ffffff;
     border: 0.125rem solid rgba(255, 255, 255, 0.2);
-    width: 4.75rem;
-    height: 4.75rem;
+    width: var(--fs-nav-size);
+    height: var(--fs-nav-size);
     border-radius: 0.625rem;
     cursor: pointer;
     display: flex;
@@ -103,12 +117,9 @@
     transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 .fullscreen-nav-btn:disabled {
-    background: #b0b4c0;
-    color: #888;
-    border-color: #b0b4c0;
-    cursor: not-allowed;
-    box-shadow: none;
-    opacity: 0.6;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .fullscreen-nav-btn:hover {
@@ -128,8 +139,8 @@
 
 .fullscreen-indicators {
     position: absolute;
-    bottom: 2rem;
-    left: 50%;
+    top: calc(50% + 40vh + 0.75rem);
+    left: calc(50% + (var(--fs-img-width) * 0.2));
     transform: translateX(-50%);
     display: flex;
     gap: 1rem;
