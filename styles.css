@@ -1,8 +1,9 @@
 /* Neuer Abschnitt mit voller Bildschirmhöhe */
 .fullscreen-section {
     width: 100vw;
-    height: 100vh;
-    min-height: 100vh;
+    --fs-stage-height: 99vh;
+    height: var(--fs-stage-height);
+    min-height: var(--fs-stage-height);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,7 +22,7 @@
     --fs-nav-size: 4.35rem;
     --fs-nav-gap: 2vw;
     width: 100vw;
-    height: 100vh;
+    height: var(--fs-stage-height);
     overflow: hidden;
     background: #003E7E;
     display: flex;
@@ -35,7 +36,7 @@
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: var(--fs-stage-height);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -237,6 +238,7 @@ h1, .ueberschrift-gross {
 :root {
     --header-height: 3.75rem;
     --glstu-sticky-top: 5rem;
+    --glstu-content-offset: 5rem;
     --glstu-sticky-height: calc(100vh - var(--glstu-sticky-top));
     --glstu-min-height: 400vh;
     --glstu-header-track-height: 300dvh;
@@ -797,7 +799,7 @@ main {
     width: clamp(90vw, 96vw, 108vw);
     max-width: none;
     position: relative;
-    transform: translateX(-13%) translateY(3rem);
+    transform: translateX(-13%) translateY(3.6rem);
     overflow: visible;
 }
 
@@ -815,6 +817,7 @@ main {
     max-width: 100%;
     position: relative;
     min-height: var(--glstu-min-height);
+    padding-top: 0;
     overflow: visible;
 }
 
@@ -844,13 +847,13 @@ main {
 
 .glstu-fixed {
     position: sticky;
-    top: var(--glstu-sticky-top);
+    top: calc(var(--glstu-sticky-top) + var(--glstu-content-offset));
     height: var(--glstu-sticky-height);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem 3vw 2rem 5vw;
-    background: radial-gradient(circle at 30% 20%, rgba(36, 148, 202, 0.12), transparent 60%);
+    background: transparent;
 }
 
 /* GLSTU rechts: sticky Textfeld, Inhalte wechseln pro Scroll-Schritt. */
@@ -871,13 +874,13 @@ main {
 
 .glstu-text-stage {
     position: sticky;
-    top: var(--glstu-sticky-top);
+    top: calc(var(--glstu-sticky-top) + var(--glstu-content-offset));
     height: var(--glstu-sticky-height);
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
-    padding-top: 0;
+    padding-top: clamp(0.5rem, 1.2vh, 0.9rem);
     padding-bottom: 0;
 }
 
@@ -886,7 +889,7 @@ main {
     border-left: 0.25rem solid #a6a7a8;
     background: #ffffff;
     padding: clamp(1.1rem, 2.6vh, 2rem) clamp(0.9rem, 2.4vw, 1.6rem);
-    transform: translateY(-10%);
+    transform: translateY(-7%);
 }
 
 .glstu-scroll-hint {
@@ -3895,7 +3898,7 @@ footer a {
 
     .glstu-fixed {
         position: sticky;
-        top: var(--desktop-sticky-top);
+        top: calc(var(--desktop-sticky-top) + var(--glstu-content-offset));
         height: var(--desktop-sticky-height);
     }
 
@@ -3907,7 +3910,7 @@ footer a {
     .glstu-text-stage {
         display: flex;
         position: sticky;
-        top: var(--desktop-sticky-top);
+        top: calc(var(--desktop-sticky-top) + var(--glstu-content-offset));
         height: var(--desktop-sticky-height);
         align-items: center;
         padding-top: 0;
