@@ -4,7 +4,7 @@ function initMobileOrientationGate() {
     if (!gate || !document.body) return;
 
     const coarsePointerQuery = window.matchMedia('(pointer: coarse)');
-    const phoneWidthQuery = window.matchMedia('(max-width: 56.25rem)');
+    const smallDeviceWidthQuery = window.matchMedia('(max-width: 64rem)');
     const portraitQuery = window.matchMedia('(orientation: portrait)');
 
     function isPortraitFallback() {
@@ -13,7 +13,7 @@ function initMobileOrientationGate() {
 
     function shouldBlockPortraitView() {
         return coarsePointerQuery.matches
-            && phoneWidthQuery.matches
+            && smallDeviceWidthQuery.matches
             && (portraitQuery.matches || isPortraitFallback());
     }
 
@@ -26,7 +26,7 @@ function initMobileOrientationGate() {
     if (document.body.dataset.orientationGateBound !== 'true') {
         document.body.dataset.orientationGateBound = 'true';
 
-        [coarsePointerQuery, phoneWidthQuery, portraitQuery].forEach((query) => {
+        [coarsePointerQuery, smallDeviceWidthQuery, portraitQuery].forEach((query) => {
             if (typeof query.addEventListener === 'function') {
                 query.addEventListener('change', updateOrientationGate);
             } else if (typeof query.addListener === 'function') {
