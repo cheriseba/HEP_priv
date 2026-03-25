@@ -1798,6 +1798,45 @@ main {
     grid-column: 2;
     justify-self: start;
 }
+
+/* Einleitung auf Handys (auch Querformat): immer einspaltig und kompakter Text */
+@media (pointer: coarse) and (max-width: 48rem) {
+    #einleitung .intro-card {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        padding: clamp(0.75rem, 1.8vh, 1.15rem) 0.55rem;
+    }
+
+    #einleitung .intro-content {
+        width: min(95vw, 43rem);
+        padding: 0 0.45rem;
+    }
+
+    #einleitung .intro-title {
+        font-size: clamp(1.1rem, 1vw + 0.75rem, 1.5rem);
+        padding: 0.08rem 0.95rem;
+        margin-bottom: 0.7rem;
+    }
+
+    #einleitung .intro-columns {
+        grid-template-columns: 1fr !important;
+        gap: clamp(0.6rem, 1.5vh, 0.95rem);
+        padding: 0 0.15rem;
+    }
+
+    #einleitung .intro-columns p {
+        font-size: clamp(0.88rem, 0.32vw + 0.76rem, 0.98rem);
+        line-height: 1.42;
+    }
+
+    #einleitung .intro-footnote {
+        grid-column: 1;
+        font-size: clamp(0.72rem, 0.22vw + 0.62rem, 0.84rem);
+        line-height: 1.32;
+    }
+}
+
 .reveal-on-scroll {
     transform: translateX(-100%); /* Start completely off-screen */
     will-change: transform;
@@ -2795,20 +2834,38 @@ footer a {
         max-width: 80vw;
     }
 
-    .intro-card {
+    #einleitung .intro-card {
         width: 100vw;
         margin-left: calc(50% - 50vw);
         margin-right: calc(50% - 50vw);
-        padding: 1.2rem;
+        padding: 1rem 0.6rem;
     }
 
+    #einleitung .intro-content {
+        width: min(94vw, 40rem);
+        padding: 0 0.55rem;
+    }
 
-    .intro-columns {
+    #einleitung .intro-title {
+        font-size: clamp(1.2rem, 1.25vw + 0.82rem, 1.6rem);
+        padding: 0.08rem 1.05rem;
+        margin-bottom: 0.85rem;
+    }
+
+    #einleitung .intro-columns {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 0.8rem;
+        padding: 0 0.2rem;
     }
 
-    .intro-footnote {
+    #einleitung .intro-columns p {
+        font-size: clamp(0.94rem, 0.55vw + 0.76rem, 1.04rem);
+        line-height: 1.45;
+    }
+
+    #einleitung .intro-footnote {
+        font-size: clamp(0.74rem, 0.35vw + 0.62rem, 0.88rem);
+        line-height: 1.35;
         grid-column: 1;
     }
 
@@ -3890,21 +3947,20 @@ footer a {
         min-height: 100svh;
     }
 
-    #einleitung .container,
     #querschnittsthemen .container {
         height: var(--mobile-portrait-intro-height);
         display: flex;
         align-items: center;
     }
 
-    .intro-card {
+    #querschnittsthemen .intro-card {
         height: var(--mobile-portrait-intro-height);
         padding: 0.8rem 0;
         display: flex;
         overflow: hidden;
     }
 
-    .intro-content {
+    #querschnittsthemen .intro-content {
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -3915,19 +3971,44 @@ footer a {
         margin-bottom: 0.45rem;
     }
 
-    .intro-columns {
+    #querschnittsthemen .intro-columns {
         grid-template-columns: 1fr;
         gap: 0.8rem;
         overflow: auto;
         padding-right: 0.3rem;
     }
 
-    .intro-card p {
+    #querschnittsthemen .intro-card p {
         line-height: 1.5;
     }
 
-    .intro-footnote {
+    #querschnittsthemen .intro-footnote {
         grid-column: 1;
+    }
+
+    #einleitung.section {
+        min-height: auto;
+    }
+
+    #einleitung .container {
+        height: auto;
+        display: block;
+    }
+
+    #einleitung .intro-card {
+        height: auto;
+        padding: 1rem 0.6rem;
+        overflow: visible;
+    }
+
+    #einleitung .intro-content {
+        height: auto;
+        display: block;
+    }
+
+    #einleitung .intro-columns {
+        overflow: visible;
+        padding-right: 0.2rem;
     }
 
     #gelingendes-studium.section,
@@ -4447,6 +4528,115 @@ footer a {
     .wissensspeicher-step {
         width: clamp(7.625rem, 18.5vw, 10.375rem);
         height: clamp(7.625rem, 18.5vw, 10.375rem);
+    }
+}
+
+/* Finale Handy-Regel fuer Einleitung: kleiner Text, kein Abschneiden, Inhalt bestimmt die Hoehe. */
+@media (max-width: 48rem) {
+    #einleitung.section {
+        min-height: auto !important;
+        height: auto !important;
+    }
+
+    #einleitung .container,
+    #einleitung .intro-card,
+    #einleitung .intro-content {
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+    #einleitung .intro-card,
+    #einleitung .intro-columns {
+        overflow: visible !important;
+        max-height: none !important;
+    }
+
+    #einleitung .intro-title {
+        font-size: clamp(1rem, 0.8vw + 0.68rem, 1.32rem) !important;
+    }
+
+    #einleitung .intro-columns {
+        grid-template-columns: 1fr !important;
+        gap: 0.65rem !important;
+        row-gap: 0.65rem !important;
+    }
+
+    #einleitung .intro-columns p {
+        font-size: clamp(0.82rem, 0.22vw + 0.72rem, 0.92rem) !important;
+        line-height: 1.38 !important;
+    }
+
+    #einleitung .intro-footnote {
+        font-size: clamp(0.68rem, 0.16vw + 0.6rem, 0.78rem) !important;
+        line-height: 1.3 !important;
+        grid-column: 1 !important;
+    }
+}
+
+/* Tablet: Einleitung darf wieder zweispaltig sein. */
+@media (min-width: 48.0625rem) and (max-width: 64rem) {
+    #einleitung .intro-columns {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1.4rem !important;
+        row-gap: 1.1rem !important;
+    }
+
+    #einleitung .intro-title {
+        font-size: clamp(1.08rem, 0.5vw + 0.84rem, 1.34rem) !important;
+        margin-bottom: 0.7rem !important;
+        padding: 0.08rem 0.95rem !important;
+    }
+
+    #einleitung .intro-columns p {
+        font-size: clamp(0.84rem, 0.3vw + 0.72rem, 0.96rem) !important;
+        line-height: 1.38 !important;
+    }
+
+    #einleitung .intro-footnote {
+        font-size: clamp(0.7rem, 0.2vw + 0.6rem, 0.8rem) !important;
+    }
+
+    #einleitung .intro-footnote {
+        grid-column: 2 !important;
+    }
+}
+
+/* MacBook/Notebook: Einleitungstext etwas kleiner halten */
+@media (min-width: 64.0625rem) and (max-width: 99.9375rem) and (max-height: 62.5rem) {
+    #einleitung .intro-title {
+        font-size: clamp(1.2rem, 0.32vw + 1.02rem, 1.45rem) !important;
+        margin-bottom: 1rem !important;
+    }
+
+    #einleitung .intro-columns {
+        gap: clamp(1.2rem, 1.5vw, 2rem) !important;
+    }
+
+    #einleitung .intro-columns p {
+        font-size: clamp(0.9rem, 0.18vw + 0.82rem, 1rem) !important;
+        line-height: 1.42 !important;
+    }
+
+    #einleitung .intro-footnote {
+        font-size: clamp(0.72rem, 0.12vw + 0.66rem, 0.82rem) !important;
+    }
+}
+
+/* Handy quer (niedrige Hoehe): trotz grosser Breite einspaltig bleiben. */
+@media (max-width: 64rem) and (orientation: landscape) and (max-height: 34rem) {
+    #einleitung .intro-columns {
+        grid-template-columns: 1fr !important;
+        gap: 0.65rem !important;
+        row-gap: 0.65rem !important;
+    }
+
+    #einleitung .intro-columns p {
+        font-size: clamp(0.8rem, 0.2vw + 0.7rem, 0.9rem) !important;
+        line-height: 1.36 !important;
+    }
+
+    #einleitung .intro-footnote {
+        grid-column: 1 !important;
     }
 }
 
