@@ -872,6 +872,14 @@ main {
     }
 }
 
+/* Notebook (z.B. 1440x900): Grafik etwas kompakter */
+@media (min-width: 64.0625rem) and (max-width: 99.9375rem) and (max-height: 62.5rem) {
+    #svg-container {
+        width: min(86vw, 74rem);
+        max-height: calc(100dvh - var(--header-height) - clamp(2.4rem, 7vh, 5rem));
+    }
+}
+
 /* Große Desktops: Grafik größer */
 @media (min-width: 100rem) {
     #svg-container {
