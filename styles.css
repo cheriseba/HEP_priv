@@ -264,6 +264,9 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
     overflow-x: clip;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -271,6 +274,9 @@ body {
     line-height: 1.6;
     color: #333;
     overflow-x: clip;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 /* Schriftgrößen-Vereinheitlichung */
@@ -733,6 +739,12 @@ body.mobile-portrait-blocked .orientation-gate {
 /* Main Content */
 main {
     margin-top: var(--header-height); /* Offset for sticky header */
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* Sections */
@@ -815,6 +827,11 @@ main {
 
 /* Mobile: Grafik deutlich kleiner */
 @media (max-width: 48rem) {
+    .section {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
     #hauptgrafik {
         padding: 0.3rem 0.3rem !important;
         min-height: calc(100dvh - var(--header-height)) !important;
