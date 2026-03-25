@@ -834,12 +834,12 @@ main {
 
     #hauptgrafik {
         padding: 0.3rem 0.3rem !important;
-        min-height: calc(100dvh - var(--header-height)) !important;
-        height: calc(100dvh - var(--header-height)) !important;
+        min-height: calc(100svh - var(--header-height)) !important;
+        height: calc(100svh - var(--header-height)) !important;
     }
 
     #hauptgrafik .container {
-        height: calc(100dvh - var(--header-height)) !important;
+        height: calc(100svh - var(--header-height)) !important;
         width: 100% !important;
         display: flex !important;
         align-items: center !important;
@@ -848,8 +848,8 @@ main {
 
     #svg-container {
         width: min(68vw, 28.75rem) !important;
-        height: calc(100dvh - var(--header-height) - 3.5rem) !important;
-        max-height: calc(100dvh - var(--header-height) - 3.5rem) !important;
+        height: calc(100svh - var(--header-height) - 3.5rem) !important;
+        max-height: calc(100svh - var(--header-height) - 3.5rem) !important;
         padding: 0 !important;
         margin: 0 !important;
         flex-shrink: 0 !important;
@@ -3636,9 +3636,9 @@ footer a {
     :root {
         --mobile-portrait-header-height: 3.5rem;
         --mobile-portrait-sticky-top: 4rem;
-        --mobile-portrait-sticky-height: calc(100dvh - var(--mobile-portrait-sticky-top));
-        --mobile-portrait-intro-height: calc(100dvh - var(--mobile-portrait-header-height));
-        --mobile-portrait-scroll-stage-height: calc(100% - (100dvh - var(--mobile-portrait-sticky-top)));
+        --mobile-portrait-sticky-height: calc(100svh - var(--mobile-portrait-sticky-top));
+        --mobile-portrait-intro-height: calc(100svh - var(--mobile-portrait-header-height));
+        --mobile-portrait-scroll-stage-height: calc(100% - (100svh - var(--mobile-portrait-sticky-top)));
     }
 
     html {
@@ -3650,7 +3650,7 @@ footer a {
     }
 
     .section {
-        min-height: 100dvh;
+        min-height: 100svh;
         padding: 0.8rem;
     }
 
@@ -3660,7 +3660,7 @@ footer a {
     #ziele-meilensteine.section,
     #kurzportrait.section,
     #wissensspeicher-hawk.section {
-        min-height: 100dvh;
+        min-height: 100svh;
     }
 
     #einleitung .container,
@@ -3826,10 +3826,10 @@ footer a {
 
 
     #svg-container {
-        max-height: calc(100dvh - 4.375rem) !important;
-        margin: 0.8rem auto !important;
         width: min(68vw, 28.75rem) !important;
-        height: calc(100dvh - 4rem) !important;
+        height: calc(100svh - 4rem) !important;
+        max-height: calc(100svh - 4rem) !important;
+        margin: 0.8rem auto !important;
     }
 
     #gelingendes-studium.section,
