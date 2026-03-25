@@ -769,11 +769,21 @@ main {
 
 /* Hauptgrafik Section */
 #hauptgrafik {
-    background: white;
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: calc(100dvh - var(--header-height));
+    padding: clamp(0.5rem, 1.2vh, 1.8rem) clamp(0.5rem, 1.8vw, 2rem);
+}
 
+#hauptgrafik .container {
+    min-height: calc(100dvh - var(--header-height) - clamp(0.8rem, 2.5vh, 3.6rem));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
 }
 
 #hauptgrafik h1 {
@@ -783,10 +793,9 @@ main {
 
 /* Main Graphic */
 #svg-container {
-    max-width: 90%;
-    max-height: 80vh;
-    height: auto;
-    margin: 2rem auto;
+    width: min(94vw, 82rem);
+    max-height: calc(100dvh - var(--header-height) - clamp(2rem, 6vh, 4.25rem));
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -795,10 +804,63 @@ main {
 }
 
 #svg-container svg {
+    display: block;
     width: 100%;
     height: auto;
-    max-height: 80vh;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
     overflow: hidden;
+}
+
+/* Mobile: Grafik deutlich kleiner */
+@media (max-width: 48rem) {
+    #hauptgrafik {
+        padding: 0.3rem 0.3rem !important;
+        min-height: calc(100dvh - var(--header-height)) !important;
+        height: calc(100dvh - var(--header-height)) !important;
+    }
+
+    #hauptgrafik .container {
+        height: calc(100dvh - var(--header-height)) !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    #svg-container {
+        width: min(68vw, 28.75rem) !important;
+        height: calc(100dvh - var(--header-height) - 3.5rem) !important;
+        max-height: calc(100dvh - var(--header-height) - 3.5rem) !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    #svg-container svg {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        display: block !important;
+    }
+}
+
+/* Tablet: Grafik kleiner */
+@media (max-width: 64rem) and (min-width: 48.0625rem) {
+    #svg-container {
+        width: min(88vw, 52rem);
+        max-height: calc(100dvh - var(--header-height) - clamp(1.2rem, 4vh, 2.5rem));
+    }
+}
+
+/* Große Desktops: Grafik größer */
+@media (min-width: 100rem) {
+    #svg-container {
+        width: min(92vw, 96rem);
+        max-height: calc(100dvh - var(--header-height) - clamp(2.5rem, 7vh, 5rem));
+    }
 }
 
 /* Main graphic text should be white; keep QST text gray */
@@ -3747,8 +3809,10 @@ footer a {
 
 
     #svg-container {
-        max-height: calc(100dvh - 4.375rem);
-        margin: 0.8rem auto;
+        max-height: calc(100dvh - 4.375rem) !important;
+        margin: 0.8rem auto !important;
+        width: min(68vw, 28.75rem) !important;
+        height: calc(100dvh - 4rem) !important;
     }
 
     #gelingendes-studium.section,
