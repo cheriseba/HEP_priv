@@ -736,6 +736,225 @@ body.mobile-portrait-blocked .orientation-gate {
     }
 }
 
+/* Kompakte Laptop-Ansichten (z.B. 1080x648): Header entzerren */
+@media (min-width: 64.0625rem) and (max-width: 75rem),
+       (min-width: 64.0625rem) and (max-height: 43rem) {
+    :root {
+        --header-height: 3.35rem;
+    }
+
+    .timeline-nav {
+        padding: 0.35rem 0 0.45rem 0;
+        margin-bottom: 0.55rem;
+    }
+
+    .timeline-logo-container {
+        width: 5.2rem;
+        height: 3.5rem;
+        margin-right: 0.2rem;
+    }
+
+    .timeline-logo {
+        width: 5rem;
+        height: 5rem;
+        left: 2.75rem;
+        top: 0.95rem;
+    }
+
+    .timeline-menu {
+        padding: 0 1.2vw;
+        height: 2.2rem;
+    }
+
+    .timeline-menu::before {
+        left: 6.9rem;
+        right: 1.2rem;
+        height: 0.2rem;
+    }
+
+    .timeline-step {
+        min-width: 10.6rem;
+        height: 2.2rem;
+    }
+
+    .timeline-circle {
+        width: 1.42rem;
+        height: 1.42rem;
+        border-width: 0.2rem;
+    }
+
+    .timeline-step a {
+        margin-top: 1.95rem;
+        font-size: 0.92rem;
+    }
+}
+
+/* Sehr grosse Displays: Header-Menue proportional skalieren */
+@media (min-width: 120rem) {
+    :root {
+        --header-height: 4.5rem;
+    }
+
+    .sticky-header {
+        min-height: var(--header-height);
+    }
+
+    .timeline-nav {
+        padding: 0.65rem 0 1.05rem 0;
+        margin-bottom: 1.4rem;
+    }
+
+    .timeline-logo-container {
+        width: 8.4rem;
+        height: 5.2rem;
+    }
+
+    .timeline-logo {
+        width: 8.2rem;
+        height: 8.2rem;
+        left: 4.45rem;
+        top: 1.4rem;
+    }
+
+    .timeline-menu {
+        max-width: 128rem;
+        padding: 0 3.8vw;
+        height: 3.1rem;
+    }
+
+    .timeline-menu::before {
+        left: 10.1rem;
+        height: 0.3rem;
+    }
+
+    .timeline-step {
+        min-width: 15.2rem;
+        height: 3.1rem;
+    }
+
+    .timeline-circle {
+        width: 2.15rem;
+        height: 2.15rem;
+        border-width: 0.3rem;
+    }
+
+    .timeline-step a {
+        margin-top: 2.65rem;
+        font-size: 1.16rem;
+    }
+}
+
+/* Ultra-wide Displays: zusaetzliche Skalierung fuer Lesbarkeit */
+@media (min-width: 160rem) {
+    :root {
+        --header-height: 4.9rem;
+    }
+
+    h1,
+    .ueberschrift-gross {
+        font-size: 2.3rem;
+    }
+
+    h2,
+    .intro-title,
+    .ueberschrift-klein {
+        font-size: 2.9rem;
+    }
+
+    h3,
+    .teilziele-sticky-goal-title,
+    .unterueberschrift,
+    .gs-text-block h3,
+    .qst-text-overlay h3,
+    .glstu-display-title,
+    .fullscreen-text-overlay h3 {
+        font-size: 2.25rem;
+    }
+
+    p,
+    .teilziele-filter-label,
+    .teilziele-filter-select,
+    .intro-content,
+    .meilensteine-ziel-content,
+    .glstu-display-body,
+    .fullscreen-text-overlay p,
+    .teilziele-sticky-spacer {
+        font-size: 1.34rem;
+    }
+
+    li,
+    .kreise {
+        font-size: 1.2rem;
+    }
+
+    .timeline-menu {
+        max-width: 142rem;
+        padding: 0 4.8vw;
+        height: 3.35rem;
+    }
+
+    .timeline-step {
+        min-width: 16.6rem;
+        height: 3.35rem;
+    }
+
+    .timeline-step a {
+        margin-top: 2.9rem;
+        font-size: 1.24rem;
+    }
+}
+
+/* QHD/2560x1440: Menue nochmal sichtbar vergroessern */
+@media (min-width: 150rem) and (max-width: 180rem) and (min-height: 56rem) {
+    :root {
+        --header-height: 5.35rem;
+    }
+
+    .timeline-nav {
+        padding: 0.85rem 0 1.25rem 0;
+        margin-bottom: 1.6rem;
+    }
+
+    .timeline-logo-container {
+        width: 9.1rem;
+        height: 5.7rem;
+    }
+
+    .timeline-logo {
+        width: 8.9rem;
+        height: 8.9rem;
+        left: 4.8rem;
+        top: 1.45rem;
+    }
+
+    .timeline-menu {
+        max-width: 148rem;
+        padding: 0 5.2vw;
+        height: 3.8rem;
+    }
+
+    .timeline-menu::before {
+        left: 11rem;
+        height: 0.34rem;
+    }
+
+    .timeline-step {
+        min-width: 18.1rem;
+        height: 3.8rem;
+    }
+
+    .timeline-circle {
+        width: 2.4rem;
+        height: 2.4rem;
+        border-width: 0.33rem;
+    }
+
+    .timeline-step a {
+        margin-top: 3.22rem;
+        font-size: 1.35rem;
+    }
+}
+
 /* Main Content */
 main {
     margin-top: var(--header-height); /* Offset for sticky header */
