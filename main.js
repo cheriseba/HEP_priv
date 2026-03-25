@@ -64,9 +64,65 @@ function initTimelineMenu() {
     updateTimeline();
 }
 
+function initMobileMenuToggle() {
+    const header = document.querySelector('.sticky-header');
+    const toggleButton = document.querySelector('.mobile-menu-toggle');
+    const menu = document.getElementById('timeline-menu');
+    if (!header || !toggleButton || !menu) return;
+
+    const mobileQuery = window.matchMedia('(max-width: 64rem)');
+    const menuLinks = menu.querySelectorAll('a');
+
+    function setMenuOpen(isOpen) {
+        header.classList.toggle('is-menu-open', isOpen);
+        toggleButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        toggleButton.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
+    }
+
+    toggleButton.addEventListener('click', () => {
+        if (!mobileQuery.matches) return;
+        setMenuOpen(!header.classList.contains('is-menu-open'));
+    });
+
+    menuLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            if (mobileQuery.matches) {
+                setMenuOpen(false);
+            }
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!mobileQuery.matches) return;
+        if (!header.classList.contains('is-menu-open')) return;
+        if (header.contains(event.target)) return;
+        setMenuOpen(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            setMenuOpen(false);
+        }
+    });
+
+    function syncWithViewport() {
+        if (!mobileQuery.matches) {
+            setMenuOpen(false);
+        }
+    }
+
+    if (typeof mobileQuery.addEventListener === 'function') {
+        mobileQuery.addEventListener('change', syncWithViewport);
+    } else if (typeof mobileQuery.addListener === 'function') {
+        mobileQuery.addListener(syncWithViewport);
+    }
+    syncWithViewport();
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     initMobileOrientationGate();
     initTimelineMenu();
+    initMobileMenuToggle();
 });
 // ============================================================================
 // HEP Frontend Script

@@ -22,10 +22,15 @@
     <!-- Sticky Header -->
     <header class="sticky-header">
         <nav class="timeline-nav">
+            <button class="mobile-menu-toggle" type="button" aria-label="Menü öffnen" aria-controls="timeline-menu" aria-expanded="false">
+                <span class="mobile-menu-toggle-bar"></span>
+                <span class="mobile-menu-toggle-bar"></span>
+                <span class="mobile-menu-toggle-bar"></span>
+            </button>
             <div class="timeline-logo-container">
                 <img src="assets/images/logos/Logo_freigestellt.png" alt="HAWK Logo" class="timeline-logo">
             </div>
-            <ul class="timeline-menu">
+            <ul id="timeline-menu" class="timeline-menu">
                 <li class="timeline-step" data-section="gelingendes-studium">
                     <span class="timeline-circle"></span>
                     <a href="#gelingendes-studium">Gelingendes Studium</a>
