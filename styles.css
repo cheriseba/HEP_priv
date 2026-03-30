@@ -1338,7 +1338,7 @@ main {
     padding-top: 2.2rem;
     padding-bottom: 2.2rem;
     scroll-margin-top: clamp(11.25rem, 30vh, 21.25rem);
-    margin-bottom: 20rem;
+    margin-bottom: 0;
 }
 
 #querschnittsthemen .container {
@@ -1360,9 +1360,9 @@ main {
 }
 
 .qst-svg-subsection.section {
-    min-height: 100vh;
-    padding-top: clamp(3rem, 8vh, 6rem);
-    padding-bottom: clamp(3rem, 8vh, 6rem);
+    min-height: auto;
+    padding-top: 0.75rem;
+    padding-bottom: clamp(2rem, 6vh, 4rem);
 }
 
 .qst-svg-subsection-container {

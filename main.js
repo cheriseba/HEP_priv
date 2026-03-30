@@ -103,11 +103,136 @@ window.addEventListener('DOMContentLoaded', () => {
 // 4) Teilziele-Filter, Timeline und Reveal-Animationen
 // ============================================================================
 
+function escapeRegExp(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function isolateInlineSvg(svgText, prefix) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svgText, 'image/svg+xml');
+    const svg = doc.documentElement;
+    if (!svg || svg.tagName.toLowerCase() !== 'svg') return null;
+
+    const idMap = new Map();
+
+    // IDs pro SVG eindeutig machen und Original-ID als Datenattribut behalten.
+    svg.querySelectorAll('[id]').forEach((node) => {
+        const oldId = node.getAttribute('id');
+        if (!oldId) return;
+        const newId = `${prefix}-${oldId}`;
+        idMap.set(oldId, newId);
+        node.setAttribute('data-orig-id', oldId);
+        node.setAttribute('id', newId);
+    });
+
+    function rewriteIdRefs(text) {
+        if (!text) return text;
+        let result = text;
+
+        idMap.forEach((newId, oldId) => {
+            const oldIdEscaped = escapeRegExp(oldId);
+            result = result.replace(new RegExp(`url\\(#${oldIdEscaped}\\)`, 'g'), `url(#${newId})`);
+            result = result.replace(new RegExp(`(["'])#${oldIdEscaped}\\1`, 'g'), `$1#${newId}$1`);
+            result = result.replace(new RegExp(`=#${oldIdEscaped}(?=[\\s;]|$)`, 'g'), `=#${newId}`);
+        });
+
+        return result;
+    }
+
+    // Klassen pro SVG eindeutig machen, damit .st0/.cls-1 nicht kollidieren.
+    const classMap = new Map();
+    const classNames = new Set();
+
+    svg.querySelectorAll('[class]').forEach((node) => {
+        (node.getAttribute('class') || '')
+            .split(/\s+/)
+            .filter(Boolean)
+            .forEach((className) => classNames.add(className));
+    });
+
+    svg.querySelectorAll('style').forEach((styleNode) => {
+        const cssText = styleNode.textContent || '';
+        const matches = cssText.match(/\.([_a-zA-Z][_a-zA-Z0-9-]*)/g) || [];
+        matches.forEach((match) => classNames.add(match.slice(1)));
+    });
+
+    classNames.forEach((className) => {
+        classMap.set(className, `${prefix}-${className}`);
+    });
+
+    svg.querySelectorAll('[class]').forEach((node) => {
+        const nextClasses = (node.getAttribute('class') || '')
+            .split(/\s+/)
+            .filter(Boolean)
+            .map((className) => classMap.get(className) || className)
+            .join(' ');
+        node.setAttribute('class', nextClasses);
+    });
+
+    svg.querySelectorAll('*').forEach((node) => {
+        ['href', 'xlink:href'].forEach((attr) => {
+            const value = node.getAttribute(attr);
+            if (!value || !value.startsWith('#')) return;
+            const targetId = value.slice(1);
+            const mappedId = idMap.get(targetId);
+            if (mappedId) {
+                node.setAttribute(attr, `#${mappedId}`);
+            }
+        });
+
+        [
+            'fill',
+            'stroke',
+            'filter',
+            'clip-path',
+            'mask',
+            'marker-start',
+            'marker-mid',
+            'marker-end'
+        ].forEach((attr) => {
+            const value = node.getAttribute(attr);
+            if (!value) return;
+            const rewritten = rewriteIdRefs(value);
+            if (rewritten !== value) {
+                node.setAttribute(attr, rewritten);
+            }
+        });
+
+        const inlineStyle = node.getAttribute('style');
+        if (inlineStyle) {
+            node.setAttribute('style', rewriteIdRefs(inlineStyle));
+        }
+    });
+
+    svg.querySelectorAll('style').forEach((styleNode) => {
+        let cssText = styleNode.textContent || '';
+
+        classMap.forEach((newClass, oldClass) => {
+            const oldClassEscaped = escapeRegExp(oldClass);
+            cssText = cssText.replace(new RegExp(`\\.${oldClassEscaped}(?![\\w-])`, 'g'), `.${newClass}`);
+        });
+
+        idMap.forEach((newId, oldId) => {
+            const oldIdEscaped = escapeRegExp(oldId);
+            cssText = cssText.replace(new RegExp(`#${oldIdEscaped}(?![\\w-])`, 'g'), `#${newId}`);
+        });
+
+        cssText = rewriteIdRefs(cssText);
+        styleNode.textContent = cssText;
+    });
+
+    return svg;
+}
+
 // Initiales Laden der Hauptgrafik und Start aller intro-nahen Effekte.
 fetch('assets/images/svg/1_Hauptgrafik.svg')
     .then(response => response.text())
     .then(svgText => {
-        document.getElementById('svg-container').innerHTML = svgText;
+        const mainContainer = document.getElementById('svg-container');
+        if (!mainContainer) return;
+        const mainSvg = isolateInlineSvg(svgText, 'main');
+        if (!mainSvg) return;
+        mainContainer.replaceChildren(mainSvg);
         applyIntroAnimation();
         initSVGInteractions();
         initSectionReveal();
@@ -119,7 +244,9 @@ fetch('assets/images/svg/GLSTU.svg')
     .then(svgText => {
         const glstuContainer = document.getElementById('glstu-svg-container');
         if (!glstuContainer) return;
-        glstuContainer.innerHTML = svgText;
+        const glstuSvg = isolateInlineSvg(svgText, 'glstu');
+        if (!glstuSvg) return;
+        glstuContainer.replaceChildren(glstuSvg);
         initGLSTUInteractions();
     });
 
@@ -134,7 +261,9 @@ fetch('assets/images/svg/Ziel.svg')
     .then(svgText => {
         const zieleContainer = document.getElementById('ziele-svg-container');
         if (!zieleContainer) return;
-        zieleContainer.innerHTML = svgText;
+        const zieleSvg = isolateInlineSvg(svgText, 'ziel');
+        if (!zieleSvg) return;
+        zieleContainer.replaceChildren(zieleSvg);
 
         const svg = zieleContainer.querySelector('svg');
         if (svg) {
@@ -149,17 +278,27 @@ fetch('assets/images/svg/Karte.svg')
     .then(svgText => {
         const karteContainer = document.getElementById('karte-svg-container');
         if (!karteContainer) return;
-        karteContainer.innerHTML = svgText;
+        const karteSvg = isolateInlineSvg(svgText, 'karte');
+        if (!karteSvg) return;
+        karteContainer.replaceChildren(karteSvg);
         initKarteInteractions();
     });
 
-function setKarteGebietVisible(isVisible) {
-    const gebietLayer = document.getElementById('Gebiet');
+function setKarteGebietVisible(karteRoot, isVisible) {
+    if (!karteRoot) return;
+    const gebietLayer = karteRoot.querySelector('[data-orig-id="Gebiet"], [id="Gebiet"]');
     if (!gebietLayer) return;
     gebietLayer.classList.toggle('karte-gebiet-hidden', !isVisible);
 }
 
 function initKarteInteractions() {
+    const karteRoot = document.querySelector('#karte-svg-container svg');
+    if (!karteRoot) return;
+
+    function getKarteLayer(id) {
+        return karteRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
+    }
+
     // Zuordnung der klickbaren Stadt-Layer zu ihren Info-Karten in der SVG.
     const cityToCardMap = {
         Holzminden: 'Karte_Holzminden',
@@ -167,13 +306,13 @@ function initKarteInteractions() {
         Hildesheim: 'Karte_Hildesheim'
     };
 
-    setKarteGebietVisible(false);
+    setKarteGebietVisible(karteRoot, false);
 
     const cardIds = Object.values(cityToCardMap);
     let hasCityBeenClicked = false;
 
     cardIds.forEach((cardId) => {
-        const cardLayer = document.getElementById(cardId);
+        const cardLayer = getKarteLayer(cardId);
         if (!cardLayer) return;
         cardLayer.classList.add('karte-city-card', 'karte-city-card-hidden');
         cardLayer.classList.remove('karte-city-card-visible');
@@ -181,7 +320,7 @@ function initKarteInteractions() {
 
     // Schaltet die zugehoerige Karte ein/aus (Toggle), ohne andere Layer zu veraendern.
     function showCityCard(targetCardId) {
-        const cardLayer = document.getElementById(targetCardId);
+        const cardLayer = getKarteLayer(targetCardId);
         if (!cardLayer) return;
 
         const isVisible = cardLayer.classList.contains('karte-city-card-visible');
@@ -196,7 +335,7 @@ function initKarteInteractions() {
     }
 
     Object.entries(cityToCardMap).forEach(([cityId, cardId]) => {
-        const cityLayer = document.getElementById(cityId);
+        const cityLayer = getKarteLayer(cityId);
         if (!cityLayer) return;
 
         cityLayer.classList.add('karte-city-layer', 'karte-city-layer-pulse');
@@ -216,7 +355,7 @@ function initKarteInteractions() {
             if (!hasCityBeenClicked) {
                 hasCityBeenClicked = true;
                 Object.keys(cityToCardMap).forEach((layerId) => {
-                    const layer = document.getElementById(layerId);
+                    const layer = getKarteLayer(layerId);
                     if (layer) {
                         layer.classList.remove('karte-city-layer-pulse');
                     }
@@ -266,6 +405,13 @@ function initSectionReveal() {
 
 function applyIntroAnimation() {
     // Intro-Choreografie: zentrales Symbol laden -> Gruppen aufbauen -> ausgewaehlte Gruppen wieder einklappen.
+    const svgRoot = document.querySelector('#svg-container svg');
+    if (!svgRoot) return;
+
+    function getMainLayer(id) {
+        return svgRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
+    }
+
     const loadingId = 'Gelingendes_Studium';
     const buildGroups = [
         { ids: ['Ziele'], delay: 0 },
@@ -274,13 +420,13 @@ function applyIntroAnimation() {
     ];
     const retractIds = ['F', 'SGE', 'KIR', 'NHK'];
 
-    const loadingElement = document.getElementById(loadingId);
+    const loadingElement = getMainLayer(loadingId);
     if (loadingElement) {
         loadingElement.classList.add('loading-symbol-minimal');
     }
     buildGroups.forEach(group => {
         group.ids.forEach(id => {
-            const element = document.getElementById(id);
+            const element = getMainLayer(id);
             if (element) {
                 element.classList.add('intro-hidden');
             }
@@ -299,7 +445,7 @@ function applyIntroAnimation() {
 
         buildGroups.forEach(group => {
             group.ids.forEach(id => {
-                const element = document.getElementById(id);
+                const element = getMainLayer(id);
                 if (element) {
                     element.classList.remove('intro-hidden');
                     element.classList.add('intro-unit');
@@ -312,7 +458,7 @@ function applyIntroAnimation() {
 
         setTimeout(() => {
             retractIds.forEach((id, index) => {
-                const element = document.getElementById(id);
+                const element = getMainLayer(id);
                 if (element) {
                     element.classList.remove('intro-unit');
                     element.classList.add('retract-unit');
@@ -329,7 +475,7 @@ function initSVGInteractions() {
     if (!svgRoot) return;
 
     function getMainLayer(id) {
-        return svgRoot.querySelector(`[id="${id}"]`);
+        return svgRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
     }
 
     const elements = ['F', 'K1', 'K2', 'K3', 'K4', 'QST', 'SGE', 'NHK', 'KIR', 'Gelingendes_Studium', 'Ziele'];
@@ -518,7 +664,7 @@ function initGLSTUInteractions() {
     if (!glstuRoot) return;
 
     function getGLSTULayer(id) {
-        return glstuRoot.querySelector(`[id="${id}"]`);
+        return glstuRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
     }
 
     // Basisebene (Lehrende/Studierende/Hochschule) steuert jeweils ein Overlay in der GLSTU-SVG.
@@ -664,6 +810,13 @@ function initMeilesteine() {
 
 // Hover-Verknuepfung zwischen den drei Ziel-Ringen und den drei Textkarten.
 function initZielInteractions() {
+    const zieleRoot = document.querySelector('#ziele-svg-container svg');
+    if (!zieleRoot) return;
+
+    function getZielLayer(id) {
+        return zieleRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
+    }
+
     const ringToZielMap = {
         'Außen': { selector: '.meilensteine-ziel.ziel-1', goal: '1' },
         'Mitte': { selector: '.meilensteine-ziel.ziel-2', goal: '2' },
@@ -672,7 +825,7 @@ function initZielInteractions() {
 
     Object.entries(ringToZielMap).forEach(([ringId, config]) => {
         const { selector: zielSelector, goal } = config;
-        const ringGroup = document.getElementById(ringId);
+        const ringGroup = getZielLayer(ringId);
         const zielCard = document.querySelector(zielSelector);
         if (!ringGroup || !zielCard) return;
 
