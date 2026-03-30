@@ -64,9 +64,35 @@ function initTimelineMenu() {
     updateTimeline();
 }
 
+function initTimelineLogoHomeLink() {
+    const logoElement = document.querySelector('.timeline-logo');
+    const logoContainer = document.querySelector('.timeline-logo-container');
+    const backToGraphic = document.getElementById('back-to-graphic');
+    const interactiveLogo = logoElement || logoContainer;
+    if (!interactiveLogo || !backToGraphic) return;
+
+    interactiveLogo.style.cursor = 'pointer';
+    interactiveLogo.setAttribute('role', 'button');
+    interactiveLogo.setAttribute('tabindex', '0');
+    interactiveLogo.setAttribute('aria-label', 'Zur Hauptgrafik');
+
+    const triggerBackToGraphic = (event) => {
+        if (event) event.preventDefault();
+        backToGraphic.click();
+    };
+
+    interactiveLogo.addEventListener('click', triggerBackToGraphic);
+    interactiveLogo.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            triggerBackToGraphic(event);
+        }
+    });
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     initMobileOrientationGate();
     initTimelineMenu();
+    initTimelineLogoHomeLink();
 });
 // ============================================================================
 // HEP Frontend Script
@@ -400,17 +426,8 @@ function initSVGInteractions() {
         const target = document.getElementById(targetId);
         if (!target) return;
 
-        // Verhindert visuelle Artefakte durch Ueberlagerung:
-        // Immer nur ein Segment gleichzeitig offen lassen.
-        const allLinkedTargets = Object.values(linkedSections);
-        allLinkedTargets.forEach((id) => {
-            if (id === targetId) return;
-            const other = document.getElementById(id);
-            if (!other) return;
-            if (!(other.classList.contains('retract-unit') || other.classList.contains('intro-hidden'))) {
-                collapseSection(id);
-            }
-        });
+        // Jeder Bereich toggelt nur sich selbst: offen bleibt offen,
+        // bis derselbe Bereich erneut geklickt wird.
 
         if (target.classList.contains('retract-unit') || target.classList.contains('intro-hidden')) {
             expandSection(targetId);
