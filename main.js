@@ -325,6 +325,13 @@ function applyIntroAnimation() {
 
 function initSVGInteractions() {
     // Interaktive Layer der Hauptgrafik (Hover, Klick, optionales Scroll-Ziel).
+    const svgRoot = document.querySelector('#svg-container svg');
+    if (!svgRoot) return;
+
+    function getMainLayer(id) {
+        return svgRoot.querySelector(`[id="${id}"]`);
+    }
+
     const elements = ['F', 'K1', 'K2', 'K3', 'K4', 'QST', 'SGE', 'NHK', 'KIR', 'Gelingendes_Studium', 'Ziele'];
     const linkedSections = {
         K2: 'F',
@@ -399,7 +406,7 @@ function initSVGInteractions() {
     }
 
     function expandSection(sectionId) {
-        const section = document.getElementById(sectionId);
+        const section = getMainLayer(sectionId);
         if (!section) return;
 
         section.classList.remove('retract-unit', 'intro-hidden', 'intro-unit');
@@ -409,7 +416,7 @@ function initSVGInteractions() {
     }
 
     function collapseSection(sectionId) {
-        const section = document.getElementById(sectionId);
+        const section = getMainLayer(sectionId);
         if (!section) return;
 
         section.classList.remove('intro-unit', 'intro-hidden', 'retract-unit');
@@ -423,7 +430,7 @@ function initSVGInteractions() {
         const targetId = linkedSections[controlId];
         if (!targetId) return;
 
-        const target = document.getElementById(targetId);
+        const target = getMainLayer(targetId);
         if (!target) return;
 
         // Jeder Bereich toggelt nur sich selbst: offen bleibt offen,
@@ -438,7 +445,7 @@ function initSVGInteractions() {
     }
 
     elements.forEach(id => {
-        const element = document.getElementById(id);
+        const element = getMainLayer(id);
         if (element) {
             // Hover-Effekt
             element.addEventListener('mouseenter', function(e) {
@@ -499,7 +506,7 @@ function initSVGInteractions() {
     // Entferne die active-Klasse wenn Hintergrund geklickt wird
     document.getElementById('svg-container').addEventListener('click', function() {
         elements.forEach(id => {
-            const el = document.getElementById(id);
+            const el = getMainLayer(id);
             if (el) el.classList.remove('svg-element-active');
         });
         hideHint();
@@ -507,6 +514,13 @@ function initSVGInteractions() {
 }
 
 function initGLSTUInteractions() {
+    const glstuRoot = document.querySelector('#glstu-svg-container svg');
+    if (!glstuRoot) return;
+
+    function getGLSTULayer(id) {
+        return glstuRoot.querySelector(`[id="${id}"]`);
+    }
+
     // Basisebene (Lehrende/Studierende/Hochschule) steuert jeweils ein Overlay in der GLSTU-SVG.
     const layerMap = {
         Lehrende: 'O_x5F_Lehrende',
@@ -516,7 +530,7 @@ function initGLSTUInteractions() {
     const overlayIds = Object.values(layerMap);
 
     overlayIds.forEach(id => {
-        const overlay = document.getElementById(id);
+        const overlay = getGLSTULayer(id);
         if (overlay) {
             overlay.classList.add('glstu-overlay', 'glstu-overlay-hidden');
         }
@@ -524,11 +538,11 @@ function initGLSTUInteractions() {
 
     // Es ist immer nur ein Overlay sichtbar; erneuter Klick blendet alle aus.
     function showOverlay(targetId) {
-        const target = document.getElementById(targetId);
+        const target = getGLSTULayer(targetId);
         const isVisible = target ? target.classList.contains('glstu-overlay-visible') : false;
 
         overlayIds.forEach(id => {
-            const overlay = document.getElementById(id);
+            const overlay = getGLSTULayer(id);
             if (!overlay) return;
             if (!isVisible && id === targetId) {
                 overlay.classList.add('glstu-overlay-visible');
@@ -541,7 +555,7 @@ function initGLSTUInteractions() {
     }
 
     Object.entries(layerMap).forEach(([baseId, overlayId]) => {
-        const baseLayer = document.getElementById(baseId);
+        const baseLayer = getGLSTULayer(baseId);
         if (!baseLayer) return;
         baseLayer.classList.add('glstu-layer');
         baseLayer.addEventListener('mouseenter', () => {

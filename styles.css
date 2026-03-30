@@ -1355,6 +1355,36 @@ main {
     width: min(80vw, 65.625rem);
 }
 
+#querschnittsthemen .intro-content > p {
+    max-width: 90ch;
+}
+
+.qst-svg-subsection.section {
+    min-height: 100vh;
+    padding-top: clamp(3rem, 8vh, 6rem);
+    padding-bottom: clamp(3rem, 8vh, 6rem);
+}
+
+.qst-svg-subsection-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qst-svg-container {
+    width: auto;
+    max-width: calc(100vw - 2rem);
+    margin: 0;
+}
+
+.qst-svg-container img {
+    height: 85vh;
+    width: auto;
+    max-width: calc(100vw - 2rem);
+    max-height: 85vh;
+    display: block;
+}
+
 /* Querschnittsthemen Intro Columns - 4 Spalten */
 .qst-intro-columns {
     display: grid;
