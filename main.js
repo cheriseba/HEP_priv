@@ -1105,83 +1105,6 @@ function initKurzportraitStickyTextObserver() {
     setActiveText(0);
 }
 
-function initGLSTUStickyTextObserver() {
-    // Textwechsel via Klick-Pfeile neben den Indikatoren.
-    const section = document.getElementById('gelingendes-studium');
-    if (!section) return;
-    if (section.dataset.glstuObserverBound === 'true') return;
-
-    const sourcePages = Array.from(section.querySelectorAll('.glstu-text-source .glstu-text-page'));
-    const titleElement = section.querySelector('.glstu-display-title');
-    const bodyElement = section.querySelector('.glstu-display-body');
-    const progressDots = Array.from(section.querySelectorAll('.glstu-progress-dot'));
-    const progressCount = section.querySelector('.glstu-progress-count');
-    const prevButton = section.querySelector('.glstu-nav-btn-prev');
-    const nextButton = section.querySelector('.glstu-nav-btn-next');
-
-    if (!sourcePages.length || !bodyElement) return;
-
-    section.dataset.glstuObserverBound = 'true';
-
-    const mediaQuery = window.matchMedia('(max-width: 900px)');
-    const payload = sourcePages.map((page) => {
-        const heading = page.querySelector('h3');
-        const paragraph = page.querySelector('p');
-
-        return {
-            title: heading ? heading.textContent.trim() : '',
-            body: paragraph ? paragraph.textContent.trim() : page.textContent.trim()
-        };
-    });
-
-    let activeIndex = -1;
-    function updateNavState() {
-        if (prevButton) prevButton.disabled = activeIndex <= 0;
-        if (nextButton) nextButton.disabled = activeIndex >= payload.length - 1;
-    }
-
-    function setActiveText(index) {
-        const safeIndex = Math.max(0, Math.min(payload.length - 1, index));
-        if (safeIndex === activeIndex) return;
-
-        activeIndex = safeIndex;
-        const item = payload[safeIndex];
-        if (!item) return;
-
-        if (titleElement) {
-            titleElement.textContent = item.title;
-            titleElement.style.display = item.title ? '' : 'none';
-        }
-
-        bodyElement.textContent = item.body;
-        bodyElement.classList.remove('glstu-text-display-enter');
-        void bodyElement.offsetWidth;
-        bodyElement.classList.add('glstu-text-display-enter');
-
-        if (progressDots.length) {
-            progressDots.forEach((dot, dotIndex) => {
-                dot.classList.toggle('is-active', dotIndex === safeIndex);
-            });
-        }
-        if (progressCount) {
-            progressCount.textContent = `${safeIndex + 1}/${payload.length}`;
-        }
-        updateNavState();
-
-        section.classList.toggle('glstu-show-scroll-hint', false);
-    }
-
-    if (prevButton) {
-        prevButton.addEventListener('click', () => setActiveText(activeIndex - 1));
-    }
-    if (nextButton) {
-        nextButton.addEventListener('click', () => setActiveText(activeIndex + 1));
-    }
-
-    mediaQuery.addEventListener('change', () => setActiveText(Math.max(activeIndex, 0)));
-    setActiveText(0);
-}
-
 function initSectionSnapScrolling() {
     // Globale Scroll-Steuerung:
     // - springt zwischen definierten Snap-Zielen
@@ -1387,7 +1310,6 @@ function initializeApp() {
     initTeilzieleFilter();
     initTeilzieleRowSync();
     initTeilzieleChecks();
-    initGLSTUStickyTextObserver();
     initKurzportraitStickyTextObserver();
     // Globales Snap-Scrolling zwischen Abschnitten deaktiviert.
     initWissensspeicherReveal();

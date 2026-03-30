@@ -501,12 +501,12 @@ body.mobile-portrait-blocked .orientation-gate {
     list-style: none;
     gap: 0;
     position: relative;
-    padding: 0 1rem;
+    padding: 0;
     margin: 0 auto;
-    width: min(100%, 74rem);
+    width: min(100%, 60rem);
     height: var(--header-height);
     justify-content: center;
-    max-width: 74rem;
+    max-width: 60rem;
 }
 
 .timeline-menu::before {
@@ -526,7 +526,7 @@ body.mobile-portrait-blocked .orientation-gate {
     flex-direction: column;
     align-items: center;
     position: relative;
-        min-width: 10rem;
+        min-width: 6.8rem;
     z-index: auto;
     height: var(--header-height);
     justify-content: flex-start;
@@ -839,33 +839,35 @@ main {
 .glstu-svg-container {
     margin: 0;
     scale: 1;
-    margin-left: 5rem;
+    margin-left: 0;
     margin-bottom: 0.5rem;
-    width: clamp(72rem, 120vmin, 132rem);
-    max-width: none;
+    width: clamp(34rem, 48vw, 52rem);
+    max-width: 100%;
     position: relative;
-    transform: translateX(-20%) translateY(-1rem);
+    transform: translateX(0) translateY(0);
     overflow: visible;
 }
 
 #gelingendes-studium.section {
-    padding: 0;
-    min-height: var(--glstu-min-height);
+    padding: 4rem 0 3rem;
+    min-height: auto;
     scroll-margin-top: calc(var(--header-height) + 1rem);
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
 .glstu-split {
     display: grid;
-    grid-template-columns: var(--glstu-grid-columns);
+    grid-template-columns: minmax(24rem, 46%) minmax(20rem, 54%);
     grid-template-areas:
         "header header"
-        "graphic text";
+        "text graphic";
     gap: 0;
-    align-items: stretch;
+    align-items: start;
     width: 100%;
     max-width: 100%;
     position: relative;
-    min-height: var(--glstu-min-height);
+    min-height: auto;
     padding-top: 0;
     overflow: visible;
 }
@@ -877,29 +879,29 @@ main {
     height: auto;
 }
 
-.glstu-section-header {
-    position: static;
-    width: 100%;
-    text-align: right;
-    margin-top: 5rem;
-}
-
-.glstu-section-header h2 {
-    margin-left: 0;
-    margin-right: 0;
-    margin-bottom: 0.15rem;
-}
-
 .glstu-fixed {
     grid-area: graphic;
-    position: sticky;
-    top: calc(var(--glstu-sticky-top) + var(--glstu-content-offset));
-    height: var(--glstu-sticky-height);
+    position: relative;
+    top: auto;
+    height: auto;
     display: flex;
     align-items: flex-start;
-    justify-content: center;
-    padding: 0rem 3vw 2rem 5vw;
+    justify-content: flex-end;
+    padding: 0 2vw 0 0;
     background: transparent;
+}
+
+.glstu-static-text {
+    grid-area: text;
+    margin-left: -6vw;
+    padding: 0.35rem 4rem 0 10rem;
+    width: min(100%, 78rem);
+    text-align: left;
+}
+
+.glstu-static-text p {
+    margin: 0;
+    color: #153149;
 }
 
 /* GLSTU rechts: sticky Textfeld, Inhalte wechseln pro Scroll-Schritt. */
@@ -1190,22 +1192,9 @@ main {
         color: #004E9E;
     }
 
-    .glstu-section-header {
-        position: static;
-        top: auto;
-        width: 100%;
-        text-align: left;
-        margin-bottom: 0;
-    }
-
     .glstu-header-track {
         position: static;
         height: auto;
-    }
-
-    .glstu-section-header h2 {
-        margin-left: -6vw;
-        margin-right: 0;
     }
 
     .glstu-svg-container svg {
@@ -1615,29 +1604,11 @@ p {
     display: inline-block;
     background: #004E9E; /* Vollflächig blau, kein Verlauf */
     color: #ffffff;
-    padding: 0 10vw;
+    padding: 0 4rem;
     padding-left: 10rem;
     margin-left: -6vw;
     margin-bottom: 2rem;
     border-radius: 0;
-}
-
-/* GLSTU nutzt den Meilensteine-Header-Look, dockt aber rechts an. */
-.meilensteine-header.glstu-section-header {
-    text-align: right;
-}
-
-.meilensteine-header.glstu-section-header h2 {
-    padding-left: clamp(12rem, 18vw, 19.5rem);
-    margin-left: 0;
-    margin-right: calc(50% - 50vw);
-}
-
-@media (max-width: 56.25rem) {
-    .meilensteine-header.glstu-section-header h2 {
-        padding-left: clamp(3.3rem, 12vw, 6.3rem);
-        margin-right: 0;
-    }
 }
 
 /* Kurzportrait Section */
@@ -4137,3 +4108,50 @@ footer a {
         transform: none;
     }
 }
+
+    /* Final override: Vereinfachtes GLSTU-Layout (Text links, Grafik rechts). */
+    #gelingendes-studium.section,
+    #gelingendes-studium .glstu-split {
+        min-height: auto !important;
+    }
+
+    #gelingendes-studium .glstu-split {
+        grid-template-columns: minmax(24rem, 46%) minmax(20rem, 54%) !important;
+        grid-template-areas:
+            "header header"
+            "text graphic" !important;
+        align-items: start !important;
+    }
+
+    #gelingendes-studium .glstu-header-track {
+        align-self: start !important;
+    }
+
+    #gelingendes-studium .glstu-fixed {
+        grid-area: graphic !important;
+        position: relative !important;
+        top: auto !important;
+        height: auto !important;
+        min-height: auto !important;
+        display: flex !important;
+        align-items: flex-start !important;
+        justify-content: flex-end !important;
+        align-self: start !important;
+        margin-top: -6.45rem !important;
+        padding: 0 2vw 0 0 !important;
+    }
+
+
+    #gelingendes-studium .glstu-svg-container {
+        width: clamp(34rem, 48vw, 52rem) !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        margin-top: 0 !important;
+        transform: translateX(-10rem) !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
