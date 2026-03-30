@@ -199,7 +199,7 @@ h3, .teilziele-sticky-goal-title, .unterueberschrift, .gs-text-block h3, .qst-te
 }
 
 h4, .teilziele-year-head, .teilziele-sticky-goal-text,.box, .box {
-    font-size: 1.22rem;
+    font-size: var(--fs-text-lg);
     line-height: 1.6;
     font-weight: 500;
 }
@@ -209,12 +209,12 @@ h4, .teilziele-year-head, .teilziele-sticky-goal-text,.box, .box {
     }
 
 p,.teilziele-filter-label, .teilziele-filter-select, .intro-content, .meilensteine-ziel-content, .glstu-display-body, .fullscreen-text-overlay p, .teilziele-sticky-spacer {
-    font-size: 1.22rem;
+    font-size: var(--fs-text-base);
     line-height: 1.6;
 }
 
 li, .kreise {
-    font-size: 1.1rem;
+    font-size: var(--fs-text-sm);
     line-height: 1.6;
 }
 
@@ -236,6 +236,9 @@ h1, .ueberschrift-gross {
 }
 
 :root {
+    --fs-text-base: 1rem;
+    --fs-text-lg: 1.05rem;
+    --fs-text-sm: 0.95rem;
     --header-height: 5.75rem;
     --glstu-sticky-top: 5rem;
     --glstu-content-offset: 5rem;
@@ -793,11 +796,6 @@ main {
     will-change: transform, opacity;
 }
 
-/* Groessere Trefferflaeche fuer QST, damit Randbereiche nicht flackern. */
-#svg-container svg #QST {
-    pointer-events: bounding-box;
-}
-
 #svg-container g[id]:hover {
     opacity: 0.92;
     filter: brightness(1.08);
@@ -1309,7 +1307,7 @@ main {
 }
 
 .intro-content {
-    width: min(90vw, 90vw);
+    width: min(86vw, 78rem);
     margin: 0 auto;  /* Reduzierter horizontaler Rand. Ursprünglich könnte ein größerer Rand verwendet worden sein */
     padding: 0 1rem;
 }
@@ -1328,9 +1326,10 @@ main {
 
 .intro-columns {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem; /* Increased gap */
-    padding: 0 1rem; /* Fügt einen zusätzlichen Rand von 1rem auf beiden Seiten der Spalten hinzu, um den Rand weiter zu verringern */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.75rem, 2.6vw, 3rem);
+    align-items: start;
+    padding: 0;
 }
 
 .intro-columns p {
