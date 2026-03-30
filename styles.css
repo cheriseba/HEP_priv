@@ -1834,6 +1834,53 @@ p {
     overflow: visible;
 }
 
+.kurzportrait-slide-card {
+    position: absolute;
+    left: 0;
+    top: 38%;
+    width: clamp(30rem, 52vw, 48rem);
+    height: clamp(18rem, 46vh, 28rem);
+    border-radius: 0;
+    background: linear-gradient(90deg, #004E9E 0%, #2493caa8 100%);
+    box-shadow: 0 1.1rem 2.2rem rgba(0, 26, 52, 0.36);
+    transform: translate(-112%, -50%);
+    transition: transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.7rem, 1.8vh, 1.2rem);
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: clamp(1rem, 2.2vw, 2rem) clamp(1rem, 3vw, 2.2rem);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.kurzportrait-slide-card .intro-title {
+    margin: 0;
+}
+
+.kurzportrait-slide-card-text {
+    width: 100%;
+    min-height: clamp(7rem, 20vh, 12rem);
+    background: transparent;
+    text-align: left;
+}
+
+.kurzportrait-slide-card-text p {
+    max-width: none;
+    margin: 0 0 0.85rem 0;
+    text-align: left;
+    color: #ffffff;
+}
+
+.kurzportrait-slide-card-text p:last-child {
+    margin-bottom: 0;
+}
+
+#kurzportrait.kurzportrait-entered .kurzportrait-slide-card {
+    transform: translate(0, -50%);
+}
+
 .kurzportrait-layout {
     height: 100%;
     min-height: 100%;
@@ -1851,29 +1898,29 @@ p {
     max-width: 75ch;
     height: 100%;
     overflow: visible;
-    z-index: 4;
     text-align: left;
     background: transparent;
     border-left: none;
-    padding-left: clamp(0.8rem, 2.5vw, 2.6rem);
+    padding-left: 9rem;
+    margin-left: -6vw;
 }
 
 .kurzportrait-text-stage {
     position: relative;
     top: auto;
-    height: calc(100dvh - 5rem);
+    height: calc(100dvh - var(--header-height));
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: flex-end;
-    padding-top: 0;
-    padding-bottom: 20%;
+    padding-top: var(--header-height);
+    padding-bottom: 0;
     
 }
 
 .kurzportrait-text-display {
     width: 100%;
-    border-left: 0.25rem solid #2494CA;
+    border-left: none;
     background: rgba(0, 62, 126, 0.48);
     padding: clamp(1.1rem, 2.6vh, 2rem) clamp(0.9rem, 2.4vw, 1.6rem);
     margin-top: 0;
@@ -2029,7 +2076,12 @@ p {
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
-    z-index: 3;
+    transform: translateX(0);
+    transition: transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+#kurzportrait.kurzportrait-entered .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+    transform: translateX(clamp(9.5rem, 32vw, 25rem));
 }
 
 .kurzportrait-side-text p {
@@ -2465,6 +2517,19 @@ footer a {
         padding: 3.5rem 0 1rem;
     }
 
+    .kurzportrait-slide-card {
+        width: clamp(24rem, 92vw, 31rem);
+        height: clamp(13rem, 42vh, 18rem);
+    }
+
+    #kurzportrait.kurzportrait-entered .kurzportrait-slide-card {
+        transform: translate(0, -50%);
+    }
+
+    #kurzportrait.kurzportrait-entered .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+        transform: translateX(clamp(5rem, 20vw, 10rem));
+    }
+
     .kurzportrait-main,
     .kurzportrait-layout {
         height: var(--kurzportrait-main-height);
@@ -2480,7 +2545,10 @@ footer a {
         overflow: visible;
         background: transparent;
         border-left: none;
-        padding: 0 1rem;
+        margin-left: 0;
+        padding: 0 clamp(1.25rem, 5vw, 2rem);
+        padding-left: clamp(1.25rem, 5vw, 2rem);
+        
     }
 
     .kurzportrait-text-stage,
@@ -3586,7 +3654,7 @@ footer a {
         width: 100%;
         max-width: none;
         height: 100%;
-        padding: 0 0 0 1rem;
+        padding: 0 0 0 9rem;
     }
 
     .kurzportrait-text-stage {
@@ -4187,4 +4255,18 @@ footer a {
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
+    }
+
+    #kurzportrait .kurzportrait-layout.kurzportrait-layout--graphic-only {
+        grid-template-columns: 1fr;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    #kurzportrait .kurzportrait-layout.kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+        grid-column: 1;
+        top: 0;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
     }

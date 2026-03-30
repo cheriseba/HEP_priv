@@ -1272,6 +1272,31 @@ function initKurzportraitStickyTextObserver() {
     setActiveText(0);
 }
 
+function initKurzportraitEntranceAnimation() {
+    const section = document.getElementById('kurzportrait');
+    if (!section) return;
+    if (section.dataset.kurzportraitEntranceBound === 'true') return;
+
+    const mainBlock = section.querySelector('.kurzportrait-main');
+    const slideCard = section.querySelector('.kurzportrait-slide-card');
+    const graphic = section.querySelector('.kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic');
+    if (!mainBlock || !slideCard || !graphic) return;
+
+    section.dataset.kurzportraitEntranceBound = 'true';
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            const isActive = entry.isIntersecting && entry.intersectionRatio >= 0.28;
+            section.classList.toggle('kurzportrait-entered', isActive);
+        });
+    }, {
+        threshold: [0.12, 0.28, 0.55],
+        rootMargin: '-6% 0px -14% 0px'
+    });
+
+    observer.observe(mainBlock);
+}
+
 function initSectionSnapScrolling() {
     // Globale Scroll-Steuerung:
     // - springt zwischen definierten Snap-Zielen
@@ -1478,6 +1503,7 @@ function initializeApp() {
     initTeilzieleRowSync();
     initTeilzieleChecks();
     initKurzportraitStickyTextObserver();
+    initKurzportraitEntranceAnimation();
     // Globales Snap-Scrolling zwischen Abschnitten deaktiviert.
     initWissensspeicherReveal();
     initWissensspeicherSlidein();
