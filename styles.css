@@ -896,6 +896,7 @@ main {
     margin-left: -6vw;
     padding: 0.35rem 4rem 0 10rem;
     width: min(100%, 78rem);
+    max-width: 80ch;
     text-align: left;
 }
 
@@ -1743,7 +1744,8 @@ p {
     display: inline-block;
     background: #ffffff;
     color: #004E9E;
-    padding: 0 10vw;
+    padding: 0 4rem;
+    padding-left: 10rem;
     margin-left: -6vw;
     margin-bottom: 2.5rem;
     border-radius: 0;
@@ -1846,7 +1848,7 @@ p {
     position: relative;
     grid-column: 1;
     width: 100%;
-    max-width: none;
+    max-width: 75ch;
     height: 100%;
     overflow: visible;
     z-index: 4;
@@ -1866,6 +1868,7 @@ p {
     align-items: flex-end;
     padding-top: 0;
     padding-bottom: 20%;
+    
 }
 
 .kurzportrait-text-display {
