@@ -255,23 +255,6 @@ const narrativeControllers = {
     kurzportrait: null
 };
 
-// Laden der Ziel-Ringe fuer die Meilenstein-Sektion inklusive Hover-Verknuepfung.
-fetch('assets/images/svg/Ziel.svg')
-    .then(response => response.text())
-    .then(svgText => {
-        const zieleContainer = document.getElementById('ziele-svg-container');
-        if (!zieleContainer) return;
-        const zieleSvg = isolateInlineSvg(svgText, 'ziel');
-        if (!zieleSvg) return;
-        zieleContainer.replaceChildren(zieleSvg);
-
-        const svg = zieleContainer.querySelector('svg');
-        if (svg) {
-            svg.style.overflow = 'visible'; // verhindert Abschneiden bei Hover-Scale
-        }
-        initZielInteractions();
-    });
-
 // Laden der Standortkarte fuer das Kurzportrait.
 fetch('assets/images/svg/Karte.svg')
     .then(response => response.text())
@@ -721,156 +704,6 @@ function initGLSTUInteractions() {
     });
 }
 
-// Alte Ziel-Box/Ring-Interaktion (nur aktiv, wenn die entsprechenden Klassen im DOM vorhanden sind).
-function initMeilesteine() {
-    const zielBoxes = document.querySelectorAll('.ziel-box');
-    const ringCircles = document.querySelectorAll('.ring-circle');
-    const ringLabels = document.querySelectorAll('.ring-label');
-
-    // Scroll-Reveal für die sichtbaren Ziel-Karten
-    const zielCards = document.querySelectorAll('.meilensteine-ziel');
-    if (zielCards.length) {
-        zielCards.forEach((card, index) => {
-            // leichte Staffelung der Animation
-            card.style.transitionDelay = `${index * 0.05}s`;
-        });
-
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('meilensteine-ziel-visible');
-                    obs.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 1,
-            rootMargin: '0px 0px -5px 0px' // recht früh „ankommen“
-        });
-
-        zielCards.forEach(card => observer.observe(card));
-    }
-
-    zielBoxes.forEach(box => {
-        const zielNum = box.getAttribute('data-ziel');
-
-        box.addEventListener('mouseenter', () => {
-            zielBoxes.forEach(b => b.classList.remove('active'));
-            box.classList.add('active');
-
-            ringCircles.forEach(ring => {
-                const ringNum = ring.getAttribute('data-ring');
-                if (ringNum === zielNum) {
-                    ring.style.opacity = '1';
-                    ring.style.strokeWidth = '50';
-                } else {
-                    ring.style.opacity = '0.3';
-                }
-            });
-        });
-
-        box.addEventListener('mouseleave', () => {
-            box.classList.remove('active');
-            ringCircles.forEach(ring => {
-                const originalOpacity = ring.getAttribute('data-ring');
-                ring.style.opacity = (5 - parseInt(originalOpacity)) * 0.2;
-                ring.style.strokeWidth = '40';
-            });
-        });
-    });
-
-    ringCircles.forEach(ring => {
-        ring.addEventListener('mouseenter', () => {
-            const zielNum = ring.getAttribute('data-ring');
-            zielBoxes.forEach(box => {
-                if (box.getAttribute('data-ziel') === zielNum) {
-                    box.classList.add('active');
-                } else {
-                    box.classList.remove('active');
-                }
-            });
-        });
-    });
-
-    ringLabels.forEach(label => {
-        label.addEventListener('mouseenter', () => {
-            const ring = label.parentElement.querySelector('.ring-circle');
-            if (ring) {
-                const zielNum = ring.getAttribute('data-ring');
-                zielBoxes.forEach(box => {
-                    if (box.getAttribute('data-ziel') === zielNum) {
-                        box.classList.add('active');
-                    } else {
-                        box.classList.remove('active');
-                    }
-                });
-            }
-        });
-    });
-}
-
-// Hover-Verknuepfung zwischen den drei Ziel-Ringen und den drei Textkarten.
-function initZielInteractions() {
-    const zieleRoot = document.querySelector('#ziele-svg-container svg');
-    if (!zieleRoot) return;
-
-    function getZielLayer(id) {
-        return zieleRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
-    }
-
-    const ringToZielMap = {
-        'Außen': { selector: '.meilensteine-ziel.ziel-1', goal: '1' },
-        'Mitte': { selector: '.meilensteine-ziel.ziel-2', goal: '2' },
-        'Innen': { selector: '.meilensteine-ziel.ziel-3', goal: '3' }
-    };
-
-    Object.entries(ringToZielMap).forEach(([ringId, config]) => {
-        const { selector: zielSelector, goal } = config;
-        const ringGroup = getZielLayer(ringId);
-        const zielCard = document.querySelector(zielSelector);
-        if (!ringGroup || !zielCard) return;
-
-        ringGroup.style.transformBox = 'fill-box';
-        ringGroup.style.transformOrigin = '50% 50%';
-        ringGroup.style.cursor = 'pointer';
-
-        const handleEnter = () => {
-            ringGroup.classList.add('ziel-ring-hover');
-            zielCard.classList.add('meilensteine-ziel-hover');
-        };
-
-        const handleLeave = () => {
-            ringGroup.classList.remove('ziel-ring-hover');
-            zielCard.classList.remove('meilensteine-ziel-hover');
-        };
-
-        ringGroup.addEventListener('mouseenter', handleEnter);
-        ringGroup.addEventListener('mouseleave', handleLeave);
-
-        // Hover funktioniert auch umgekehrt: Karte -> Ring.
-        zielCard.addEventListener('mouseenter', handleEnter);
-        zielCard.addEventListener('mouseleave', handleLeave);
-
-        // Klick auf einen Ring setzt den Teilziele-Filter und springt in den Teilziele-Bereich.
-        ringGroup.addEventListener('click', (event) => {
-            event.stopPropagation();
-
-            const matrix = document.querySelector('.teilziele-matrix');
-            const filterSelect = document.getElementById('teilziele-goal-filter');
-            const teilzieleSection = document.getElementById('teilziele-bereich');
-
-            if (matrix) {
-                matrix.dataset.goalFilter = goal;
-                matrix.dispatchEvent(new Event('teilziele:filter-change'));
-            }
-            if (filterSelect) {
-                filterSelect.value = goal;
-            }
-            if (teilzieleSection) {
-                teilzieleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-}
 
 // Querschnittsthemen als manuelle Slideshow (Buttons, Dots, Tastatur im sichtbaren Bereich).
 function initQSTSlideshow() {
@@ -1203,6 +1036,32 @@ function initWissensspeicherSlidein() {
     observer.observe(slideSection);
 }
 
+function initMeilensteineCardsReveal() {
+    const section = document.getElementById('ziele-meilensteine');
+    const cardsWrap = document.querySelector('#ziele-meilensteine .meilensteine-cards');
+    if (!section || !cardsWrap) return;
+    if (section.dataset.meilensteineObserverBound === 'true') return;
+
+    section.dataset.meilensteineObserverBound = 'true';
+
+    if (typeof IntersectionObserver !== 'function') {
+        section.classList.add('meilensteine-entered');
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            const isActive = entry.isIntersecting && entry.intersectionRatio >= 0.24;
+            section.classList.toggle('meilensteine-entered', isActive);
+        });
+    }, {
+        threshold: [0.12, 0.24, 0.55],
+        rootMargin: '-6% 0px -14% 0px'
+    });
+
+    observer.observe(section);
+}
+
 function initKurzportraitStickyTextObserver() {
     // Textwechsel via Klick-Pfeile neben den Indikatoren.
     const section = document.getElementById('kurzportrait');
@@ -1496,7 +1355,7 @@ function initSectionSnapScrolling() {
 // Startet alle Initialisierer in einer klaren, zentralen Reihenfolge.
 function initializeApp() {
     initMobileOrientationGate();
-    initMeilesteine();
+    initMeilensteineCardsReveal();
     initQSTSlideshow();
     initFullscreenSlideshow();
     initTeilzieleFilter();
