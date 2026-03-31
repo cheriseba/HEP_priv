@@ -3105,6 +3105,7 @@ footer a {
     box-shadow: none;
     padding: 0;
     margin-right: 0;
+    margin-top: 2.2rem;
 }
 
 #ziele-meilensteine .meilensteine-visual img {
@@ -3118,11 +3119,12 @@ footer a {
     min-width: 0;
     display: grid;
     grid-template-rows: repeat(3, minmax(8.5rem, 1fr));
-    gap: clamp(0.8rem, 1.2vw, 1.1rem);
+    gap: clamp(2.2rem, 4vw, 3.2rem);
     min-height: clamp(28rem, 70vh, 42rem);
     align-self: stretch;
     width: min(100%, clamp(37.4rem, 64.6vw, 49.3rem));
     justify-self: start;
+    margin-top: clamp(2.2rem, 4vw, 3.2rem);
 }
 
 /* Slide-in von links für Meilensteine-Karten */
@@ -3134,8 +3136,8 @@ footer a {
     height: clamp(18rem, 46vh, 28rem);
     padding: clamp(1rem, 2.2vw, 2rem) clamp(1rem, 3vw, 2.2rem);
     border-left: 0;
-    background: #2494CA;
-    box-shadow: 0 0.5rem 1.3rem rgba(6, 35, 64, 0.1);
+    background: rgba(36, 148, 202, 0.92);
+    box-shadow: 0 0.7rem 2.2rem rgba(6, 35, 64, 0.18), 0 0.2rem 0.7rem rgba(0,0,0,0.10);
     opacity: 0;
     transform: translateX(-60%);
     transition: transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
