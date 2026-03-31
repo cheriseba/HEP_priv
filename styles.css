@@ -1682,12 +1682,15 @@ p {
 }
 
 #wissensspeicher.section {
-    background: transparent;
+    background: #ffffff;
     align-items: flex-start;
     justify-content: flex-start;
     padding: 0;
     min-height: auto;
     scroll-margin-top: calc(var(--header-height) + 1rem);
+    box-shadow: 0 -0.9rem 1.8rem rgba(4, 24, 44, 0.32);
+    position: relative;
+    z-index: 1;
 }
 
 #wissensspeicher .container {
@@ -1696,22 +1699,219 @@ p {
     position: relative;
 }
 
-#wissensspeicher .wissensspeicher-main {
-    height: var(--kurzportrait-main-height);
-    min-height: var(--kurzportrait-main-height);
-    width: 100%;
+#wissensspeicher-inhalte.section {
     background: #003e7e;
-    padding-bottom: 4rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: clamp(0.75rem, 2vh, 1.5rem) 0 calc(clamp(3.5rem, 8vh, 6rem) + 5rem);
+    min-height: auto;
+}
 
-    overflow: hidden;
+#wissensspeicher-inhalte .container {
+    text-align: left;
+    padding: 0;
+    position: relative;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-content-main {
+    width: 100%;
+}
+
+#wissensspeicher .wissensspeicher-main {
+    height: auto;
+    min-height: 0;
+    width: 100%;
+    background: transparent;
+    padding: 0;
+
+    overflow: visible;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-svg-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding-top: clamp(2rem, 4vh, 3.5rem);
+    margin: 0;
+
+    /* SVG geometry for precise Schritt 1 arrow positioning. */
+    --ws-svg-top-offset: clamp(2rem, 4vh, 3.5rem);
+    --ws-svg-width: min(100vw, 86rem);
+    --ws-svg-aspect: 2.7243;
+    --ws-step1-corner-x: 0.239;
+    --ws-step1-corner-y: 0.795;
+    --ws-step1-inset-x: 0.55rem;
+    --ws-step1-inset-y: 0.45rem;
+    --ws-step1-arrow-size: 2rem;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-svg-wrap img {
+    display: block;
+    width: var(--ws-svg-width);
+    height: auto;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-step1-link {
+    position: absolute;
+    left: calc(
+        50% - (var(--ws-svg-width) / 2) +
+        (var(--ws-svg-width) * var(--ws-step1-corner-x)) -
+        var(--ws-step1-inset-x) -
+        var(--ws-step1-arrow-size)
+    );
+    top: calc(
+        var(--ws-svg-top-offset) +
+        ((var(--ws-svg-width) / var(--ws-svg-aspect)) * var(--ws-step1-corner-y)) -
+        var(--ws-step1-inset-y) -
+        var(--ws-step1-arrow-size)
+    );
+    width: var(--ws-step1-arrow-size);
+    height: var(--ws-step1-arrow-size);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #ffffff;
+    border: 0.12rem solid rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    background: rgba(0, 62, 126, 0.72);
+    cursor: pointer;
+    transition: transform 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-step1-link span {
+    font-size: 1.05rem;
+    line-height: 1;
+    transform: translate(0, -0.02rem);
+}
+
+#wissensspeicher-inhalte .wissensspeicher-step1-link:hover {
+    transform: translate(0.12rem, -0.12rem) scale(1.08);
+    background: rgba(36, 148, 202, 0.95);
+    box-shadow: 0 0.4rem 1rem rgba(0, 20, 42, 0.35);
+}
+
+#wissensspeicher-inhalte .wissensspeicher-step1-link:focus-visible {
+    outline: 0.15rem solid rgba(255, 255, 255, 0.95);
+    outline-offset: 0.1rem;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-bottom-cards {
+    width: min(100vw, 86rem);
+    margin: 0 auto 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2.2vw, 2rem);
+}
+
+#wissensspeicher-inhalte .wissensspeicher-bottom-card {
+    background: rgba(205, 206, 214, 0.158);
+    padding: clamp(1.3rem, 2.8vw, 2rem);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: clamp(0.8rem, 1.6vw, 1.2rem);
+    box-shadow: 0 0.35rem 0.95rem rgba(2, 16, 33, 0.24);
+    backdrop-filter: blur(0.15rem);
+}
+
+#wissensspeicher-inhalte .wissensspeicher-card-icon {
+    width: 3.8rem;
+    height: 3.8rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.32);
+
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 0.25rem 0.8rem rgba(0, 20, 42, 0.28);
+    transform: none;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-bottom-card p {
+    margin: 0;
+    color: rgba(245, 251, 255, 0.95);
+    max-width: none;
+}
+
+@media (max-width: 48rem) {
+    #wissensspeicher-inhalte .wissensspeicher-bottom-cards {
+        grid-template-columns: 1fr;
+    }
 }
 
 #wissensspeicher .wissensspeicher-fakultaeten-card {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    min-height: 0;
+    gap: 0;
+    padding: clamp(1rem, 2vw, 1.6rem) clamp(1.2rem, 3vw, 2.4rem);
+    background: linear-gradient(90deg, #004E9E 0%, #2494CA 100%);
+    transition: transform 1.15s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transform: translateX(-112%);
     pointer-events: none;
 }
 
+#wissensspeicher .wissensspeicher-top-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+    gap: clamp(1rem, 2.5vw, 2.2rem);
+    align-items: center;
+}
+
+#wissensspeicher .wissensspeicher-top-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    --wissensspeicher-title-gap: calc(clamp(1.6rem, 3.2vh, 2.4rem) + 1rem);
+    --wissensspeicher-text-max-width: 85ch;
+}
+
+#wissensspeicher .wissensspeicher-top-text .intro-title {
+    margin-bottom: var(--wissensspeicher-title-gap);
+}
+
+#wissensspeicher .wissensspeicher-top-text .kurzportrait-slide-card-text {
+    width: min(100%, var(--wissensspeicher-text-max-width));
+}
+
+#wissensspeicher .wissensspeicher-top-photo {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+#wissensspeicher .wissensspeicher-top-photo img {
+    width: 100%;
+    height: 100%;
+    min-height: clamp(14rem, 28vh, 20rem);
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 0.4rem 1rem rgba(1, 14, 28, 0.3);
+}
+
+@media (max-width: 56.25rem) {
+    #wissensspeicher .wissensspeicher-top-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #wissensspeicher .wissensspeicher-top-photo img {
+        min-height: clamp(12rem, 35vh, 18rem);
+    }
+}
+
 #wissensspeicher.wissensspeicher-entered .wissensspeicher-fakultaeten-card {
-    transform: translate(0, -50%);
+    transform: translateX(0);
 }
 
 /* Kurzportrait Section */
@@ -3115,7 +3315,7 @@ footer a {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    background: linear-gradient(145deg, #0b3f74 0%, #0d4d86 52%, #2b6f97 100%);
+    background: linear-gradient(145deg, #004E9E 0%, #074F8D 56%, #003E7E 100%);
     border-radius: 0;
     box-shadow: 0 0.875rem 1.875rem rgba(7, 28, 49, 0.28);
 }
@@ -3125,8 +3325,8 @@ footer a {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at 16% 18%, rgba(166, 167, 168, 0.14) 0, rgba(166, 167, 168, 0) 40%),
-        radial-gradient(circle at 88% 80%, rgba(255, 255, 255, 0.08) 0, rgba(255, 255, 255, 0) 34%);
+        radial-gradient(circle at 16% 18%, rgba(36, 148, 202, 0.14) 0, rgba(36, 148, 202, 0) 42%),
+        radial-gradient(circle at 88% 80%, rgba(0, 78, 158, 0.16) 0, rgba(0, 78, 158, 0) 36%);
     pointer-events: none;
 }
 
@@ -3134,9 +3334,9 @@ footer a {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.055) 0.0625rem, transparent 0.0625rem),
-                      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0.0625rem, transparent 0.0625rem);
-    opacity: 0.12;
+    background-image: linear-gradient(rgba(191, 230, 255, 0.045) 0.0625rem, transparent 0.0625rem),
+                      linear-gradient(90deg, rgba(191, 230, 255, 0.035) 0.0625rem, transparent 0.0625rem);
+    opacity: 0.08;
     pointer-events: none;
 }
 

@@ -1404,12 +1404,12 @@ function initWissensspeicherEntranceAnimation() {
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-            const isActive = entry.isIntersecting && entry.intersectionRatio >= 0.28;
+            const isActive = entry.isIntersecting && entry.intersectionRatio >= 0.18;
             section.classList.toggle('wissensspeicher-entered', isActive);
         });
     }, {
-        threshold: [0.12, 0.28, 0.55],
-        rootMargin: '-6% 0px -14% 0px'
+        threshold: [0.08, 0.18, 0.4],
+        rootMargin: '0px 0px -10% 0px'
     });
 
     observer.observe(mainBlock);
