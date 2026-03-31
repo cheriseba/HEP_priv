@@ -961,19 +961,38 @@ function initTeilzieleTimeline() {
 function initTeilzieleFilter() {
     const matrix = document.querySelector('.teilziele-matrix');
     const filterSelect = document.getElementById('teilziele-goal-filter');
+    const goalTabs = Array.from(document.querySelectorAll('.teilziele-goal-tab[data-goal-tab]'));
     const teilzieleSection = document.getElementById('teilziele-bereich');
     const goalTriggers = Array.from(document.querySelectorAll('.meilensteine-ziel[data-goal-target], .meilensteine-slide-card[data-goal-target]'));
     const zieleSvgContainer = document.getElementById('ziele-svg-container');
     const yearCards = Array.from(document.querySelectorAll('.teilziele-year'));
-    if (!matrix || !filterSelect) return;
+    if (!matrix) return;
 
     const allowedValues = new Set(['1', '2', '3']);
-    const initialValue = allowedValues.has(filterSelect.value) ? filterSelect.value : '1';
+    const selectInitialValue = filterSelect && allowedValues.has(filterSelect.value)
+        ? filterSelect.value
+        : null;
+    const matrixInitialValue = allowedValues.has(matrix.dataset.goalFilter)
+        ? matrix.dataset.goalFilter
+        : null;
+    const activeTab = goalTabs.find((tab) => tab.classList.contains('is-active'));
+    const tabInitialValue = activeTab ? activeTab.getAttribute('data-goal-tab') : null;
+    const initialValue = selectInitialValue || matrixInitialValue || tabInitialValue || '1';
 
     function applyFilter(value) {
         const selectedValue = allowedValues.has(value) ? value : '1';
         matrix.dataset.goalFilter = selectedValue;
-        filterSelect.value = selectedValue;
+
+        if (filterSelect) {
+            filterSelect.value = selectedValue;
+        }
+
+        goalTabs.forEach((tab) => {
+            const isActive = tab.getAttribute('data-goal-tab') === selectedValue;
+            tab.classList.toggle('is-active', isActive);
+            tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            tab.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
 
         yearCards.forEach((yearCard) => {
             const goalCell = yearCard.querySelector(`.teilziele-cell-${selectedValue}`);
@@ -996,8 +1015,38 @@ function initTeilzieleFilter() {
 
     applyFilter(initialValue);
 
-    filterSelect.addEventListener('change', () => {
-        applyFilter(filterSelect.value);
+    if (filterSelect) {
+        filterSelect.addEventListener('change', () => {
+            applyFilter(filterSelect.value);
+        });
+    }
+
+    goalTabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => {
+            applyFilter(tab.getAttribute('data-goal-tab'));
+        });
+
+        tab.addEventListener('keydown', (event) => {
+            let nextIndex = index;
+
+            if (event.key === 'ArrowRight') {
+                nextIndex = (index + 1) % goalTabs.length;
+            } else if (event.key === 'ArrowLeft') {
+                nextIndex = (index - 1 + goalTabs.length) % goalTabs.length;
+            } else if (event.key === 'Home') {
+                nextIndex = 0;
+            } else if (event.key === 'End') {
+                nextIndex = goalTabs.length - 1;
+            } else {
+                return;
+            }
+
+            event.preventDefault();
+            const nextTab = goalTabs[nextIndex];
+            if (!nextTab) return;
+            nextTab.focus();
+            applyFilter(nextTab.getAttribute('data-goal-tab'));
+        });
     });
 
     function jumpToGoal(value) {
@@ -1138,32 +1187,61 @@ function initTeilzieleRowSync() {
     if (matrix.dataset.rowSyncBound === 'true') return;
     matrix.dataset.rowSyncBound = 'true';
 
+    const stickyGoalsWrap = matrix.querySelector('.teilziele-sticky-goals');
     const stickyGoals = Array.from(matrix.querySelectorAll('.teilziele-sticky-goal'));
     const rowSelectors = ['.teilziele-cell-1', '.teilziele-cell-2', '.teilziele-cell-3'];
 
     let scheduled = false;
 
-    // Hoehen angleichen: Sticky-Zielspalte und alle Jahreszellen einer Zeile bleiben deckungsgleich.
+    // Hoehen angleichen nur fuer die Jahreszellen je Zielzeile.
+    // Sticky-Zielkarten behalten ihre feste CSS-Hoehe und werden nicht dynamisch mitgezogen.
     function syncHeights() {
         scheduled = false;
 
+        // Sticky-Zielkarten: einheitliche Hoehe anhand der laengsten Karte.
+        const stickyColumnWidth = stickyGoalsWrap?.clientWidth || 0;
+        if (stickyGoals.length > 0 && stickyColumnWidth > 0) {
+            const measureLayer = document.createElement('div');
+            measureLayer.style.position = 'absolute';
+            measureLayer.style.left = '-9999px';
+            measureLayer.style.top = '0';
+            measureLayer.style.visibility = 'hidden';
+            measureLayer.style.pointerEvents = 'none';
+            measureLayer.style.width = `${stickyColumnWidth}px`;
+            document.body.appendChild(measureLayer);
+
+            let maxStickyHeight = 0;
+            stickyGoals.forEach((goal) => {
+                const clone = goal.cloneNode(true);
+                clone.style.display = 'grid';
+                clone.style.height = 'auto';
+                clone.style.minHeight = '0';
+                clone.style.maxHeight = 'none';
+                clone.style.width = '100%';
+                measureLayer.appendChild(clone);
+                maxStickyHeight = Math.max(maxStickyHeight, clone.offsetHeight);
+            });
+
+            measureLayer.remove();
+
+            if (maxStickyHeight > 0) {
+                stickyGoals.forEach((goal) => {
+                    goal.style.height = `${maxStickyHeight}px`;
+                    goal.style.minHeight = `${maxStickyHeight}px`;
+                    goal.style.maxHeight = `${maxStickyHeight}px`;
+                });
+            }
+        }
+
         // Reset so we can measure natural heights
-        stickyGoals.forEach((el) => {
-            el.style.minHeight = '';
-        });
         rowSelectors.forEach((selector) => {
             matrix.querySelectorAll(selector).forEach((cell) => {
                 cell.style.minHeight = '';
             });
         });
 
-        rowSelectors.forEach((selector, index) => {
+        rowSelectors.forEach((selector) => {
             let maxHeight = 0;
-
-            const sticky = stickyGoals[index];
-            if (sticky) {
-                maxHeight = Math.max(maxHeight, sticky.offsetHeight);
-            }
 
             const cells = Array.from(matrix.querySelectorAll(selector));
             cells.forEach((cell) => {
@@ -1171,10 +1249,6 @@ function initTeilzieleRowSync() {
             });
 
             if (!maxHeight) return;
-
-            if (sticky) {
-                sticky.style.minHeight = `${maxHeight}px`;
-            }
             cells.forEach((cell) => {
                 cell.style.minHeight = `${maxHeight}px`;
             });

@@ -248,35 +248,28 @@
                  <!-- Teilziele Zeitstrahl (2026-2030 + laufend)
                      Wichtige Struktur fuer JS:
                      - .teilziele-matrix fuehrt den aktiven Filterzustand
-                     - #teilziele-goal-filter steuert den sichtbaren Zielpfad
+                     - .teilziele-goal-tab steuert den sichtbaren Zielpfad
                      - .teilziele-timeline wird horizontal per Wheel gescrollt -->
                 <div id="teilziele-bereich" class="meilensteine-teilziele" aria-label="Teilziele">
                     <div class="teilziele-copied-heading">
                         <h2>TEILZIELE 2026 - 2030</h2>
                     </div>
 
-                    <div class="teilziele-filter-wrap">
-                        <label for="teilziele-goal-filter" class="teilziele-filter-label">Ziel anzeigen</label>
-                        <select id="teilziele-goal-filter" class="teilziele-filter-select" aria-label="Teilziele nach Ziel filtern">
-                            <option value="1" selected>Ziel 1</option>
-                            <option value="2">Ziel 2</option>
-                            <option value="3">Ziel 3</option>
-                        </select>
-                    </div>
-
                     <div class="teilziele-matrix" data-goal-filter="1" role="region" aria-label="Zeitstrahl: Teilziele nach Jahren (2026 bis 2030 und laufend)">
                         <div class="teilziele-sticky-goals" aria-label="Ziele">
                             <div class="teilziele-sticky-spacer">Das Ziel ist erreicht, wenn ...</div>
-                            <div class="teilziele-sticky-goal teilziele-sticky-goal-1">
-                                <div class="teilziele-sticky-goal-title">ZIEL 1</div>
+                            <div class="teilziele-goal-tabs" role="tablist" aria-label="Teilziele nach Ziel anzeigen">
+                                <button type="button" class="teilziele-goal-tab is-active" role="tab" aria-selected="true" data-goal-tab="1" aria-controls="teilziele-goal-panel-1" id="teilziele-goal-tab-1">ZIEL 1</button>
+                                <button type="button" class="teilziele-goal-tab" role="tab" aria-selected="false" data-goal-tab="2" aria-controls="teilziele-goal-panel-2" id="teilziele-goal-tab-2">ZIEL 2</button>
+                                <button type="button" class="teilziele-goal-tab" role="tab" aria-selected="false" data-goal-tab="3" aria-controls="teilziele-goal-panel-3" id="teilziele-goal-tab-3">ZIEL 3</button>
+                            </div>
+                            <div id="teilziele-goal-panel-1" class="teilziele-sticky-goal teilziele-sticky-goal-1" role="tabpanel" aria-labelledby="teilziele-goal-tab-1">
                                 <div class="teilziele-sticky-goal-text">Studieninteressierte und Studienanfänger*innen werden jeweils fachlich, sozial und organisational integriert.</div>
                             </div>
-                            <div class="teilziele-sticky-goal teilziele-sticky-goal-2">
-                                <div class="teilziele-sticky-goal-title">ZIEL 2</div>
+                            <div id="teilziele-goal-panel-2" class="teilziele-sticky-goal teilziele-sticky-goal-2" role="tabpanel" aria-labelledby="teilziele-goal-tab-2">
                                 <div class="teilziele-sticky-goal-text">Bis 2030 transformiert sich die gesamte Hochschule in ein praxisnahes, interdisziplinäres und gesamtheitlich orientiertes Umfeld und etabliert überwiegend lernfortschrittsbezogene Prüfungen.</div>
                             </div>
-                            <div class="teilziele-sticky-goal teilziele-sticky-goal-3">
-                                <div class="teilziele-sticky-goal-title">ZIEL 3</div>
+                            <div id="teilziele-goal-panel-3" class="teilziele-sticky-goal teilziele-sticky-goal-3" role="tabpanel" aria-labelledby="teilziele-goal-tab-3">
                                 <div class="teilziele-sticky-goal-text">Studierende werden als kompetente Fachkräfte und verantwortungsbewusste Persönlichkeiten in die Berufswelt entlassen.</div>
                             </div>
                         </div>
