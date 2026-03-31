@@ -1374,9 +1374,12 @@ main {
 }
 
 #querschnittsthemen.section {
+    background: transparent;
     min-height: auto;
-    padding-top: 2.2rem;
-    padding-bottom: 2.2rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
     scroll-margin-top: clamp(11.25rem, 30vh, 21.25rem);
     margin-bottom: 0;
 }
@@ -1400,15 +1403,18 @@ main {
 }
 
 .qst-svg-subsection.section {
+    background: linear-gradient(180deg, #c1d1e5 0%, #b0c3e0 58%, #a1bad7 100%);
     min-height: auto;
-    padding-top: 0.75rem;
-    padding-bottom: clamp(2rem, 6vh, 4rem);
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .qst-svg-subsection-container {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: clamp(1.5rem, 3vh, 2.5rem);
+    padding-bottom: clamp(3rem, 8vh, 5rem);
 }
 
 .qst-svg-container {
@@ -1988,7 +1994,7 @@ p {
     scroll-margin-top: 4.5rem;
     align-items: flex-start;
     justify-content: flex-start;
-    padding-top: 5rem;
+    padding-top: 0;
     padding-bottom: 0;
     padding-left: 0;
     padding-right: 0;
@@ -2001,7 +2007,7 @@ p {
 }
 
 #kurzportrait .meilensteine-header {
-    padding-top: clamp(3.7rem, calc(11vh - 0.5rem), 7.5rem);
+    padding-top: 0;
 }
 
 #kurzportrait .meilensteine-header h2 {
@@ -2925,6 +2931,7 @@ footer a {
 
 /* Meilensteine Section */
 #ziele-meilensteine.section {
+    background: linear-gradient(180deg, #c1d1e5 0%, #b0c3e0 58%, #a1bad7 100%);
     padding-left: 0;
     padding-right: 0; /* Abschnitt ohne seitlichen Abstand bis zum Bildschirmrand */
     padding-top: 8rem;
