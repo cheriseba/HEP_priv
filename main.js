@@ -1266,68 +1266,6 @@ function initTeilzieleRowSync() {
     matrix.addEventListener('teilziele:filter-change', scheduleSync);
 }
 
-function initWissensspeicherReveal() {
-    // Stufenweises Einblenden der drei Wissensspeicher-Schritte beim ersten Sichtkontakt.
-    const stepsWrap = document.querySelector('.wissensspeicher-steps');
-    if (!stepsWrap) return;
-    if (stepsWrap.dataset.revealBound === 'true') return;
-
-    stepsWrap.dataset.revealBound = 'true';
-
-    const steps = Array.from(stepsWrap.querySelectorAll('.wissensspeicher-step'));
-    const stepTransitionMs = 550;
-    const stepStaggerMs = 120;
-    steps.forEach((step, index) => {
-        step.style.transitionDelay = `${index * 0.12}s`;
-    });
-
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-
-            steps.forEach((step) => {
-                step.classList.add('wissensspeicher-step-visible');
-            });
-
-            const firstStepFullyVisibleMs = stepTransitionMs;
-            const lineDelayMs = firstStepFullyVisibleMs + 40;
-            window.setTimeout(() => {
-                stepsWrap.classList.add('wissensspeicher-steps-visible');
-            }, lineDelayMs);
-
-            obs.unobserve(entry.target);
-        });
-    }, {
-        threshold: 0.25,
-        rootMargin: '0px 0px -8% 0px'
-    });
-
-    observer.observe(stepsWrap);
-}
-
-function initWissensspeicherSlidein() {
-    // Zweiter Wissensspeicher-Block schiebt beim Erreichen der Section ein.
-    const slideSection = document.querySelector('.wissensspeicher-slidein-section');
-    const slideCard = document.querySelector('.wissensspeicher-slidein-card');
-    if (!slideSection || !slideCard) return;
-    if (slideSection.dataset.slideBound === 'true') return;
-
-    slideSection.dataset.slideBound = 'true';
-
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            slideCard.classList.add('wissensspeicher-slidein-visible');
-            obs.unobserve(entry.target);
-        });
-    }, {
-        threshold: 0.28,
-        rootMargin: '0px 0px -8% 0px'
-    });
-
-    observer.observe(slideSection);
-}
-
 function initMeilensteineCardsReveal() {
     const section = document.getElementById('ziele-meilensteine');
     const cards = document.querySelectorAll('#ziele-meilensteine .meilensteine-slide-card');
@@ -1453,6 +1391,30 @@ function initKurzportraitEntranceAnimation() {
     observer.observe(mainBlock);
 }
 
+function initWissensspeicherEntranceAnimation() {
+    const section = document.getElementById('wissensspeicher');
+    if (!section) return;
+    if (section.dataset.wissensspeicherEntranceBound === 'true') return;
+
+    const mainBlock = section.querySelector('.wissensspeicher-main');
+    const slideCard = section.querySelector('.wissensspeicher-fakultaeten-card');
+    if (!mainBlock || !slideCard) return;
+
+    section.dataset.wissensspeicherEntranceBound = 'true';
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            const isActive = entry.isIntersecting && entry.intersectionRatio >= 0.28;
+            section.classList.toggle('wissensspeicher-entered', isActive);
+        });
+    }, {
+        threshold: [0.12, 0.28, 0.55],
+        rootMargin: '-6% 0px -14% 0px'
+    });
+
+    observer.observe(mainBlock);
+}
+
 function initSectionSnapScrolling() {
     // Globale Scroll-Steuerung:
     // - springt zwischen definierten Snap-Zielen
@@ -1485,13 +1447,6 @@ function initSectionSnapScrolling() {
             pushIf(section.querySelector('.kurzportrait-top'));
             pushIf(section.querySelector('.kurzportrait-main'));
             pushIf(section.querySelector('.kurzportrait-third'));
-            return;
-        }
-
-        if (section.id === 'wissensspeicher-hawk') {
-            pushIf(section.querySelector('.wissensspeicher-intro'));
-            pushIf(section.querySelector('.wissensspeicher-slidein-section'));
-            pushIf(section.querySelector('.wissensspeicher-final'));
             return;
         }
 
@@ -1660,9 +1615,8 @@ function initializeApp() {
     initTeilzieleChecks();
     initKurzportraitStickyTextObserver();
     initKurzportraitEntranceAnimation();
+    initWissensspeicherEntranceAnimation();
     // Globales Snap-Scrolling zwischen Abschnitten deaktiviert.
-    initWissensspeicherReveal();
-    initWissensspeicherSlidein();
 }
 
 // Fullscreen Slideshow: transform-based horizontal slide transitions
