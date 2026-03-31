@@ -962,7 +962,9 @@ function initTeilzieleFilter() {
     const matrix = document.querySelector('.teilziele-matrix');
     const filterSelect = document.getElementById('teilziele-goal-filter');
     const teilzieleSection = document.getElementById('teilziele-bereich');
-    const goalTriggers = Array.from(document.querySelectorAll('.meilensteine-ziel[data-goal-target]'));
+    const goalTriggers = Array.from(document.querySelectorAll('.meilensteine-ziel[data-goal-target], .meilensteine-slide-card[data-goal-target]'));
+    const zieleSvgContainer = document.getElementById('ziele-svg-container');
+    const yearCards = Array.from(document.querySelectorAll('.teilziele-year'));
     if (!matrix || !filterSelect) return;
 
     const allowedValues = new Set(['1', '2', '3']);
@@ -972,6 +974,23 @@ function initTeilzieleFilter() {
         const selectedValue = allowedValues.has(value) ? value : '1';
         matrix.dataset.goalFilter = selectedValue;
         filterSelect.value = selectedValue;
+
+        yearCards.forEach((yearCard) => {
+            const goalCell = yearCard.querySelector(`.teilziele-cell-${selectedValue}`);
+            if (!goalCell) {
+                yearCard.classList.add('teilziele-year-hidden');
+                yearCard.setAttribute('aria-hidden', 'true');
+                return;
+            }
+
+            const hasListEntries = goalCell.querySelectorAll('li').length > 0;
+            const hasEmptyMarker = Boolean(goalCell.querySelector('.teilziele-cell-empty'));
+            const hasContent = hasListEntries && !hasEmptyMarker;
+
+            yearCard.classList.toggle('teilziele-year-hidden', !hasContent);
+            yearCard.setAttribute('aria-hidden', hasContent ? 'false' : 'true');
+        });
+
         matrix.dispatchEvent(new Event('teilziele:filter-change'));
     }
 
@@ -981,27 +1000,60 @@ function initTeilzieleFilter() {
         applyFilter(filterSelect.value);
     });
 
-    // Klick auf Zielkarten oberhalb der Timeline setzt den Filter und scrollt zur Teilziele-Sektion.
-    goalTriggers.forEach((trigger) => {
-        const targetValue = trigger.getAttribute('data-goal-target');
-        if (!allowedValues.has(targetValue)) return;
+    function jumpToGoal(value) {
+        applyFilter(value);
+        if (teilzieleSection) {
+            teilzieleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    function bindGoalTrigger(trigger, targetValue) {
+        if (!trigger || !allowedValues.has(targetValue)) return;
+        if (trigger.dataset.goalJumpBound === 'true') return;
+
+        trigger.dataset.goalJumpBound = 'true';
+        trigger.setAttribute('role', 'button');
+        trigger.setAttribute('tabindex', '0');
+        trigger.classList.add('goal-jump-trigger');
 
         trigger.addEventListener('click', () => {
-            applyFilter(targetValue);
-            if (teilzieleSection) {
-                teilzieleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            jumpToGoal(targetValue);
         });
 
         trigger.addEventListener('keydown', (event) => {
             if (event.key !== 'Enter' && event.key !== ' ') return;
             event.preventDefault();
-            applyFilter(targetValue);
-            if (teilzieleSection) {
-                teilzieleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            jumpToGoal(targetValue);
         });
+    }
+
+    // Klick auf Zielkarten oberhalb der Timeline setzt den Filter und scrollt zur Teilziele-Sektion.
+    goalTriggers.forEach((trigger) => {
+        const targetValue = trigger.getAttribute('data-goal-target');
+        bindGoalTrigger(trigger, targetValue);
     });
+
+    function bindSvgGoalTriggers() {
+        if (!zieleSvgContainer) return;
+        const svg = zieleSvgContainer.querySelector('svg');
+        if (!svg) return;
+
+        [1, 2, 3].forEach((goal) => {
+            const layer = svg.querySelector(`[data-orig-id="Ziel${goal}"], [id$="-Ziel${goal}"]`);
+            if (!layer) return;
+            layer.classList.add('ziele-goal-jump-trigger');
+            bindGoalTrigger(layer, String(goal));
+        });
+    }
+
+    bindSvgGoalTriggers();
+    if (zieleSvgContainer && zieleSvgContainer.dataset.goalSvgObserverBound !== 'true') {
+        zieleSvgContainer.dataset.goalSvgObserverBound = 'true';
+        const observer = new MutationObserver(() => {
+            bindSvgGoalTriggers();
+        });
+        observer.observe(zieleSvgContainer, { childList: true, subtree: true });
+    }
 }
 
 function initTeilzieleChecks() {
@@ -1019,6 +1071,36 @@ function initTeilzieleChecks() {
         return `item-${fallbackIndex + 1}`;
     }
 
+    function formatTeilzielItems() {
+        goalItems.forEach((item) => {
+            if (item.dataset.teilzielFormatted === 'true') return;
+
+            const rawText = (item.textContent || '').trim();
+            const match = rawText.match(/^(Z\.?\s*\d+\.\d+)\s*:\s*(.+)$/i);
+            if (!match) {
+                item.dataset.teilzielFormatted = 'true';
+                return;
+            }
+
+            const code = match[1].replace(/\s+/g, ' ').trim();
+            const body = match[2].trim();
+
+            item.textContent = '';
+
+            const codeEl = document.createElement('span');
+            codeEl.className = 'teilziel-code';
+            codeEl.textContent = code;
+
+            const bodyEl = document.createElement('span');
+            bodyEl.className = 'teilziel-body';
+            bodyEl.textContent = body;
+
+            item.appendChild(codeEl);
+            item.appendChild(bodyEl);
+            item.dataset.teilzielFormatted = 'true';
+        });
+    }
+
     function applyChecks(checks) {
         goalItems.forEach((item, index) => {
             const key = extractKey(item.textContent || '', index);
@@ -1027,6 +1109,8 @@ function initTeilzieleChecks() {
             item.classList.toggle('teilziel-checked', isChecked);
         });
     }
+
+    formatTeilzielItems();
 
     fetch('teilziele-checks.json', { cache: 'no-store' })
         .then((response) => {
