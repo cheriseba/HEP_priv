@@ -401,6 +401,18 @@ fetch('assets/images/svg/Karte.svg')
         initKarteInteractions();
     });
 
+// Laden der Wissensspeicher-Grafik fuer stufenweises Einblenden von Schritt 1-4.
+fetch('assets/images/svg/Wissensspeicher_grafik.svg')
+    .then(response => response.text())
+    .then(svgText => {
+        const wsContainer = document.getElementById('wissensspeicher-svg-container');
+        if (!wsContainer) return;
+        const wsSvg = isolateInlineSvg(svgText, 'wissens');
+        if (!wsSvg) return;
+        wsContainer.replaceChildren(wsSvg);
+        initWissensspeicherStepsReveal();
+    });
+
 function setKarteGebietVisible(karteRoot, isVisible) {
     if (!karteRoot) return;
     const gebietLayer = karteRoot.querySelector('[data-orig-id="Gebiet"], [id="Gebiet"]');
@@ -1415,6 +1427,49 @@ function initWissensspeicherEntranceAnimation() {
     observer.observe(mainBlock);
 }
 
+function initWissensspeicherStepsReveal() {
+    const wrap = document.querySelector('#wissensspeicher-inhalte .wissensspeicher-svg-wrap');
+    const svgRoot = document.querySelector('#wissensspeicher-svg-container svg');
+    if (!wrap || !svgRoot) return;
+    if (wrap.dataset.wissensspeicherStepsBound === 'true') return;
+
+    const stepIds = ['Schritt1', 'Schritt2', 'Schritt3', 'Schritt4'];
+    const stepLayers = stepIds
+        .map((id) => svgRoot.querySelector(`[data-orig-id="${id}"]`))
+        .filter(Boolean);
+
+    if (!stepLayers.length) return;
+
+    wrap.dataset.wissensspeicherStepsBound = 'true';
+    wrap.classList.add('steps-ready');
+
+    function revealSteps() {
+        stepLayers.forEach((layer, index) => {
+            window.setTimeout(() => {
+                layer.classList.add('wissensspeicher-step-visible');
+            }, index * 180);
+        });
+    }
+
+    if (typeof IntersectionObserver !== 'function') {
+        revealSteps();
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting || entry.intersectionRatio < 0.22) return;
+            revealSteps();
+            obs.disconnect();
+        });
+    }, {
+        threshold: [0.12, 0.22, 0.45],
+        rootMargin: '-4% 0px -14% 0px'
+    });
+
+    observer.observe(wrap);
+}
+
 function initSectionSnapScrolling() {
     // Globale Scroll-Steuerung:
     // - springt zwischen definierten Snap-Zielen
@@ -1616,6 +1671,7 @@ function initializeApp() {
     initKurzportraitStickyTextObserver();
     initKurzportraitEntranceAnimation();
     initWissensspeicherEntranceAnimation();
+    initWissensspeicherStepsReveal();
     // Globales Snap-Scrolling zwischen Abschnitten deaktiviert.
 }
 
