@@ -552,9 +552,15 @@ function initSectionReveal() {
             if (!section) return;
 
             const rect = section.getBoundingClientRect();
-            const endTop = section.id === 'querschnittsthemen'
-                ? headerOffset + (windowHeight * 0.18)
-                : headerOffset;
+            let endTop;
+            
+            if (section.id === 'einleitung') {
+                endTop = 300; // Animation endet viel früher
+            } else if (section.id === 'querschnittsthemen') {
+                endTop = headerOffset + (windowHeight * 0.18);
+            } else {
+                endTop = headerOffset;
+            }
 
             // Fortschritt berechnen:
             // 0 wenn der Abschnitt unten am Bildschirmrand auftaucht (rect.top = windowHeight)

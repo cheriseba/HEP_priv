@@ -98,7 +98,7 @@
     position: absolute;
     bottom: 2.2rem;
     left: max(1rem, calc((100vw - (var(--fs-img-width) + var(--fs-nav-size) + var(--fs-nav-size) + var(--fs-nav-gap) + var(--fs-nav-gap) + var(--fs-nav-gap) + var(--fs-nav-gap))) / 2 + var(--fs-nav-gap)));
-    background: #004E9E;
+    background: linear-gradient(to bottom left, rgba(0, 78, 158, 0.7) 0%, rgba(0, 78, 158, 1) 100%);
     color: white;
     padding: 1.6rem;
     width: min(46vw, 40rem);
@@ -888,11 +888,17 @@ main {
 }
 
 #gelingendes-studium.section {
-    padding: 4rem 0 3rem;
+    background: #004E9E;
+    padding: 9rem 0 3rem;
     min-height: auto;
     scroll-margin-top: calc(var(--header-height) + 1rem);
     align-items: flex-start;
     justify-content: flex-start;
+}
+
+#gelingendes-studium .meilensteine-header h2 {
+    background: #ffffff;
+    color: #004E9E;
 }
 
 .glstu-split {
@@ -941,7 +947,13 @@ main {
 
 .glstu-static-text p {
     margin: 0;
-    color: #153149;
+    color: #ffffff;
+}
+
+#gelingendes-studium .glstu-side-text h2,
+#gelingendes-studium .glstu-side-text h3,
+#gelingendes-studium .glstu-side-text p {
+    color: #ffffff;
 }
 
 /* GLSTU rechts: sticky Textfeld, Inhalte wechseln pro Scroll-Schritt. */
@@ -1249,6 +1261,19 @@ main {
     pointer-events: auto;
 }
 
+/* Nur GLSTU-SVG: Blau und Weiss invertieren. */
+#glstu-svg-container svg .glstu-st0 {
+    fill: #2494CA !important;
+}
+
+#glstu-svg-container svg .glstu-st1 {
+    fill: #ffffff !important;
+}
+
+#glstu-svg-container svg .glstu-st4 {
+    stroke: #ffffff !important;
+}
+
 .glstu-svg-container .glstu-layer {
     cursor: pointer;
     transform-box: view-box;
@@ -1335,6 +1360,13 @@ main {
     overflow: hidden;
 }
 
+#einleitung.section {
+    min-height: auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 3rem 2rem 0 2rem;
+}
+
 .intro-content {
     width: min(86vw, 78rem);
     margin: 0 auto;  /* Reduzierter horizontaler Rand. Ursprünglich könnte ein größerer Rand verwendet worden sein */
@@ -1374,7 +1406,7 @@ main {
 }
 
 #querschnittsthemen.section {
-    background: transparent;
+    background: #004E9E;
     min-height: auto;
     padding-top: 0;
     padding-bottom: 0;
