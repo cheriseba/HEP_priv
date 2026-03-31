@@ -179,6 +179,18 @@ function initTimelineMenu() {
     const sectionIds = Array.from(steps).map(step => step.getAttribute('data-section'));
     const sections = sectionIds.map(id => document.getElementById(id));
 
+    // Einheitliches Scroll-Verhalten fuer Menue-Klicks.
+    steps.forEach((step) => {
+        const link = step.querySelector('a[href^="#"]');
+        const sectionId = step.getAttribute('data-section');
+        if (!link || !sectionId) return;
+
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            smoothScrollToSectionById(sectionId);
+        });
+    });
+
     function updateTimeline() {
         let activeIdx = 0;
         for (let i = 0; i < sections.length; i++) {
@@ -388,6 +400,36 @@ const narrativeControllers = {
     glstu: null,
     kurzportrait: null
 };
+
+function getSectionScrollOffset(sectionId) {
+    const stickyHeader = document.querySelector('.sticky-header');
+    const headerOffset = stickyHeader ? stickyHeader.offsetHeight : 0;
+
+    // Feintuning fuer Abschnittsspruenge: etwas straffer als reiner Header-Abzug.
+    if (
+        sectionId === 'querschnittsthemen'
+        || sectionId === 'kurzportrait'
+        || sectionId === 'ziele-meilensteine'
+    ) {
+        return Math.max(0, headerOffset - 8);
+    }
+
+    return headerOffset;
+}
+
+function smoothScrollToSectionById(sectionId) {
+    const targetSection = document.getElementById(sectionId);
+    if (!targetSection) return;
+
+    const targetTop = targetSection.getBoundingClientRect().top + window.scrollY;
+    const scrollOffset = getSectionScrollOffset(sectionId);
+    const targetY = Math.max(0, targetTop - scrollOffset);
+
+    window.scrollTo({
+        top: targetY,
+        behavior: 'smooth'
+    });
+}
 
 // Laden der Standortkarte fuer das Kurzportrait.
 fetch('assets/images/svg/Karte.svg')
@@ -646,9 +688,7 @@ function initSVGInteractions() {
     window.addEventListener('scroll', updateBackToGraphicVisibility, { passive: true });
 
     function scrollToSection(sectionId) {
-        const targetSection = document.getElementById(sectionId);
-        if (!targetSection) return;
-        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        smoothScrollToSectionById(sectionId);
     }
 
     function showHint(event, text) {

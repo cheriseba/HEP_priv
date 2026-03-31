@@ -1694,7 +1694,6 @@ p {
     padding: 0;
     min-height: auto;
     scroll-margin-top: calc(var(--header-height) + 1rem);
-    box-shadow: 0 -0.9rem 1.8rem rgba(4, 24, 44, 0.32);
     position: relative;
     z-index: 1;
 }
@@ -3392,7 +3391,6 @@ footer a {
     justify-content: flex-start;
     background: linear-gradient(145deg, #004E9E 0%, #074F8D 56%, #003E7E 100%);
     border-radius: 0;
-    box-shadow: 0 0.875rem 1.875rem rgba(7, 28, 49, 0.28);
 }
 
 .meilensteine-teilziele::before {
