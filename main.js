@@ -1038,28 +1038,32 @@ function initWissensspeicherSlidein() {
 
 function initMeilensteineCardsReveal() {
     const section = document.getElementById('ziele-meilensteine');
-    const cardsWrap = document.querySelector('#ziele-meilensteine .meilensteine-cards');
-    if (!section || !cardsWrap) return;
+    const cards = document.querySelectorAll('#ziele-meilensteine .meilensteine-slide-card');
+    if (!section || !cards.length) return;
     if (section.dataset.meilensteineObserverBound === 'true') return;
 
     section.dataset.meilensteineObserverBound = 'true';
 
     if (typeof IntersectionObserver !== 'function') {
-        section.classList.add('meilensteine-entered');
+        cards.forEach(card => card.classList.add('meilensteine-card-visible'));
         return;
     }
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            const isActive = entry.isIntersecting && entry.intersectionRatio >= 0.24;
-            section.classList.toggle('meilensteine-entered', isActive);
+    cards.forEach((card, idx) => {
+        card.classList.remove('meilensteine-card-visible');
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio > 0.01) {
+                    card.classList.add('meilensteine-card-visible');
+                    obs.unobserve(card);
+                }
+            });
+        }, {
+            threshold: [0.01, 0.12],
+            rootMargin: '-30% 0px -30% 0px'
         });
-    }, {
-        threshold: [0.12, 0.24, 0.55],
-        rootMargin: '-6% 0px -14% 0px'
+        observer.observe(card);
     });
-
-    observer.observe(section);
 }
 
 function initKurzportraitStickyTextObserver() {
