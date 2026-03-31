@@ -1,3 +1,31 @@
+/* Ensure Ziele SVG is visible and sized correctly */
+#ziele-svg-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24rem;
+    min-width: 18rem;
+    background: transparent;
+}
+#ziele-svg-container svg {
+    width: 100%;
+    height: auto;
+    max-width: 38rem;
+    min-width: 18rem;
+    min-height: 24rem;
+    display: block;
+    overflow: visible;
+}
+#ziele-svg-container g {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+#ziele-svg-container [id*="Ziele"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
 /* Neuer Abschnitt mit voller Bildschirmhöhe */
 .fullscreen-section {
     width: 100vw;
@@ -3096,8 +3124,8 @@ footer a {
 
 #ziele-meilensteine .meilensteine-visual {
     position: sticky;
-    top: 5.5rem;
-    align-self: top;
+    top: 8.5rem;
+    align-self: start;
     justify-self: center;
     border-radius: 0;
     background: transparent;
@@ -3105,7 +3133,7 @@ footer a {
     box-shadow: none;
     padding: 0;
     margin-right: 0;
-    margin-top: 2.2rem;
+    margin-bottom: clamp(3rem, 8vh, 6rem);
 }
 
 #ziele-meilensteine .meilensteine-visual img {
@@ -3115,6 +3143,7 @@ footer a {
     height: auto;
 }
 
+/* Abstand unter den Karten vergrößern */
 #ziele-meilensteine .meilensteine-cards {
     min-width: 0;
     display: grid;
@@ -3125,6 +3154,10 @@ footer a {
     width: min(100%, clamp(37.4rem, 64.6vw, 49.3rem));
     justify-self: start;
     margin-top: clamp(2.2rem, 4vw, 3.2rem);
+    padding-bottom: clamp(3.5rem, 7vw, 6rem);
+    position: relative;
+    z-index: 4;
+    overflow: visible;
 }
 
 /* Slide-in von links für Meilensteine-Karten */
@@ -3133,44 +3166,80 @@ footer a {
     flex-direction: column;
     justify-content: center;
     width: clamp(30rem, 52vw, 48rem);
-    height: clamp(18rem, 46vh, 28rem);
-    padding: clamp(1rem, 2.2vw, 2rem) clamp(1rem, 3vw, 2.2rem);
-    border-left: 0;
-    background: rgba(36, 148, 202, 0.92);
-    box-shadow: 0 0.7rem 2.2rem rgba(6, 35, 64, 0.18), 0 0.2rem 0.7rem rgba(0,0,0,0.10);
+    height: clamp(15.5rem, 38vh, 23.5rem);
+    padding: clamp(2.2rem, 3vw, 3.2rem) clamp(2.2rem, 4vw, 3.2rem);
+    border-radius: 0;
+    border: 0;
+    background: linear-gradient(120deg, rgba(36,148,202,0.98) 0%, rgba(7,79,141,0.98) 100%);
+    box-shadow: 0 1.2rem 2.8rem rgba(6, 35, 64, 0.18), 0 0.4rem 1.2rem rgba(0,0,0,0.13);
+    opacity: 1;
+    transform: translateX(0);
+    transition: transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 1.2s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s, border 0.3s;
+    text-align: left;
+    gap: 1.2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+#ziele-meilensteine .meilensteine-slide-card.meilensteine-reveal-ready:not(.meilensteine-card-visible) {
     opacity: 0;
     transform: translateX(-60%);
-    transition: transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
-    text-align: left;
+}
+
+#ziele-meilensteine .meilensteine-slide-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+    pointer-events: none;
+    box-shadow: none;
+    opacity: 0;
 }
 
 #ziele-meilensteine .meilensteine-slide-card.meilensteine-card-visible {
     opacity: 1;
     transform: translateX(0);
+    box-shadow: 0 2.2rem 4.2rem rgba(36, 148, 202, 0.18), 0 0.7rem 2.2rem rgba(0,0,0,0.13);
+    border: 0;
+}
+
+#ziele-meilensteine .meilensteine-slide-card.meilensteine-card-active {
+    transform: translateX(clamp(1.2rem, 2.5vw, 2.8rem));
+    box-shadow: 0 2.4rem 4.6rem rgba(36, 148, 202, 0.26), 0 0.9rem 2.4rem rgba(0,0,0,0.16);
+    z-index: 6;
 }
 
 #ziele-meilensteine .meilensteine-slide-card:nth-child(1) {
-    background: #2494CA;
+    background: linear-gradient(120deg, #2494CA 0%, #42A8D0 100%);
 }
 
 #ziele-meilensteine .meilensteine-slide-card:nth-child(2) {
-    background: #074e8dc5;
+    background: linear-gradient(120deg, #074F8D 0%, #2494CA 100%);
 }
 
 #ziele-meilensteine .meilensteine-slide-card:nth-child(3) {
-    background: #003E7E;
+    background: linear-gradient(120deg, #003E7E 0%, #074F8D 100%);
 }
 
 #ziele-meilensteine .meilensteine-slide-card h3 {
-    margin: 0 0 0.35rem;
-    color: #f4f9fd;
+    margin: 0 0 0.7rem 0;
+    color: #fff;
     text-align: left;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
 }
 
 #ziele-meilensteine .meilensteine-slide-card p {
     margin: 0;
-    color: #f4f9fd;
+    color: #eaf6ff;
     text-align: left;
+    font-size: 1.22rem;
+    line-height: 1.6;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    padding-right: 0.2em;
 }
 
 
@@ -3212,13 +3281,8 @@ footer a {
         width: 100%;
     }
 
-    #ziele-meilensteine .meilensteine-slide-card {
-        transform: translateY(1rem);
-    }
 
-    #ziele-meilensteine.meilensteine-entered .meilensteine-slide-card {
-        transform: translateY(0);
-    }
+    /* Entfernt: transform-Überschreibung für Reveal-Animation, damit Karten immer sichtbar werden */
 }
 
 /* Teilziele Zeitstrahl */

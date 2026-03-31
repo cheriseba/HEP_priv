@@ -1,3 +1,136 @@
+// Inline-Laden und Scroll-Rotation der Ziele-SVG
+function initZieleSVGScrollRotation() {
+    fetch('assets/images/svg/Ziele.svg')
+        .then(response => response.text())
+        .then(svgText => {
+            const container = document.getElementById('ziele-svg-container');
+            if (!container) return;
+            // IDs und Klassen eindeutig machen
+            const svg = isolateInlineSvg(svgText, 'ziele');
+            if (!svg) return;
+            container.replaceChildren(svg);
+
+            // Ziel-Ebene selektieren
+            const zieleGroup = svg.querySelector('[data-orig-id="Ziele"], [id^="ziele-Ziele"]');
+            if (!zieleGroup) return;
+
+            let renderedAngle = 0;
+            let targetAngle = 0;
+            let rotationRafId = null;
+
+            // Scroll-Listener für Rotation
+            function updateRotation() {
+                const section = document.getElementById('ziele-meilensteine');
+                if (!section) return 0;
+                const cards = Array.from(document.querySelectorAll('#ziele-meilensteine .meilensteine-slide-card'));
+                const visual = document.querySelector('#ziele-meilensteine .meilensteine-visual');
+                if (cards.length < 3) return 0;
+
+                const viewportCenter = window.innerHeight * 0.5;
+                const viewportHeight = window.innerHeight;
+                const currentScrollY = window.scrollY;
+                const sectionStartY = section.offsetTop;
+                const anchorAngles = [85, 190, 337];
+
+                const cardMetrics = cards.map((card) => {
+                    const rect = card.getBoundingClientRect();
+                    const cardCenterInViewport = rect.top + rect.height * 0.5;
+                    return {
+                        card,
+                        cardCenterInViewport,
+                        anchorY: currentScrollY + cardCenterInViewport - viewportCenter
+                    };
+                });
+
+                const anchorScrollY = cardMetrics.map((metric) => metric.anchorY);
+
+                let nearestCardIndex = -1;
+                let nearestCardDistance = Number.POSITIVE_INFINITY;
+                cardMetrics.forEach((metric, index) => {
+                    const distance = Math.abs(metric.cardCenterInViewport - viewportCenter);
+                    if (distance < nearestCardDistance) {
+                        nearestCardDistance = distance;
+                        nearestCardIndex = index;
+                    }
+                });
+
+                const activationWindow = viewportHeight * 0.16;
+                cards.forEach((card, index) => {
+                    const isActive = index === nearestCardIndex && nearestCardDistance <= activationWindow;
+                    card.classList.toggle('meilensteine-card-active', isActive);
+                });
+
+                // Start der Rotation, sobald die rechte Grafik sichtbar wird.
+                let rotationStartY = sectionStartY;
+                if (visual) {
+                    const visualRect = visual.getBoundingClientRect();
+                    const visualEnterViewportY = viewportHeight * 0.8;
+                    rotationStartY = currentScrollY + visualRect.top - visualEnterViewportY;
+                }
+
+                function clamp01(value) {
+                    return Math.max(0, Math.min(1, value));
+                }
+
+                function lerp(a, b, t) {
+                    return a + (b - a) * t;
+                }
+
+                let angle = 0;
+                const firstAnchorY = Math.max(anchorScrollY[0], rotationStartY + viewportHeight * 0.28);
+                const secondAnchorY = Math.max(anchorScrollY[1], firstAnchorY + 120);
+                const thirdAnchorY = Math.max(anchorScrollY[2], secondAnchorY + 120);
+
+                if (currentScrollY <= rotationStartY) {
+                    angle = 0;
+                } else if (currentScrollY < firstAnchorY) {
+                    const denom = Math.max(1, firstAnchorY - rotationStartY);
+                    const t = clamp01((currentScrollY - rotationStartY) / denom);
+                    angle = lerp(0, anchorAngles[0], t);
+                } else if (currentScrollY < secondAnchorY) {
+                    const denom = Math.max(1, secondAnchorY - firstAnchorY);
+                    const t = clamp01((currentScrollY - firstAnchorY) / denom);
+                    angle = lerp(anchorAngles[0], anchorAngles[1], t);
+                } else if (currentScrollY < thirdAnchorY) {
+                    const denom = Math.max(1, thirdAnchorY - secondAnchorY);
+                    const t = clamp01((currentScrollY - secondAnchorY) / denom);
+                    angle = lerp(anchorAngles[1], anchorAngles[2], t);
+                } else {
+                    angle = anchorAngles[2];
+                }
+
+                return angle;
+            }
+
+            function renderRotationFrame() {
+                const diff = targetAngle - renderedAngle;
+                renderedAngle += diff * 0.16;
+                if (Math.abs(diff) < 0.05) {
+                    renderedAngle = targetAngle;
+                }
+
+                // SVG center from viewBox/ellipse: (365.65, 268.86)
+                zieleGroup.setAttribute('transform', `rotate(${-renderedAngle} 365.65 268.86)`);
+
+                if (Math.abs(targetAngle - renderedAngle) >= 0.05) {
+                    rotationRafId = window.requestAnimationFrame(renderRotationFrame);
+                } else {
+                    rotationRafId = null;
+                }
+            }
+
+            function scheduleRotationUpdate() {
+                targetAngle = updateRotation();
+                if (rotationRafId === null) {
+                    rotationRafId = window.requestAnimationFrame(renderRotationFrame);
+                }
+            }
+
+            window.addEventListener('scroll', scheduleRotationUpdate, { passive: true });
+            window.addEventListener('resize', scheduleRotationUpdate);
+            scheduleRotationUpdate();
+        });
+}
 // Timeline-Menü Scroll-Tracking
 function initMobileOrientationGate() {
     const gate = document.getElementById('orientation-gate');
@@ -93,6 +226,7 @@ window.addEventListener('DOMContentLoaded', () => {
     initMobileOrientationGate();
     initTimelineMenu();
     initTimelineLogoHomeLink();
+    initZieleSVGScrollRotation();
 });
 // ============================================================================
 // HEP Frontend Script
@@ -1050,17 +1184,18 @@ function initMeilensteineCardsReveal() {
     }
 
     cards.forEach((card, idx) => {
+        card.classList.add('meilensteine-reveal-ready');
         card.classList.remove('meilensteine-card-visible');
         const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio > 0.01) {
+                if (entry.isIntersecting && entry.intersectionRatio >= 0.28) {
                     card.classList.add('meilensteine-card-visible');
                     obs.unobserve(card);
                 }
             });
         }, {
-            threshold: [0.01, 0.12],
-            rootMargin: '-30% 0px -30% 0px'
+            threshold: [0.12, 0.28, 0.55],
+            rootMargin: '-6% 0px -14% 0px'
         });
         observer.observe(card);
     });
@@ -1370,6 +1505,8 @@ function initializeApp() {
     // Globales Snap-Scrolling zwischen Abschnitten deaktiviert.
     initWissensspeicherReveal();
     initWissensspeicherSlidein();
+}
+
 // Fullscreen Slideshow: transform-based horizontal slide transitions
 function initFullscreenSlideshow() {
     let currentSlide = 1;
@@ -1459,7 +1596,6 @@ function initFullscreenSlideshow() {
     }
 
     updateSlides(1);
-}
 }
 
 // Einheitlicher Bootstrapping-Pfad:
