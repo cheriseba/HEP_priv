@@ -1672,6 +1672,8 @@ main {
 #querschnittsthemen .intro-card {
     height: auto;
     min-height: 0;
+    padding-top: var(--section-header-start-gap);
+    padding-bottom: clamp(1.35rem, 3vh, 2.15rem);
 }
 
 #querschnittsthemen .intro-content {
@@ -4232,6 +4234,7 @@ footer a {
         --mobile-portrait-sticky-height: calc(100dvh - var(--mobile-portrait-sticky-top));
         --mobile-portrait-intro-height: calc(100dvh - var(--mobile-portrait-header-height));
         --mobile-portrait-scroll-stage-height: calc(100% - (100dvh - var(--mobile-portrait-sticky-top)));
+        --mobile-portrait-content-drop: clamp(0.85rem, 2.8vh, 1.7rem);
     }
 
     html {
@@ -4254,15 +4257,21 @@ footer a {
         min-height: 100dvh;
     }
 
+    #querschnittsthemen.section {
+        min-height: auto;
+        padding: 1rem 0.8rem 0 !important;
+    }
+
     #einleitung.section {
         min-height: auto;
         padding: 1.85rem 0.8rem 2.1rem;
     }
 
     #querschnittsthemen .container {
-        height: var(--mobile-portrait-intro-height);
+        height: auto;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
+        transform: none;
     }
 
     #einleitung .container {
@@ -4275,6 +4284,12 @@ footer a {
         padding: 0.8rem 0;
         display: flex;
         overflow: hidden;
+    }
+
+    #querschnittsthemen .intro-card {
+        height: auto;
+        padding: var(--section-header-start-gap) 0 clamp(1.35rem, 3vh, 2.15rem);
+        overflow: visible;
     }
 
     #einleitung .intro-card {
@@ -4322,10 +4337,10 @@ footer a {
     #gelingendes-studium.section,
     .glstu-split {
         min-height: var(--glstu-min-height);
-    }
 
-    .glstu-split {
+        border-top: 0;
         grid-template-columns: minmax(15.625rem, 44%) minmax(17.5rem, 56%);
+        transform: translateY(var(--mobile-portrait-content-drop));
     }
 
     .glstu-fixed {
@@ -5032,6 +5047,260 @@ footer a {
 /* Finaler Einleitung-Override: stabiler 800er-Bereich. */
 #einleitung .intro-columns {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+:root {
+    --section-header-start-gap: clamp(1.15rem, 3vh, 1.8rem);
+}
+
+#einleitung.section,
+#gelingendes-studium.section,
+#querschnittsthemen.section,
+#kurzportrait.section,
+#ziele-meilensteine.section,
+#wissensspeicher.section,
+#wissensspeicher-inhalte.section {
+    padding-top: var(--section-header-start-gap) !important;
+}
+
+#querschnittsthemen.section {
+    padding-top: 0.25rem !important;
+}
+
+#einleitung.section {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+#einleitung .container,
+#einleitung .intro-card {
+    margin-bottom: 0 !important;
+}
+
+#gelingendes-studium.section,
+#gelingendes-studium .glstu-split {
+    margin-top: 0 !important;
+}
+
+#gelingendes-studium.section {
+    margin-top: 0 !important;
+}
+
+#einleitung.section + #gelingendes-studium.section {
+    margin-top: -4px !important;
+}
+
+#gelingendes-studium.section {
+    padding-bottom: 0 !important;
+}
+
+#gelingendes-studium .glstu-fixed,
+#gelingendes-studium .glstu-svg-container,
+#gelingendes-studium .glstu-svg-container svg {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Finale GLSTU-Normalisierung: klare 2-Spalten-Basis, gezielte Mobil-Stacks. */
+#gelingendes-studium .glstu-split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-template-areas:
+        "header header"
+        "text graphic" !important;
+    column-gap: clamp(1.5rem, 2.8vw, 3.4rem);
+    row-gap: 0;
+    align-items: center !important;
+}
+
+#gelingendes-studium .glstu-header-track {
+    grid-area: header;
+}
+
+#gelingendes-studium .glstu-static-text {
+    grid-area: text;
+    margin-left: 0 !important;
+    padding: 0 clamp(1rem, 2.6vw, 2.5rem) 0 clamp(1rem, 4.8vw, 6rem) !important;
+    width: min(100%, 64ch) !important;
+    max-width: 64ch !important;
+    text-align: left;
+}
+
+#gelingendes-studium .glstu-fixed {
+    grid-area: graphic !important;
+    margin-top: 0 !important;
+    padding: 0 clamp(0.8rem, 2.5vw, 2.2rem) 0 0 !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+#gelingendes-studium .glstu-svg-container {
+    width: min(100%, clamp(24rem, 42vw, 50rem)) !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    transform: none !important;
+}
+
+#gelingendes-studium .glstu-svg-container svg {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* 1440x900-Klasse: Grafik etwas weiter nach rechts schieben. */
+@media (min-width: 87.5rem) and (max-width: 95rem) and (min-height: 50rem) and (max-height: 60rem) {
+    #gelingendes-studium .glstu-fixed {
+        justify-content: flex-end !important;
+        padding-right: clamp(1.2rem, 3vw, 2.8rem) !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container {
+        transform: translateX(clamp(1.2rem, 2.6vw, 2.6rem)) !important;
+    }
+}
+
+/* Genannte Mobile/Tablet-Faelle: Header oben, breiter Text, SVG darunter zentriert. */
+@media (max-width: 53rem),
+       (orientation: landscape) and (pointer: coarse) and (max-width: 60rem) and (max-height: 33.75rem) {
+    #gelingendes-studium .glstu-split {
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            "header"
+            "text"
+            "graphic" !important;
+        row-gap: clamp(0.9rem, 2.8vh, 1.8rem);
+        align-items: start !important;
+    }
+
+    #gelingendes-studium .glstu-static-text {
+        width: min(100%, 96vw) !important;
+        max-width: 96vw !important;
+        margin: 0 auto !important;
+        padding: 0 clamp(0.7rem, 3.4vw, 1.3rem) !important;
+    }
+
+    #gelingendes-studium .glstu-static-text p {
+        max-width: none;
+    }
+
+    #gelingendes-studium .glstu-fixed {
+        position: static !important;
+        top: auto !important;
+        height: auto !important;
+        min-height: 0 !important;
+        margin-top: 0 !important;
+        padding: 0 clamp(0.5rem, 2.8vw, 1rem) clamp(0.8rem, 2.6vh, 1.6rem) !important;
+        justify-content: center !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container {
+        width: min(100%, 95vw) !important;
+        transform: none !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        max-height: min(58vh, 30rem) !important;
+    }
+}
+
+@media (max-width: 53rem) and (orientation: portrait) {
+    #gelingendes-studium.section,
+    #gelingendes-studium .glstu-split {
+        min-height: auto !important;
+    }
+
+    #gelingendes-studium.section {
+        padding-top: var(--section-header-start-gap) !important;
+        padding-bottom: calc(3rem + var(--glstu-expanded-overflow-pad, 0px)) !important;
+        position: relative;
+        overflow: clip !important;
+    }
+
+    #querschnittsthemen.section {
+        padding-top: 0 !important;
+    }
+
+    #gelingendes-studium .glstu-header-track {
+        margin-bottom: 0 !important;
+    }
+
+    #gelingendes-studium .meilensteine-header h2 {
+        margin-left: 0 !important;
+        padding-left: 1.1rem !important;
+        padding-right: 1.5rem !important;
+        white-space: nowrap;
+    }
+
+    #gelingendes-studium .glstu-split {
+        row-gap: clamp(0.7rem, 1.9vh, 1.2rem);
+        overflow: clip !important;
+    }
+
+    #gelingendes-studium .glstu-fixed,
+    #gelingendes-studium .glstu-text-stage,
+    #gelingendes-studium .glstu-scroll-steps {
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+    #gelingendes-studium .glstu-fixed {
+        position: static !important;
+        top: auto !important;
+    }
+
+    #gelingendes-studium .glstu-static-text {
+        width: min(100%, 95vw) !important;
+        max-width: 95vw !important;
+        padding-left: clamp(0.65rem, 3.1vw, 1.05rem) !important;
+        padding-right: clamp(1.05rem, 4.4vw, 1.55rem) !important;
+    }
+
+    #gelingendes-studium .glstu-fixed {
+        margin-top: clamp(0.9rem, 2.7vh, 1.6rem) !important;
+        padding-bottom: clamp(0.35rem, 1.1vh, 0.6rem) !important;
+    }
+
+    #gelingendes-studium .glstu-text-stage,
+    #gelingendes-studium .glstu-scroll-steps,
+    #gelingendes-studium .glstu-scroll-step {
+        display: block !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container {
+        margin-bottom: clamp(0.2rem, 0.8vh, 0.45rem) !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        max-height: min(45vh, 22rem) !important;
+        margin-bottom: 0 !important;
+        display: block;
+    }
+
+    .qst-svg-subsection-container {
+        height: auto;
+        padding-top: var(--section-header-start-gap) !important;
+        padding-bottom: 0 !important;
+        align-items: flex-start;
+        transform: none;
+    }
+
+    .qst-svg-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .qst-svg-container img {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        max-height: min(42vh, 20rem);
+    }
+
+    .qst-svg-subsection.section {
+        min-height: auto !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        border-bottom: 0;
+    }
 }
 
 @media (max-width: 900px) {

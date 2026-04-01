@@ -848,6 +848,8 @@ function initSVGInteractions() {
 function initGLSTUInteractions() {
     const glstuRoot = document.querySelector('#glstu-svg-container svg');
     if (!glstuRoot) return;
+    const glstuSection = document.getElementById('gelingendes-studium');
+    const mobilePortraitGLSTUQuery = window.matchMedia('(max-width: 53rem) and (orientation: portrait)');
 
     function getGLSTULayer(id) {
         return glstuRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
@@ -860,6 +862,55 @@ function initGLSTUInteractions() {
         Hochschule: 'O_x5F_Hochschule'
     };
     const overlayIds = Object.values(layerMap);
+
+    function setGLSTUMobileOverflowPadding(pixels) {
+        if (!glstuSection) return;
+        const safePixels = Number.isFinite(pixels) ? Math.max(0, pixels) : 0;
+        glstuSection.style.setProperty('--glstu-expanded-overflow-pad', `${safePixels}px`);
+    }
+
+    function updateGLSTUMobileOverflowPadding() {
+        if (!mobilePortraitGLSTUQuery.matches) {
+            setGLSTUMobileOverflowPadding(0);
+            return;
+        }
+
+        const viewBox = glstuRoot.viewBox && glstuRoot.viewBox.baseVal
+            ? glstuRoot.viewBox.baseVal
+            : null;
+        if (!viewBox || !viewBox.height) {
+            setGLSTUMobileOverflowPadding(0);
+            return;
+        }
+
+        let maxOverlayBottom = viewBox.height;
+        let hasVisibleOverlay = false;
+
+        overlayIds.forEach((id) => {
+            const overlay = getGLSTULayer(id);
+            if (!overlay || !overlay.classList.contains('glstu-overlay-visible')) return;
+            hasVisibleOverlay = true;
+            try {
+                const bbox = overlay.getBBox();
+                maxOverlayBottom = Math.max(maxOverlayBottom, bbox.y + bbox.height);
+            } catch {
+                // Ignore non-renderable overlay states and keep fallback padding.
+            }
+        });
+
+        if (!hasVisibleOverlay) {
+            setGLSTUMobileOverflowPadding(0);
+            return;
+        }
+
+        const overflowInViewBoxUnits = Math.max(0, maxOverlayBottom - viewBox.height);
+        const renderedHeight = glstuRoot.getBoundingClientRect().height;
+        const unitToPixelScale = renderedHeight > 0 ? renderedHeight / viewBox.height : 0;
+        const overflowPixels = Math.ceil(overflowInViewBoxUnits * unitToPixelScale);
+        const mobileSafetyPadding = 28;
+        const clampedPadding = Math.min(320, overflowPixels + mobileSafetyPadding);
+        setGLSTUMobileOverflowPadding(clampedPadding);
+    }
 
     overlayIds.forEach(id => {
         const overlay = getGLSTULayer(id);
@@ -884,6 +935,8 @@ function initGLSTUInteractions() {
                 overlay.classList.remove('glstu-overlay-visible');
             }
         });
+
+        updateGLSTUMobileOverflowPadding();
     }
 
     Object.entries(layerMap).forEach(([baseId, overlayId]) => {
@@ -905,6 +958,20 @@ function initGLSTUInteractions() {
             });
         });
     });
+
+    if (glstuSection && glstuSection.dataset.glstuMobileOverflowObserverBound !== 'true') {
+        const refreshOverflowPadding = () => {
+            updateGLSTUMobileOverflowPadding();
+        };
+
+        window.addEventListener('resize', refreshOverflowPadding, { passive: true });
+        if (typeof mobilePortraitGLSTUQuery.addEventListener === 'function') {
+            mobilePortraitGLSTUQuery.addEventListener('change', refreshOverflowPadding);
+        }
+        glstuSection.dataset.glstuMobileOverflowObserverBound = 'true';
+    }
+
+    updateGLSTUMobileOverflowPadding();
 }
 
 
