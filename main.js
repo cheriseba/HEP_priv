@@ -850,6 +850,7 @@ function initGLSTUInteractions() {
     if (!glstuRoot) return;
     const glstuSection = document.getElementById('gelingendes-studium');
     const mobilePortraitGLSTUQuery = window.matchMedia('(max-width: 53rem) and (orientation: portrait)');
+    const mobileLandscapeGLSTUQuery = window.matchMedia('(orientation: landscape) and (max-width: 64rem) and (max-height: 33.75rem)');
 
     function getGLSTULayer(id) {
         return glstuRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
@@ -870,7 +871,9 @@ function initGLSTUInteractions() {
     }
 
     function updateGLSTUMobileOverflowPadding() {
-        if (!mobilePortraitGLSTUQuery.matches) {
+        const isPortrait = mobilePortraitGLSTUQuery.matches;
+        const isLandscape = mobileLandscapeGLSTUQuery.matches;
+        if (!isPortrait && !isLandscape) {
             setGLSTUMobileOverflowPadding(0);
             return;
         }
@@ -907,8 +910,9 @@ function initGLSTUInteractions() {
         const renderedHeight = glstuRoot.getBoundingClientRect().height;
         const unitToPixelScale = renderedHeight > 0 ? renderedHeight / viewBox.height : 0;
         const overflowPixels = Math.ceil(overflowInViewBoxUnits * unitToPixelScale);
-        const mobileSafetyPadding = 28;
-        const clampedPadding = Math.min(320, overflowPixels + mobileSafetyPadding);
+        const mobileSafetyPadding = isLandscape ? 90 : 28;
+        const maxPadding = isLandscape ? 760 : 320;
+        const clampedPadding = Math.min(maxPadding, overflowPixels + mobileSafetyPadding);
         setGLSTUMobileOverflowPadding(clampedPadding);
     }
 
@@ -967,6 +971,9 @@ function initGLSTUInteractions() {
         window.addEventListener('resize', refreshOverflowPadding, { passive: true });
         if (typeof mobilePortraitGLSTUQuery.addEventListener === 'function') {
             mobilePortraitGLSTUQuery.addEventListener('change', refreshOverflowPadding);
+        }
+        if (typeof mobileLandscapeGLSTUQuery.addEventListener === 'function') {
+            mobileLandscapeGLSTUQuery.addEventListener('change', refreshOverflowPadding);
         }
         glstuSection.dataset.glstuMobileOverflowObserverBound = 'true';
     }

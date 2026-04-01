@@ -5312,3 +5312,52 @@ footer a {
         grid-column: 1 !important;
     }
 }
+
+@media (orientation: landscape) and (max-width: 64rem) and (max-height: 33.75rem) {
+    #gelingendes-studium.section {
+        padding-bottom: calc(clamp(7rem, 18vh, 11rem) + var(--glstu-expanded-overflow-pad, 0px)) !important;
+    }
+
+    #gelingendes-studium .glstu-header-track {
+        padding-top: 3rem !important;
+    }
+
+    #gelingendes-studium .meilensteine-header h2 {
+        margin-left: 0 !important;
+        width: fit-content;
+        max-width: none;
+        padding-left: 1.05rem !important;
+        padding-right: 1.35rem !important;
+        white-space: nowrap;
+    }
+
+    #gelingendes-studium .glstu-static-text {
+        width: 100vw !important;
+        max-width: 60vw !important;
+        margin: 0 !important;
+        margin-left: clamp(0.65rem, 2.2vw, 1.1rem) !important;
+        margin-right: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0.75rem !important;
+        text-align: left !important;
+    }
+
+    #gelingendes-studium .glstu-split {
+        column-gap: clamp(4rem, 8vw, 6rem) !important;
+        row-gap: clamp(1rem, 2.8vh, 1.8rem) !important;
+        align-items: start !important;
+    }
+
+    #gelingendes-studium .glstu-fixed {
+        padding-bottom: clamp(2rem, 6vh, 3.5rem) !important;
+        justify-content: center !important;
+        overflow: visible !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container {
+        transform: scale(1.8) !important;
+        transform-origin: center top;
+        margin-top: clamp(0.8rem, 2vh, 1.5rem) !important;
+        overflow: visible !important;
+    }
+}
