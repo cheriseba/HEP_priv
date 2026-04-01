@@ -542,6 +542,10 @@ function initSectionReveal() {
     const revealElements = document.querySelectorAll('.reveal-on-scroll');
     if (!revealElements.length) return;
 
+    const slowLandscapeReveal = window.matchMedia(
+        '(orientation: landscape) and (pointer: coarse) and (max-width: 60rem) and (max-height: 33.75rem)'
+    ).matches;
+
     // Bewegt Intro-Karten horizontal ein, abhaengig von der Position ihrer Section im Viewport.
     function updateTransforms() {
         const windowHeight = window.innerHeight;
@@ -555,11 +559,13 @@ function initSectionReveal() {
             let endTop;
             
             if (section.id === 'einleitung') {
-                endTop = 300; // Animation endet viel früher
+                endTop = slowLandscapeReveal ? 0 : 300; // Querformat-Handys deutlich langsamer
             } else if (section.id === 'querschnittsthemen') {
-                endTop = headerOffset + (windowHeight * 0.18);
+                endTop = slowLandscapeReveal
+                    ? headerOffset - 24
+                    : headerOffset + (windowHeight * 0.18);
             } else {
-                endTop = headerOffset;
+                endTop = slowLandscapeReveal ? headerOffset - 16 : headerOffset;
             }
 
             // Fortschritt berechnen:
@@ -567,6 +573,11 @@ function initSectionReveal() {
             // 1 wenn der Abschnitt am definierten Endpunkt ist (rect.top = endTop)
             let progress = (windowHeight - rect.top) / (windowHeight - endTop);
             progress = Math.max(0, Math.min(1, progress));
+
+            if (slowLandscapeReveal) {
+                progress = Math.pow(progress, 2.1);
+                progress = Math.min(1, progress * 0.78);
+            }
 
             // Lineare Verschiebung von -100% zu 0%
             const xPercent = (1 - progress) * -100;

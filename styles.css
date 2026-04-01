@@ -4604,6 +4604,10 @@ footer a {
         height: 2.75rem;
     }
 
+    .reveal-on-scroll {
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+    }
+
 }
 
 /* Profil A: sehr niedrige Landscape-Hoehe (typisch iPhone quer, etwa 24.375rem-26.875rem). */
