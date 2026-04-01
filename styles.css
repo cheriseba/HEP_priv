@@ -1491,6 +1491,12 @@ main {
     padding: 0;
 }
 
+@media (max-width: 900px) {
+    #einleitung .intro-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
 .intro-columns p {
     max-width: 100%;
     margin: 0;
@@ -4097,18 +4103,25 @@ footer a {
     }
 
     #hauptgrafik.section,
-    #einleitung.section,
     #querschnittsthemen.section,
     #ziele-meilensteine.section,
     #kurzportrait.section {
         min-height: 100dvh;
     }
 
-    #einleitung .container,
+    #einleitung.section {
+        min-height: auto;
+    }
+
     #querschnittsthemen .container {
         height: var(--mobile-portrait-intro-height);
         display: flex;
         align-items: center;
+    }
+
+    #einleitung .container {
+        height: auto;
+        display: block;
     }
 
     .intro-card {
@@ -4118,11 +4131,21 @@ footer a {
         overflow: hidden;
     }
 
+    #einleitung .intro-card {
+        height: auto;
+        display: block;
+        overflow: visible;
+    }
+
     .intro-content {
         height: 100%;
         display: flex;
         flex-direction: column;
         gap: 0.6rem;
+    }
+
+    #einleitung .intro-content {
+        height: auto;
     }
 
     .intro-title {
@@ -4134,6 +4157,11 @@ footer a {
         gap: 0.8rem;
         overflow: auto;
         padding-right: 0.3rem;
+    }
+
+    #einleitung .intro-columns {
+        overflow: visible;
+        padding-right: 0;
     }
 
     .intro-card p {
@@ -4630,6 +4658,20 @@ footer a {
 
 }
 
+/* Einleitung: auf Handy quer immer einspaltig. */
+@media (orientation: landscape) and (pointer: coarse) and (max-width: 60rem) {
+    #einleitung .intro-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Einleitung: auf Tablet hochformat immer einspaltig. */
+@media (orientation: portrait) and (min-width: 48rem) and (max-width: 64rem) {
+    #einleitung .intro-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Hard restore: Desktop-Verhalten fuer GLSTU und Unsere Fakultaeten. */
 @media (pointer: fine) {
     #gelingendes-studium.section,
@@ -4781,3 +4823,18 @@ footer a {
         justify-content: center;
         align-items: center;
     }
+
+/* Finaler Einleitung-Override: stabiler 800er-Bereich. */
+#einleitung .intro-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 900px) {
+    #einleitung .intro-columns {
+        grid-template-columns: 1fr !important;
+    }
+
+    #einleitung .intro-footnote {
+        grid-column: 1 !important;
+    }
+}
