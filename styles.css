@@ -217,7 +217,7 @@
 }
 
 .fullscreen-progress-count {
-    font-size: 0.78em;
+    font-size: var(--fs-text-sm);
     font-weight: 700;
     color: #bfe6ff;
     min-width: 2.2em;
@@ -343,10 +343,13 @@ h1, .ueberschrift-gross {
 
 @media (min-width: 901px) {
     :root {
-        --fs-h1-global: clamp(1.5rem, 0.7vw + 1.25rem, 1.95rem);
-        --fs-h2-global: clamp(1.4rem, 0.95vw + 1.08rem, 2.25rem);
-        --fs-h3-global: clamp(1.18rem, 0.65vw + 0.98rem, 1.75rem);
-        --fs-h4-global: clamp(0.98rem, 0.2vw + 0.9rem, 1.14rem);
+        --fs-h1-global: clamp(1.52rem, 0.5vw + 1.3rem, 2rem);
+        --fs-h2-global: clamp(1.42rem, 0.68vw + 1.06rem, 2.22rem);
+        --fs-h3-global: clamp(1.2rem, 0.4vw + 0.98rem, 1.72rem);
+        --fs-h4-global: clamp(0.99rem, 0.18vw + 0.9rem, 1.12rem);
+        --fs-text-base: clamp(1rem, 0.1vw + 0.95rem, 1.12rem);
+        --fs-text-lg: clamp(1.04rem, 0.12vw + 0.99rem, 1.16rem);
+        --fs-text-sm: clamp(0.92rem, 0.07vw + 0.88rem, 1rem);
     }
 }
 
@@ -408,7 +411,7 @@ h1, .ueberschrift-gross {
 .orientation-gate-card {
     width: min(92vw, 32.5rem);
     border-radius: 1.1rem;
-    background: rgba(255, 255, 255);
+    font-size: var(--fs-text-sm);
     border: 0.0625rem solid rgba(255, 255, 255);
     padding: 1.35rem 1.15rem 1.15rem;
     text-align: center;
@@ -473,7 +476,7 @@ h1, .ueberschrift-gross {
 .orientation-gate-card p {
     margin: 0;
     color: rgba(21, 49, 73, 0.78);
-    font-size: 0.95rem;
+    font-size: var(--fs-text-sm);
     line-height: 1.4;
     max-width: 29ch;
 }
@@ -1166,7 +1169,7 @@ main {
     height: 1.5rem;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: var(--fs-text-sm);
     line-height: 1;
     display: inline-flex;
     align-items: center;
@@ -1214,7 +1217,7 @@ main {
 }
 
 .glstu-progress-count {
-    font-size: 0.78em;
+    font-size: var(--fs-text-sm);
     font-weight: 700;
     color: #0f4c7f;
     min-width: 2.2em;
@@ -1489,6 +1492,42 @@ main {
     padding: 3rem 2rem 0 2rem;
 }
 
+/* Sehr grosse Screens: fluid skalieren statt harter 1920-Kappe. */
+@media (min-width: 120rem) {
+    #einleitung.section {
+        padding-top: clamp(3rem, 2.1vw, 4.4rem);
+        padding-bottom: clamp(1.6rem, 1.4vw, 3rem);
+    }
+
+    #einleitung .intro-card {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        padding-top: clamp(3rem, 1.8vw, 4.3rem);
+        padding-bottom: clamp(2.4rem, 1.8vw, 4.1rem);
+    }
+
+    #einleitung .intro-content {
+        width: clamp(78rem, 66vw, 100rem);
+    }
+
+    #einleitung .intro-columns {
+        gap: clamp(2rem, 1.28vw, 3rem);
+    }
+}
+
+@media (min-width: 160rem) {
+    :root {
+        --fs-h1-global: clamp(2.04rem, 0.52vw + 1.56rem, 2.72rem);
+        --fs-h2-global: clamp(1.9rem, 0.7vw + 1.34rem, 2.98rem);
+        --fs-h3-global: clamp(1.56rem, 0.38vw + 1.18rem, 2.22rem);
+        --fs-h4-global: clamp(1.12rem, 0.18vw + 1rem, 1.34rem);
+        --fs-text-base: clamp(1.18rem, 0.12vw + 1.06rem, 1.34rem);
+        --fs-text-lg: clamp(1.22rem, 0.14vw + 1.1rem, 1.42rem);
+        --fs-text-sm: clamp(1.02rem, 0.08vw + 0.96rem, 1.12rem);
+    }
+}
+
 .intro-content {
     width: min(86vw, 78rem);
     margin: 0 auto;  /* Reduzierter horizontaler Rand. Ursprünglich könnte ein größerer Rand verwendet worden sein */
@@ -1738,7 +1777,7 @@ main {
     align-items: center;
     justify-content: center;
     white-space: nowrap;
-    font-size: 1.05rem;
+    font-size: var(--fs-text-base);
     font-weight: 500;
     line-height: 1;
     opacity: 0;
@@ -1964,7 +2003,7 @@ p {
 }
 
 #wissensspeicher-inhalte .wissensspeicher-step1-link span {
-    font-size: 1.05rem;
+    font-size: var(--fs-text-base);
     line-height: 1;
     transform: translate(0, -0.02rem);
 }
@@ -2005,13 +2044,13 @@ p {
 }
 
 #wissensspeicher-inhalte .wissensspeicher-link-preview-meta strong {
-    font-size: 0.86rem;
+    font-size: var(--fs-h4-global);
     font-weight: 700;
     color: #003e7e;
 }
 
 #wissensspeicher-inhalte .wissensspeicher-link-preview-meta small {
-    font-size: 0.74rem;
+    font-size: var(--fs-text-sm);
     color: #2e5d87;
 }
 
@@ -2061,7 +2100,7 @@ p {
     background: rgba(255, 255, 255, 0.32);
 
     color: #ffffff;
-    font-size: 2rem;
+    font-size: var(--fs-h2-global);
     font-weight: 700;
     line-height: 1;
     box-shadow: 0 0.25rem 0.8rem rgba(0, 20, 42, 0.28);
@@ -2479,7 +2518,7 @@ p {
     height: 1.5rem;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 0.78rem;
+    font-size: var(--fs-text-sm);
     line-height: 1;
     display: inline-flex;
     align-items: center;
@@ -2527,7 +2566,7 @@ p {
 }
 
 .kurzportrait-progress-count {
-    font-size: 0.78em;
+    font-size: var(--fs-text-sm);
     font-weight: 700;
     color: #bfe6ff;
     min-width: 2.2em;
@@ -3440,7 +3479,7 @@ footer a {
     margin: 0 0 0.7rem 0;
     color: #fff;
     text-align: left;
-    font-size: 2.2rem;
+    font-size: var(--fs-h2-global);
     font-weight: 700;
     letter-spacing: 0.01em;
     line-height: 1.1;
@@ -3450,7 +3489,7 @@ footer a {
     margin: 0;
     color: #eaf6ff;
     text-align: left;
-    font-size: 1.22rem;
+    font-size: var(--fs-text-lg);
     line-height: 1.6;
     font-weight: 400;
     letter-spacing: 0.01em;
@@ -3661,7 +3700,7 @@ footer a {
     background: #093c70a9;
     color: #e7f3ff;
     font-family: inherit;
-    font-size: 1.2rem;
+    font-size: var(--fs-text-lg);
     font-weight: 700;
     letter-spacing: 0.03em;
     text-transform: uppercase;
@@ -3942,6 +3981,7 @@ footer a {
 .teilziele-cell-empty {
     color: #e4f2ff;
     opacity: 0.85;
+    font-size: var(--fs-text-sm);
 }
 
 .teilziele-timeline::-webkit-scrollbar {
@@ -4056,7 +4096,7 @@ footer a {
     }
 
     .teilziele-goal-tab {
-        font-size: 1rem;
+        font-size: var(--fs-text-base);
         padding: 0.46rem 0.4rem;
     }
 
@@ -4590,7 +4630,7 @@ footer a {
     }
 
     .teilziele-goal-tab {
-        font-size: 0.84rem;
+        font-size: var(--fs-text-sm);
         padding: 0.32rem 0.3rem;
     }
 
