@@ -232,13 +232,13 @@
 /* Einheitliche Schriftgrößen für das gesamte Projekt */
 
 h3, .teilziele-sticky-goal-title, .unterueberschrift, .gs-text-block h3, .qst-text-overlay h3, .glstu-display-title {
-    font-size: 2rem;
+    font-size: var(--fs-h3-global);
     font-weight: 700;
     margin-bottom: 0.5em;
 }
 
 h4, .teilziele-year-head, .teilziele-sticky-goal-text,.box, .box {
-    font-size: var(--fs-text-lg);
+    font-size: var(--fs-h4-global);
     line-height: 1.6;
     font-weight: 500;
 }
@@ -258,13 +258,13 @@ li, .kreise {
 }
 
 h2, .intro-title, .ueberschrift-klein {
-    font-size: 2.5rem;
+    font-size: var(--fs-h2-global);
     font-weight: 600;
     letter-spacing: 0.03125rem;
     margin-bottom: 0.7em;
 }
 h1, .ueberschrift-gross {
-    font-size: 2rem; 
+    font-size: var(--fs-h1-global);
     font-weight: 700;
     margin-bottom: 1em;
 }
@@ -300,6 +300,12 @@ h1, .ueberschrift-gross {
     --main-graphic-container-margin-bottom: 2rem;
     --main-graphic-align-items: center;
 
+    /* Project-wide heading scale */
+    --fs-h1-global: clamp(1.5rem, 0.7vw + 1.25rem, 1.95rem);
+    --fs-h2-global: clamp(1.4rem, 0.95vw + 1.08rem, 2.25rem);
+    --fs-h3-global: clamp(1.18rem, 0.65vw + 0.98rem, 1.75rem);
+    --fs-h4-global: clamp(0.98rem, 0.2vw + 0.9rem, 1.14rem);
+
     --fs-text-base: 1rem;
     --fs-text-lg: 1.05rem;
     --fs-text-sm: 0.95rem;
@@ -324,6 +330,24 @@ h1, .ueberschrift-gross {
     --kurzportrait-main-height: 100dvh;
     --gs-sticky-top: var(--header-height);
     --gs-sticky-height: calc(100vh - var(--gs-sticky-top));
+}
+
+@media (max-width: 900px) {
+    :root {
+        --fs-h1-global: clamp(1.34rem, 2vw + 0.82rem, 1.72rem);
+        --fs-h2-global: clamp(1.24rem, 2.15vw + 0.76rem, 1.62rem);
+        --fs-h3-global: clamp(1.08rem, 1.45vw + 0.72rem, 1.4rem);
+        --fs-h4-global: clamp(0.94rem, 0.8vw + 0.72rem, 1.04rem);
+    }
+}
+
+@media (min-width: 901px) {
+    :root {
+        --fs-h1-global: clamp(1.5rem, 0.7vw + 1.25rem, 1.95rem);
+        --fs-h2-global: clamp(1.4rem, 0.95vw + 1.08rem, 2.25rem);
+        --fs-h3-global: clamp(1.18rem, 0.65vw + 0.98rem, 1.75rem);
+        --fs-h4-global: clamp(0.98rem, 0.2vw + 0.9rem, 1.14rem);
+    }
 }
 
 html {
@@ -1476,9 +1500,9 @@ main {
     display: inline-block;
     background: #ffffff;
     color: #004E9E;
-    padding: 0.08rem 2rem;
+    padding: 0.07rem 1.7rem;
     border-radius: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 1.55rem;
     align-items: center;
     width: fit-content;
 }
@@ -4111,6 +4135,7 @@ footer a {
 
     #einleitung.section {
         min-height: auto;
+        padding: 1.85rem 0.8rem 2.1rem;
     }
 
     #querschnittsthemen .container {
@@ -4135,6 +4160,7 @@ footer a {
         height: auto;
         display: block;
         overflow: visible;
+        padding: 1.35rem 0 1.7rem;
     }
 
     .intro-content {
@@ -4520,6 +4546,33 @@ footer a {
         gap: 0.65rem;
     }
 
+    #einleitung.section {
+        padding: 0.95rem 0.55rem 1.25rem;
+    }
+
+    #einleitung .container {
+        height: auto;
+        min-height: 0;
+        display: block;
+    }
+
+    #einleitung .intro-card {
+        height: auto;
+        min-height: 0;
+        padding: 1.1rem 0 1.35rem;
+        overflow: visible;
+    }
+
+    #einleitung .intro-content {
+        height: auto;
+    }
+
+    #einleitung .intro-columns {
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
+    }
+
     .glstu-text-display,
     .kurzportrait-text-display {
         padding: 0.52rem 0.58rem;
@@ -4641,6 +4694,33 @@ footer a {
 
     .intro-columns {
         max-height: calc(100dvh - 9.5rem);
+    }
+
+    #einleitung.section {
+        padding: 1.05rem 0.62rem 1.4rem;
+    }
+
+    #einleitung .container {
+        height: auto;
+        min-height: 0;
+        display: block;
+    }
+
+    #einleitung .intro-card {
+        height: auto;
+        min-height: 0;
+        padding: 1.2rem 0 1.5rem;
+        overflow: visible;
+    }
+
+    #einleitung .intro-content {
+        height: auto;
+    }
+
+    #einleitung .intro-columns {
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
     }
 
     .teilziele-matrix {
