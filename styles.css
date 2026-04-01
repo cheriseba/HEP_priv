@@ -1496,7 +1496,7 @@ main {
 @media (min-width: 120rem) {
     #einleitung.section {
         padding-top: clamp(3rem, 2.1vw, 4.4rem);
-        padding-bottom: clamp(1.6rem, 1.4vw, 3rem);
+        padding-bottom: 0;
     }
 
     #einleitung .intro-card {
@@ -1517,6 +1517,60 @@ main {
 }
 
 @media (min-width: 160rem) {
+    #einleitung.section {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .timeline-nav {
+        overflow-x: clip;
+    }
+
+    main {
+        overflow-x: clip;
+    }
+
+    .intro-card,
+    .qst-slideshow-section.section,
+    .qst-slideshow,
+    .section.fullscreen-section,
+    #einleitung .intro-card,
+    #einleitung.section,
+    #kurzportrait .kurzportrait-intro,
+    #querschnittsthemen .intro-card {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #hauptgrafik.section,
+    #einleitung.section,
+    #querschnittsthemen.section,
+    #gelingendes-studium.section,
+    #wissensspeicher.section,
+    #wissensspeicher-inhalte.section,
+    #kurzportrait.section,
+    #ziele-meilensteine.section,
+    .qst-svg-subsection.section,
+    .qst-slideshow-section.section {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .meilensteine-header h2,
+    .teilziele-copied-heading h2,
+    .glstu-static-text,
+    .kurzportrait-intro,
+    #wissensspeicher .wissensspeicher-header,
+    #wissensspeicher-inhalte .wissensspeicher-header {
+        margin-left: 0;
+    }
+
+    #einleitung .intro-content {
+        width: min(94vw, 110rem);
+    }
+
     :root {
         --fs-h1-global: clamp(2.04rem, 0.52vw + 1.56rem, 2.72rem);
         --fs-h2-global: clamp(1.9rem, 0.7vw + 1.34rem, 2.98rem);
@@ -1525,6 +1579,33 @@ main {
         --fs-text-base: clamp(1.18rem, 0.12vw + 1.06rem, 1.34rem);
         --fs-text-lg: clamp(1.22rem, 0.14vw + 1.1rem, 1.42rem);
         --fs-text-sm: clamp(1.02rem, 0.08vw + 0.96rem, 1.12rem);
+    }
+}
+
+@media (min-width: 215rem) {
+    body {
+        background: #000000;
+    }
+
+    .sticky-header,
+    main,
+    footer {
+        width: min(100%, 120rem);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .sticky-header {
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(100%, 120rem);
+        overflow-x: clip;
+    }
+
+    main,
+    footer {
+        position: relative;
+        z-index: 1;
     }
 }
 
