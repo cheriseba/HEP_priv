@@ -4243,6 +4243,129 @@ footer a {
     /* Entfernt: transform-Überschreibung für Reveal-Animation, damit Karten immer sichtbar werden */
 }
 
+@media (max-width: 900px) {
+    #ziele-meilensteine .meilensteine-two-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.8rem;
+    }
+
+    #ziele-meilensteine .meilensteine-visual {
+        order: 1;
+        position: relative;
+        top: auto;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+        display: flex;
+        justify-content: center;
+    }
+
+    #ziele-meilensteine #ziele-svg-container,
+    #ziele-meilensteine .meilensteine-visual img {
+        width: min(80vw, 24rem);
+        max-width: 100%;
+    }
+
+    #ziele-meilensteine .meilensteine-cards {
+        order: 2;
+        width: min(80vw, 40rem);
+        max-width: 80vw;
+        min-height: 0;
+        grid-template-rows: none;
+        gap: 0.95rem;
+        margin-top: 0;
+        padding-bottom: 0;
+        justify-self: center;
+        justify-items: center;
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card {
+        width: 100%;
+        max-width: none;
+        height: auto;
+        min-height: clamp(9.5rem, 24vh, 13rem);
+        padding: 1rem 1.1rem;
+        margin-inline: auto;
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card h3 {
+        font-size: clamp(1.08rem, 4.2vw, 1.3rem);
+        margin-bottom: 0.45rem;
+        text-align: left;
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card p {
+        font-size: clamp(0.8rem, 2.6vw, 0.9rem);
+        line-height: 1.45;
+        text-align: left;
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card.meilensteine-card-active {
+        transform: translateX(0);
+    }
+}
+
+@media (min-width: 901px) and (max-width: 64rem) {
+    #ziele-meilensteine .meilensteine-two-column {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(22rem, 38vw);
+        gap: clamp(1rem, 2.5vw, 2.5rem);
+        align-items: start;
+        margin-top: 1.5rem;
+    }
+
+    #ziele-meilensteine .meilensteine-cards {
+        order: initial;
+        width: min(60vw, clamp(28rem, 58vw, 46rem));
+        max-width: 60vw;
+        justify-self: start;
+        margin-top: clamp(2.2rem, 4vw, 3.2rem);
+        padding-bottom: clamp(3.5rem, 7vw, 6rem);
+        grid-template-rows: repeat(3, minmax(8.5rem, 1fr));
+        gap: clamp(2.2rem, 4vw, 3.2rem);
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card {
+        width: 100%;
+        max-width: none;
+    }
+
+    #ziele-meilensteine .meilensteine-visual {
+        order: initial;
+        position: sticky;
+        top: 8.5rem;
+        width: auto;
+        max-width: none;
+        margin: 0 0 clamp(3rem, 8vh, 6rem) 0;
+        justify-self: center;
+    }
+
+    #ziele-meilensteine #ziele-svg-container,
+    #ziele-meilensteine .meilensteine-visual img {
+        width: clamp(24rem, 42vw, 44rem);
+        max-width: none;
+    }
+}
+
+@media (min-width: 901px) {
+    #ziele-meilensteine .meilensteine-cards {
+        min-height: 0;
+        grid-template-rows: repeat(3, minmax(0, auto));
+        align-content: start;
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card {
+        height: auto;
+        min-height: 0;
+        justify-content: flex-start;
+        padding: clamp(1.1rem, 1.6vw, 1.6rem) clamp(1.4rem, 2.2vw, 2rem);
+        gap: clamp(0.45rem, 0.9vw, 0.8rem);
+    }
+}
+
 /* Teilziele Zeitstrahl */
 .meilensteine-teilziele {
     width: 100%;
