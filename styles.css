@@ -6953,3 +6953,25 @@ footer a {
         margin-top: 0 !important;
     }
 }
+
+@media (min-width: 901px) {
+    .meilensteine-teilziele {
+        padding-right: 0 !important;
+    }
+
+    .teilziele-matrix {
+        padding-right: 0 !important;
+    }
+
+    .teilziele-timeline {
+        padding-right: 0 !important;
+    }
+
+    .teilziele-track {
+        padding-right: 0 !important;
+    }
+
+    .teilziele-track::before {
+        right: 0 !important;
+    }
+}
