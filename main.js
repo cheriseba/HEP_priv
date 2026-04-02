@@ -940,6 +940,14 @@ function initGLSTUInteractions() {
             }
         });
 
+        if (glstuSection) {
+            const anyOverlayVisible = overlayIds.some((id) => {
+                const overlay = getGLSTULayer(id);
+                return overlay && overlay.classList.contains('glstu-overlay-visible');
+            });
+            glstuSection.classList.toggle('glstu-overlay-open', anyOverlayVisible);
+        }
+
         updateGLSTUMobileOverflowPadding();
     }
 

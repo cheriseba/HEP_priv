@@ -1321,10 +1321,17 @@ main {
 
     #gelingendes-studium.section,
     .glstu-split {
-        min-height: var(--glstu-min-height);
+        padding-top: 0 !important;
     }
 
     .glstu-split {
+    #gelingendes-studium .glstu-header-track {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+    #gelingendes-studium .meilensteine-header h2 {
+        margin-top: 0 !important;
+    }
         grid-template-columns: 1fr;
         grid-template-areas:
             "header"
@@ -5145,7 +5152,7 @@ footer a {
 }
 
 #gelingendes-studium.section {
-    padding-bottom: 0 !important;
+    padding-bottom: 10rem !important;
 }
 
 #gelingendes-studium .glstu-fixed,
@@ -5706,5 +5713,116 @@ footer a {
 @media (orientation: landscape) and (min-width: 39.5rem) and (max-width: 40.5rem) and (max-height: 33.75rem) {
     #gelingendes-studium .glstu-fixed {
         margin-top: calc(clamp(0.5rem, 1.6vh, 1.2rem) + 5rem) !important;
+    }
+}
+
+/* Desktop-only GLSTU two-column behavior: graphic centered and larger,
+   then shrink it on overlay open so all expanded content stays visible. */
+@media (min-width: 56.3125rem) {
+    #gelingendes-studium.section {
+        min-height: auto !important;
+        padding-top: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    #gelingendes-studium .glstu-split {
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-areas: "text graphic" !important;
+        column-gap: 0 !important;
+        align-items: center !important;
+        min-height: auto !important;
+    }
+
+    #gelingendes-studium .glstu-static-text {
+        grid-area: text !important;
+        align-self: center !important;
+        justify-self: start !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 0 0 clamp(0rem, 0.3vw, 0.2rem) !important;
+        text-align: left !important;
+    }
+
+    #gelingendes-studium .glstu-static-text .glstu-copy-card {
+        margin-left: 0 !important;
+        margin-right: auto !important;
+        width: min(100%, 46vw) !important;
+        max-width: none !important;
+    }
+
+    #gelingendes-studium .glstu-fixed {
+        grid-area: graphic !important;
+        justify-content: center !important;
+        align-items: center !important;
+        justify-self: center !important;
+        padding: 0 !important;
+        margin-top: 0 !important;
+        align-self: center !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container {
+        width: clamp(36rem, 46vw, 54rem) !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        transform: translate(0, 20%) !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+        transform: none !important;
+        transform-origin: center center !important;
+        transition: transform 0.28s ease;
+    }
+
+    #gelingendes-studium.glstu-overlay-open .glstu-svg-container {
+        transform: translate(0, 20%) !important;
+    }
+
+    #gelingendes-studium.glstu-overlay-open .glstu-svg-container svg {
+        transform: none !important;
+    }
+}
+
+/* Tablet landscape: keep default size, but make opened SVG slightly smaller. */
+@media (orientation: landscape) and (min-width: 48rem) and (max-width: 64rem) {
+    #gelingendes-studium.glstu-overlay-open .glstu-svg-container svg {
+        transform: none !important;
+    }
+}
+
+/* Ultrawide 2560+: GLSTU SVG can be noticeably larger. */
+@media (min-width: 160rem) {
+    #gelingendes-studium .glstu-svg-container {
+        width: clamp(44rem, 40vw, 66rem) !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        transform: none !important;
+    }
+
+    #gelingendes-studium.glstu-overlay-open .glstu-svg-container svg {
+        transform: none !important;
+    }
+}
+
+/* 1024-range tuning: reduce top-heavy spacing without affecting larger desktops. */
+@media (min-width: 56.3125rem) and (max-width: 68rem) {
+    #gelingendes-studium.section {
+        min-height: auto !important;
+    }
+
+    #gelingendes-studium .glstu-split {
+        min-height: auto !important;
+    }
+
+    #gelingendes-studium .glstu-fixed {
+        margin-top: 0 !important;
     }
 }
