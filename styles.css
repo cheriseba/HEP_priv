@@ -5827,3 +5827,71 @@ footer a {
         margin-top: 0 !important;
     }
 }
+
+/* Kurzportrait HAWK: bis 901px einspaltig (Textkarte oben, Grafik darunter). */
+@media (max-width: 56.3125rem) {
+    #kurzportrait .kurzportrait-main {
+        height: auto !important;
+        min-height: auto !important;
+        display: flex;
+        flex-direction: column;
+        gap: clamp(0.85rem, 2.5vh, 1.5rem);
+        padding-bottom: clamp(0.9rem, 2.8vh, 1.6rem);
+        overflow: visible;
+    }
+
+    #kurzportrait .kurzportrait-slide-card {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: min(100%, 95vw);
+        min-height: 0;
+        margin: 0 auto;
+        transform: none !important;
+        pointer-events: auto;
+        z-index: 3;
+    }
+
+    #kurzportrait.kurzportrait-entered .kurzportrait-slide-card {
+        transform: none !important;
+    }
+
+    #kurzportrait .kurzportrait-layout.kurzportrait-layout--graphic-only {
+        display: block;
+        grid-template-columns: 1fr;
+        height: auto !important;
+        min-height: 0 !important;
+        padding: 0;
+    }
+
+    #kurzportrait .kurzportrait-layout.kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+        grid-column: 1;
+        position: relative;
+        top: auto;
+        height: auto;
+        min-height: 0;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        transform: none !important;
+    }
+
+    #kurzportrait.kurzportrait-entered .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+        transform: none !important;
+    }
+
+    #kurzportrait .karte-svg-container {
+        width: 100vw;
+        max-width: none;
+        margin: 0;
+        margin-left: calc(50% - 50vw);
+    }
+
+    #kurzportrait .karte-svg-container svg,
+    #kurzportrait .karte-svg-container img {
+        width: 100%;
+        max-width: none;
+        height: auto;
+        max-height: none;
+    }
+}
