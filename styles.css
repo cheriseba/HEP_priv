@@ -46,6 +46,8 @@
 .fullscreen-slideshow {
     position: relative;
     --fs-img-width: 78vw;
+    --fs-render-img-width: min(94vw, var(--fs-img-width));
+    --fs-render-img-height: calc(var(--fs-render-img-width) * 9 / 16);
     --fs-img-height: 76vh;
     --fs-nav-size: 4.35rem;
     --fs-nav-gap: 2vw;
@@ -87,7 +89,7 @@
     transform: translateX(100vw);
 }
 .fullscreen-slide img {
-    width: min(94vw, var(--fs-img-width));
+    width: var(--fs-render-img-width);
     aspect-ratio: 16 / 9;
     height: auto;
     max-width: 100%;
@@ -104,7 +106,8 @@
     color: white;
     padding: 1.6rem;
     width: min(46vw, 40rem);
-    max-width: calc(100vw - 18rem);
+    min-width: calc(var(--fs-render-img-width) * 0.5);
+    max-width: calc(var(--fs-render-img-width) * 0.8);
     max-height: min(18.5rem, calc(50vh - 4rem));
     overflow: hidden;
     border-radius: 0;
@@ -128,8 +131,8 @@
 @media (max-width: 64rem) {
     .fullscreen-text-overlay {
         width: fit-content;
-        min-width: min(46vw, 40rem);
-        max-width: calc(100vw - 2rem);
+        min-width: calc(var(--fs-render-img-width) * 0.5);
+        max-width: calc(var(--fs-render-img-width) * 0.8);
     }
 }
 
@@ -173,12 +176,22 @@
 
 .fullscreen-progress-indicator {
     position: absolute;
-    top: calc(50% + (var(--fs-img-height) / 2) + 0.55rem);
-    right: calc((100vw - var(--fs-img-width)) / 2);
+    top: calc(50% + (var(--fs-render-img-height) / 2) + 0.55rem);
+    right: calc((100vw - var(--fs-render-img-width)) / 2);
     display: flex;
     justify-content: flex-end;
     z-index: 30;
     pointer-events: none;
+}
+
+@media (min-width: 901.0625px) {
+    .fullscreen-progress-indicator {
+        top: calc(50% + (var(--fs-render-img-height) / 2) + 0.65rem);
+        right: calc((100vw - var(--fs-render-img-width)) / 2);
+        left: auto;
+        transform: none;
+        justify-content: flex-end;
+    }
 }
 
 .fullscreen-progress {
