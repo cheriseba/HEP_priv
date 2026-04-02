@@ -1691,8 +1691,8 @@ main {
 #querschnittsthemen .intro-card {
     height: auto;
     min-height: 0;
-    padding-top: var(--section-header-start-gap);
-    padding-bottom: clamp(1.35rem, 3vh, 2.15rem);
+    padding-top: calc(var(--section-header-start-gap) + 2rem);
+    padding-bottom: calc(clamp(1.35rem, 3vh, 2.15rem) + 2rem);
 }
 
 #querschnittsthemen .intro-content {
@@ -1714,20 +1714,21 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
     padding-top: clamp(1.5rem, 3vh, 2.5rem);
     padding-bottom: clamp(3rem, 8vh, 5rem);
 }
 
 .qst-svg-container {
-    width: auto;
-    max-width: calc(100vw - 2rem);
-    margin: 0;
+    width: min(96vw, 96rem);
+    max-width: calc(100vw - 1rem);
+    margin: 0 auto;
 }
 
 .qst-svg-container img {
-    height: 85vh;
-    width: auto;
-    max-width: calc(100vw - 2rem);
+    width: 100%;
+    height: auto;
+    max-width: 100%;
     max-height: 85vh;
     display: block;
 }
@@ -2290,7 +2291,7 @@ p {
 
 /* Kurzportrait Section */
 #kurzportrait.section {
-    background: #ffffff;
+    background: #003e7e;
     scroll-margin-top: 4.5rem;
     align-items: flex-start;
     justify-content: flex-start;
@@ -4349,7 +4350,7 @@ footer a {
 
     #querschnittsthemen .intro-card {
         height: auto;
-        padding: var(--section-header-start-gap) 0 clamp(1.35rem, 3vh, 2.15rem);
+        padding: calc(var(--section-header-start-gap) + 2rem) 0 calc(clamp(1.35rem, 3vh, 2.15rem) + 2rem);
         overflow: visible;
     }
 
@@ -5473,7 +5474,7 @@ footer a {
         width: 100%;
         height: auto;
         max-width: 100%;
-        max-height: min(42vh, 20rem);
+        max-height: min(72vh, 42rem);
     }
 
     .qst-svg-subsection.section {
