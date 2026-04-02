@@ -1387,7 +1387,7 @@ main {
     }
 
     .glstu-svg-container svg {
-        width: 112%;
+        width: 138%;
     }
 }
 
@@ -2515,6 +2515,48 @@ p {
 
 .kurzportrait-slide-card-text p:last-child {
     margin-bottom: 0;
+}
+
+#gelingendes-studium .glstu-copy-card {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: min(100%, clamp(30rem, 52vw, 48rem));
+    max-width: 100vw;
+    min-height: clamp(14rem, 36vh, 22rem);
+    height: auto;
+    gap: calc(clamp(0.7rem, 1.8vh, 1.2rem) + 2rem);
+    justify-content: center;
+    pointer-events: auto;
+    margin: 0;
+}
+
+#gelingendes-studium .glstu-copy-card .intro-title {
+    margin: 0;
+    color: #004E9E;
+}
+
+#gelingendes-studium .glstu-copy-card .kurzportrait-slide-card-text {
+    min-height: 0;
+}
+
+#gelingendes-studium .glstu-copy-card .kurzportrait-slide-card-text p {
+    color: #ffffff;
+}
+
+@media (min-width: 64.0625rem) {
+    #gelingendes-studium .glstu-copy-card {
+        width: min(100vw, clamp(30rem, 52vw, 48rem));
+        margin-left: calc(-1 * clamp(1rem, 4.8vw, 6rem));
+    }
+}
+
+@media (max-width: 64rem) {
+    #gelingendes-studium .glstu-copy-card {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 
 #kurzportrait.kurzportrait-entered .kurzportrait-slide-card {
@@ -5214,6 +5256,126 @@ footer a {
     }
 }
 
+@media (orientation: landscape) and (pointer: coarse) and (max-width: 40.999rem) and (max-height: 28rem) {
+    #gelingendes-studium .glstu-split {
+        grid-template-columns: minmax(0, 44%) minmax(0, 56%) !important;
+    }
+
+    #gelingendes-studium .glstu-static-text {
+        width: min(100%, 52vw) !important;
+        max-width: 52vw !important;
+        padding: 0 clamp(0.55rem, 2.2vw, 0.9rem) !important;
+    }
+
+    #gelingendes-studium .glstu-copy-card {
+        width: 100% !important;
+        padding: clamp(0.75rem, 1.8vw, 1rem) clamp(0.8rem, 2vw, 1.05rem) !important;
+    }
+
+    #gelingendes-studium .glstu-copy-card .intro-title {
+        white-space: nowrap;
+        font-size: clamp(1.08rem, 2.3vw, 1.28rem);
+    }
+
+    #gelingendes-studium .glstu-fixed {
+        padding-left: 0.1rem !important;
+        padding-right: 0 !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container {
+        width: 100% !important;
+        max-width: none !important;
+        transform: scale(2) !important;
+        transform-origin: center center;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        width: 100% !important;
+        max-width: none !important;
+    }
+}
+
+@media (orientation: landscape) and (pointer: coarse) and (max-width: 48rem) and (max-height: 33.75rem) {
+    #gelingendes-studium .glstu-svg-container {
+        width: 100% !important;
+        max-width: none !important;
+        transform: none !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        width: 155% !important;
+        max-width: none !important;
+        max-height: min(78vh, 40rem) !important;
+    }
+}
+
+@media (orientation: landscape) and (max-width: 48rem) and (max-height: 33.75rem) {
+    #gelingendes-studium .glstu-fixed {
+        min-height: min(78vh, 28rem) !important;
+        align-items: center !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container {
+        width: min(100%, 95vw) !important;
+        height: min(74vh, 26rem) !important;
+        max-width: none !important;
+        transform: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: visible !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        width: 100% !important;
+        height: auto !important;
+        max-width: none !important;
+        max-height: none !important;
+        transform: scale(1.75) !important;
+        transform-origin: center center;
+    }
+}
+
+@media (orientation: portrait) and (min-width: 48rem) and (max-width: 64rem) {
+    #gelingendes-studium .glstu-copy-card {
+        width: min(100%, 46rem) !important;
+        padding: clamp(0.95rem, 1.6vw, 1.25rem) clamp(1rem, 1.8vw, 1.35rem) !important;
+        min-height: 0 !important;
+        gap: clamp(0.45rem, 0.9vh, 0.7rem) !important;
+        justify-content: center;
+    }
+
+    #gelingendes-studium .glstu-copy-card .kurzportrait-slide-card-text {
+        min-height: 0;
+    }
+
+    #gelingendes-studium .glstu-copy-card .kurzportrait-slide-card-text p {
+        margin-bottom: 0;
+    }
+
+    #gelingendes-studium .glstu-copy-card .glstu-display-body {
+        max-width: 100%;
+    }
+}
+
+@media (orientation: landscape) and (min-width: 48rem) and (max-width: 64rem) {
+    #gelingendes-studium.section {
+        padding-top: clamp(2.2rem, 4.2vh, 3.4rem) !important;
+        padding-bottom: clamp(5.5rem, 9.5vh, 8rem) !important;
+    }
+
+    #gelingendes-studium .glstu-split {
+        row-gap: clamp(1rem, 2.2vh, 1.5rem) !important;
+        column-gap: clamp(2.2rem, 4vw, 4rem) !important;
+        align-items: start !important;
+    }
+
+    #gelingendes-studium .glstu-static-text {
+        padding-top: clamp(0.25rem, 0.9vh, 0.65rem) !important;
+        padding-bottom: clamp(0.6rem, 1.5vh, 1rem) !important;
+    }
+}
+
 @media (max-width: 53rem) and (orientation: portrait) {
     #gelingendes-studium.section,
     #gelingendes-studium .glstu-split {
@@ -5325,7 +5487,7 @@ footer a {
     }
 }
 
-@media (orientation: landscape) and (max-width: 64rem) and (max-height: 33.75rem) {
+@media (orientation: landscape) and (min-width: 41rem) and (max-width: 64rem) and (max-height: 33.75rem) {
     #gelingendes-studium.section {
         padding-bottom: calc(clamp(7rem, 18vh, 11rem) + var(--glstu-expanded-overflow-pad, 0px)) !important;
     }
@@ -5374,6 +5536,49 @@ footer a {
     }
 }
 
+@media (orientation: landscape) and (min-width: 41rem) and (max-width: 48rem) and (max-height: 33.75rem) {
+    #gelingendes-studium.section {
+        padding-top: clamp(1.8rem, 3.5vh, 2.6rem) !important;
+        padding-bottom: clamp(3.25rem, 7vh, 5rem) !important;
+    }
+
+    #gelingendes-studium .glstu-split {
+        column-gap: clamp(1.8rem, 3vw, 2.8rem) !important;
+        row-gap: clamp(0.8rem, 1.8vh, 1.2rem) !important;
+    }
+
+    #gelingendes-studium .glstu-static-text {
+        width: min(100%, 58vw) !important;
+        max-width: 58vw !important;
+        padding-right: 0.35rem !important;
+    }
+
+    #gelingendes-studium .glstu-copy-card {
+        min-height: 0 !important;
+        padding: clamp(0.7rem, 1.6vw, 0.95rem) clamp(0.85rem, 2vw, 1.05rem) !important;
+        gap: clamp(0.35rem, 0.8vh, 0.55rem) !important;
+        justify-content: center;
+    }
+
+    #gelingendes-studium .glstu-copy-card .kurzportrait-slide-card-text {
+        min-height: 0;
+    }
+
+    #gelingendes-studium .glstu-copy-card .kurzportrait-slide-card-text p {
+        margin-bottom: 0;
+        line-height: 1.45;
+    }
+
+    #gelingendes-studium .glstu-fixed {
+        padding-bottom: clamp(0.9rem, 3vh, 1.8rem) !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container {
+        transform: scale(1.55) !important;
+        margin-top: clamp(0.45rem, 1.1vh, 0.9rem) !important;
+    }
+}
+
 @media (orientation: portrait) and (min-width: 48rem) and (max-width: 64rem) {
     #gelingendes-studium.section {
         padding-top: calc(var(--section-header-start-gap) + 3rem) !important;
@@ -5394,10 +5599,112 @@ footer a {
         text-align: left !important;
     }
 
+    #gelingendes-studium .glstu-copy-card {
+        padding: clamp(0.9rem, 1.6vw, 1.2rem) clamp(0.95rem, 1.8vw, 1.35rem) !important;
+        gap: calc(clamp(0.45rem, 1vh, 0.75rem) + 1.25rem) !important;
+    }
+
     #gelingendes-studium .glstu-svg-container {
         width: min(100%, clamp(36rem, 62vw, 74rem)) !important;
         transform: scale(1.3) !important;
         transform-origin: center top;
         overflow: visible !important;
+    }
+}
+
+/* Final stabilizer: small landscape (e.g. 634/730) uses one-column flow with fixed SVG sizing. */
+@media (orientation: landscape) and (max-width: 48rem) {
+    #gelingendes-studium .glstu-split {
+        grid-template-columns: 1fr !important;
+        grid-template-areas:
+            "text"
+            "graphic" !important;
+        row-gap: clamp(1.8rem, 4.2vh, 2.8rem) !important;
+        align-items: start !important;
+    }
+
+    #gelingendes-studium .glstu-static-text {
+        grid-area: text !important;
+        width: min(100%, 96vw) !important;
+        max-width: 96vw !important;
+        margin: 0 auto !important;
+        padding: 0 clamp(0.65rem, 2.6vw, 1rem) !important;
+        position: relative;
+        z-index: 4;
+    }
+
+    #gelingendes-studium .glstu-fixed {
+        grid-area: graphic !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        margin-top: clamp(0.2rem, 1vh, 0.7rem) !important;
+        padding: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        position: relative;
+        z-index: 1;
+    }
+
+    #gelingendes-studium .glstu-svg-container {
+        width: min(100%, 96vw) !important;
+        height: clamp(17rem, 70vh, 28rem) !important;
+        margin: 0 auto !important;
+        max-width: 96vw !important;
+        transform: none !important;
+        overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        transform: none !important;
+        transform-origin: center center !important;
+        object-fit: contain;
+    }
+}
+
+/* Target boost: 634-730 landscape gets a visibly larger GLSTU SVG. */
+@media (orientation: landscape) and (min-width: 39.625rem) and (max-width: 45.625rem) and (max-height: 33.75rem) {
+    #gelingendes-studium .glstu-fixed {
+        margin-top: clamp(0.5rem, 1.6vh, 1.2rem) !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container {
+        width: min(100%, 100vw) !important;
+        height: clamp(21rem, 88vh, 38rem) !important;
+        max-width: 100vw !important;
+        overflow: visible !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        width: 126% !important;
+        height: auto !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain;
+    }
+}
+
+/* Fine tune: only around 730px landscape, make the GLSTU SVG larger. */
+@media (orientation: landscape) and (min-width: 44rem) and (max-width: 46rem) and (max-height: 33.75rem) {
+    #gelingendes-studium .glstu-svg-container {
+        height: clamp(23rem, 94vh, 42rem) !important;
+    }
+
+    #gelingendes-studium .glstu-svg-container svg {
+        width: 142% !important;
+    }
+}
+
+/* Fine tune: around 640px landscape, move the graphic down by 5rem. */
+@media (orientation: landscape) and (min-width: 39.5rem) and (max-width: 40.5rem) and (max-height: 33.75rem) {
+    #gelingendes-studium .glstu-fixed {
+        margin-top: calc(clamp(0.5rem, 1.6vh, 1.2rem) + 5rem) !important;
     }
 }
