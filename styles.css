@@ -737,6 +737,48 @@ body.mobile-portrait-blocked .orientation-gate {
     transform: translateY(-0.3rem);
 }
 
+@media (min-width: 64rem) and (max-width: 81.1875rem) {
+    .timeline-nav {
+        grid-template-columns: 5.2rem minmax(0, 1fr) 5.2rem;
+        column-gap: 0.5rem;
+        align-items: center;
+        padding: 0.35rem 0.85rem;
+        transform: none;
+    }
+
+    .timeline-logo-container,
+    .timeline-nav-spacer {
+        width: 5.2rem;
+        height: var(--header-height);
+    }
+
+    .timeline-logo-container {
+        padding-left: 0.25rem;
+    }
+
+    .timeline-logo {
+        width: 3.4rem;
+        height: 3.4rem;
+        left: 0;
+        transform: none;
+    }
+
+    .timeline-menu {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0 0.35rem;
+    }
+
+    .timeline-step {
+        min-width: 0;
+    }
+
+    .timeline-step a {
+        margin-top: 3.7rem;
+    }
+}
+
 .timeline-burger {
     display: none;
     width: 2.75rem;
