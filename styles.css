@@ -6135,3 +6135,32 @@ footer a {
         transform: translateX(calc(23rem - 10%));
     }
 }
+
+/* Hauptgrafik: Handy Landscape nahezu vollflaechig (ca. 5% Rand). */
+@media (max-width: 56.3125rem) and (orientation: landscape) {
+    #hauptgrafik.section {
+        padding: 0.2rem 0.4rem !important;
+        min-height: calc(100dvh - var(--header-height));
+    }
+
+    #hauptgrafik .container {
+        height: calc(100dvh - var(--header-height));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #svg-container {
+        width: 95vw !important;
+        max-width: 95vw !important;
+        height: calc(100dvh - var(--header-height) - 5dvh) !important;
+        max-height: none !important;
+        margin: 0 auto !important;
+    }
+
+    #svg-container svg {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: none !important;
+    }
+}
