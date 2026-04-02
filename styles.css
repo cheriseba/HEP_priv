@@ -2589,6 +2589,11 @@ p {
     transition: transform 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
 }
 
+/* Weiterleitung ueber SVG-Layer statt separatem Pfeil-Button. */
+#wissensspeicher-inhalte .wissensspeicher-step1-link {
+    display: none !important;
+}
+
 #wissensspeicher-inhalte .wissensspeicher-step1-link span {
     font-size: var(--fs-text-base);
     line-height: 1;
@@ -2703,6 +2708,34 @@ p {
 @media (max-width: 48rem) {
     #wissensspeicher-inhalte .wissensspeicher-bottom-cards {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+    #wissensspeicher-inhalte .wissensspeicher-svg-wrap {
+        --ws-svg-width: min(100%, 84vw);
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    #wissensspeicher-inhalte #wissensspeicher-svg-container {
+        width: var(--ws-svg-width);
+        margin: 0 auto;
+    }
+
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg {
+        width: 100%;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-cards {
+        grid-template-columns: 1fr;
+        width: min(100%, 80ch);
+        margin: 0 auto;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-card {
+        width: min(100%, 80ch);
+        margin: 0 auto;
     }
 }
 

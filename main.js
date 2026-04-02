@@ -577,6 +577,7 @@ function loadWissensspeicherSvg() {
             }
 
             initWissensspeicherStepsReveal();
+            initWissensspeicherHotspotInteraction();
         });
 }
 
@@ -1770,6 +1771,46 @@ function initWissensspeicherStepsReveal() {
     });
 
     observer.observe(wrap);
+}
+
+function initWissensspeicherHotspotInteraction() {
+    const svgRoot = document.querySelector('#wissensspeicher-svg-container svg');
+    const legacyLink = document.querySelector('#wissensspeicher-inhalte .wissensspeicher-step1-link');
+    if (!svgRoot || !legacyLink) return;
+
+    const targetUrl = legacyLink.getAttribute('href');
+    if (!targetUrl) return;
+
+    // Ebenennamen-Reihenfolge: zuerst künftiger Name, dann aktueller Fallback.
+    // Wenn die finale SVG da ist, nur noch 'Pfeil' hier stehen lassen.
+    const hotspotLayerNames = ['Pfeil', 'Schritt1'];
+    const hotspotLayer = hotspotLayerNames
+        .map((name) => svgRoot.querySelector(`[data-orig-id="${name}"], [id="${name}"]`))
+        .find(Boolean);
+
+    if (!hotspotLayer) return;
+    if (hotspotLayer.dataset.wissensHotspotBound === 'true') return;
+
+    hotspotLayer.dataset.wissensHotspotBound = 'true';
+    hotspotLayer.classList.add('wissensspeicher-hotspot-layer');
+    hotspotLayer.style.cursor = 'pointer';
+    hotspotLayer.setAttribute('role', 'link');
+    hotspotLayer.setAttribute('tabindex', '0');
+
+    const openTarget = () => {
+        window.open(targetUrl, '_blank', 'noopener,noreferrer');
+    };
+
+    hotspotLayer.addEventListener('click', (event) => {
+        event.stopPropagation();
+        openTarget();
+    });
+
+    hotspotLayer.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        openTarget();
+    });
 }
 
 function initSectionSnapScrolling() {
