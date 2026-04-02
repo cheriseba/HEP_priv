@@ -2407,6 +2407,8 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+    transform-origin: center center;
+    transition: transform 0.28s ease;
 }
 
 .karte-svg-container svg,
@@ -2414,6 +2416,8 @@ p {
     width: 100%;
     height: auto;
     max-height: 84vh;
+    transform-origin: center center;
+    transition: transform 0.28s ease;
 }
 
 .karte-svg-container .karte-city-layer {
@@ -2459,6 +2463,17 @@ p {
     opacity: 1;
 }
 
+@media (min-width: 56.3125rem) {
+    #kurzportrait.kurzportrait-map-expanded .karte-svg-container {
+        transform: none;
+    }
+
+    #kurzportrait.kurzportrait-map-expanded .karte-svg-container svg,
+    #kurzportrait.kurzportrait-map-expanded .karte-svg-container img {
+        transform: scale(0.8);
+    }
+}
+
 .karte-svg-container #Gebiet {
     opacity: 0.8;
     transition: opacity 0.75s ease;
@@ -2485,7 +2500,9 @@ p {
     position: absolute;
     left: 0;
     top: 38%;
-    width: clamp(30rem, 52vw, 48rem);
+    width: 45vw;
+    min-width: 30rem;
+    max-width: none;
     min-height: clamp(18rem, 46vh, 28rem);
     height: auto;
     border-radius: 0;
@@ -2501,6 +2518,24 @@ p {
     padding: clamp(1rem, 2.2vw, 2rem) clamp(1rem, 3vw, 2.2rem);
     pointer-events: none;
     z-index: 2;
+}
+
+@media (min-width: 120rem) {
+    .kurzportrait-slide-card {
+        width: 44vw;
+    }
+}
+
+@media (min-width: 160rem) {
+    .kurzportrait-slide-card {
+        width: 42vw;
+    }
+}
+
+@media (min-width: 215rem) {
+    .kurzportrait-slide-card {
+        width: 50%;
+    }
 }
 
 .kurzportrait-slide-card .intro-title {
@@ -5893,5 +5928,46 @@ footer a {
         max-width: none;
         height: auto;
         max-height: none;
+    }
+}
+
+/* Kurzportrait Karte: gezieltes Desktop-Tuning je Referenzbreite. */
+@media (min-width: 56.3125rem) and (max-width: 68rem) {
+    #kurzportrait .karte-svg-container {
+        width: min(100vw, 46rem);
+    }
+
+    #kurzportrait.kurzportrait-entered .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+        transform: translate(calc(11rem - 10%), -2.9rem);
+    }
+}
+
+@media (min-width: 68rem) and (max-width: 79.999rem) {
+    #kurzportrait.kurzportrait-entered .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+        transform: translateX(calc(clamp(9.5rem, 32vw, 25rem) - 10%));
+    }
+}
+
+@media (min-width: 80rem) and (max-width: 95.999rem) {
+    #kurzportrait.kurzportrait-entered .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+        transform: translateX(calc(23rem - 10%));
+    }
+}
+
+@media (min-width: 96rem) and (max-width: 159.999rem) {
+    #kurzportrait.kurzportrait-entered .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+        transform: translateX(calc(25rem - 10%));
+    }
+}
+
+@media (min-width: 160rem) and (max-width: 214.999rem) {
+    #kurzportrait.kurzportrait-entered .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+        transform: translateX(calc(23.5rem - 10%));
+    }
+}
+
+@media (min-width: 215rem) {
+    #kurzportrait.kurzportrait-entered .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+        transform: translateX(calc(23rem - 10%));
     }
 }

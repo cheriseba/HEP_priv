@@ -465,6 +465,7 @@ function setKarteGebietVisible(karteRoot, isVisible) {
 function initKarteInteractions() {
     const karteRoot = document.querySelector('#karte-svg-container svg');
     if (!karteRoot) return;
+    const kurzportraitSection = document.getElementById('kurzportrait');
 
     function getKarteLayer(id) {
         return karteRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
@@ -482,6 +483,15 @@ function initKarteInteractions() {
     const cardIds = Object.values(cityToCardMap);
     let hasCityBeenClicked = false;
 
+    function syncKarteExpandedState() {
+        if (!kurzportraitSection) return;
+        const hasVisibleCard = cardIds.some((cardId) => {
+            const layer = getKarteLayer(cardId);
+            return layer && layer.classList.contains('karte-city-card-visible');
+        });
+        kurzportraitSection.classList.toggle('kurzportrait-map-expanded', hasVisibleCard);
+    }
+
     cardIds.forEach((cardId) => {
         const cardLayer = getKarteLayer(cardId);
         if (!cardLayer) return;
@@ -498,12 +508,16 @@ function initKarteInteractions() {
         if (isVisible) {
             cardLayer.classList.add('karte-city-card-hidden');
             cardLayer.classList.remove('karte-city-card-visible');
+            syncKarteExpandedState();
             return;
         }
 
         cardLayer.classList.add('karte-city-card-visible');
         cardLayer.classList.remove('karte-city-card-hidden');
+        syncKarteExpandedState();
     }
+
+    syncKarteExpandedState();
 
     Object.entries(cityToCardMap).forEach(([cityId, cardId]) => {
         const cityLayer = getKarteLayer(cityId);
