@@ -1458,6 +1458,7 @@ function initTeilzieleRowSync() {
     const stickyGoalsWrap = matrix.querySelector('.teilziele-sticky-goals');
     const stickyGoals = Array.from(matrix.querySelectorAll('.teilziele-sticky-goal'));
     const rowSelectors = ['.teilziele-cell-1', '.teilziele-cell-2', '.teilziele-cell-3'];
+    const compactMobileQuery = window.matchMedia('(max-width: 600px)');
 
     let scheduled = false;
 
@@ -1465,6 +1466,22 @@ function initTeilzieleRowSync() {
     // Sticky-Zielkarten behalten ihre feste CSS-Hoehe und werden nicht dynamisch mitgezogen.
     function syncHeights() {
         scheduled = false;
+
+        if (compactMobileQuery.matches) {
+            stickyGoals.forEach((goal) => {
+                goal.style.height = '';
+                goal.style.minHeight = '';
+                goal.style.maxHeight = '';
+            });
+
+            rowSelectors.forEach((selector) => {
+                matrix.querySelectorAll(selector).forEach((cell) => {
+                    cell.style.minHeight = '';
+                });
+            });
+
+            return;
+        }
 
         // Sticky-Zielkarten: einheitliche Hoehe anhand der laengsten Karte.
         const stickyColumnWidth = stickyGoalsWrap?.clientWidth || 0;
