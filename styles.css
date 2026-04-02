@@ -2474,7 +2474,7 @@ p {
 }
 
 #wissensspeicher.section {
-    background: #ffffff;
+    background: #003e7e;
     align-items: flex-start;
     justify-content: flex-start;
     padding: 0;
@@ -2703,6 +2703,62 @@ p {
 @media (max-width: 48rem) {
     #wissensspeicher-inhalte .wissensspeicher-bottom-cards {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    #wissensspeicher-inhalte .wissensspeicher-svg-wrap {
+        --ws-svg-width: min(100%, 90vw);
+        padding-top: 1.2rem;
+        margin-bottom: 2rem;
+        overflow: visible;
+    }
+
+    #wissensspeicher-inhalte #wissensspeicher-svg-container {
+        width: var(--ws-svg-width);
+        margin: 0 auto;
+    }
+
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg {
+        width: 100%;
+    }
+
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg [data-orig-id="Schritt1"],
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg [data-orig-id="Schritt2"],
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg [data-orig-id="Schritt3"],
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg [data-orig-id="Schritt4"] {
+        transition: opacity 0.6s ease;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-step1-link {
+        display: none;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-cards {
+        width: min(100%, 88vw);
+        gap: 1rem;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-card {
+        width: min(100%, 30rem);
+        margin: 0 auto;
+        padding: 1rem 1rem 1.15rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.55rem;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-card p {
+        font-size: 0.7rem;
+        line-height: 1.4;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-card-icon {
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 0.15rem;
+        align-self: center;
     }
 }
 
@@ -5895,9 +5951,12 @@ footer a {
 #querschnittsthemen.section,
 #kurzportrait.section,
 #ziele-meilensteine.section,
-#wissensspeicher.section,
 #wissensspeicher-inhalte.section {
     padding-top: var(--section-header-start-gap) !important;
+}
+
+#wissensspeicher.section {
+    padding-top: 0 !important;
 }
 
 #querschnittsthemen.section {

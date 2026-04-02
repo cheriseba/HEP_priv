@@ -547,16 +547,45 @@ fetch('assets/images/svg/Karte.svg')
     });
 
 // Laden der Wissensspeicher-Grafik fuer stufenweises Einblenden von Schritt 1-4.
-fetch('assets/images/svg/Wissensspeicher_grafik.svg')
-    .then(response => response.text())
-    .then(svgText => {
-        const wsContainer = document.getElementById('wissensspeicher-svg-container');
-        if (!wsContainer) return;
-        const wsSvg = isolateInlineSvg(svgText, 'wissens');
-        if (!wsSvg) return;
-        wsContainer.replaceChildren(wsSvg);
-        initWissensspeicherStepsReveal();
-    });
+// Unter 600px wird die mobile 2x2-Variante geladen.
+const wissensspeicherMobileQuery = window.matchMedia('(max-width: 600px)');
+
+function loadWissensspeicherSvg() {
+    const wsContainer = document.getElementById('wissensspeicher-svg-container');
+    if (!wsContainer) return;
+
+    const svgPath = wissensspeicherMobileQuery.matches
+        ? 'assets/images/svg/Wissensspeicher_grafik_mobil.svg'
+        : 'assets/images/svg/Wissensspeicher_grafik.svg';
+
+    if (wsContainer.dataset.wissensspeicherSvgPath === svgPath && wsContainer.querySelector('svg')) {
+        return;
+    }
+
+    fetch(svgPath)
+        .then(response => response.text())
+        .then(svgText => {
+            const wsSvg = isolateInlineSvg(svgText, 'wissens');
+            if (!wsSvg) return;
+            wsContainer.replaceChildren(wsSvg);
+            wsContainer.dataset.wissensspeicherSvgPath = svgPath;
+
+            const wrap = wsContainer.closest('.wissensspeicher-svg-wrap');
+            if (wrap) {
+                wrap.classList.remove('steps-ready');
+                delete wrap.dataset.wissensspeicherStepsBound;
+            }
+
+            initWissensspeicherStepsReveal();
+        });
+}
+
+loadWissensspeicherSvg();
+if (typeof wissensspeicherMobileQuery.addEventListener === 'function') {
+    wissensspeicherMobileQuery.addEventListener('change', loadWissensspeicherSvg);
+} else if (typeof wissensspeicherMobileQuery.addListener === 'function') {
+    wissensspeicherMobileQuery.addListener(loadWissensspeicherSvg);
+}
 
 function setKarteGebietVisible(karteRoot, isVisible) {
     if (!karteRoot) return;
