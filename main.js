@@ -1458,7 +1458,7 @@ function initTeilzieleRowSync() {
     const stickyGoalsWrap = matrix.querySelector('.teilziele-sticky-goals');
     const stickyGoals = Array.from(matrix.querySelectorAll('.teilziele-sticky-goal'));
     const rowSelectors = ['.teilziele-cell-1', '.teilziele-cell-2', '.teilziele-cell-3'];
-    const compactMobileQuery = window.matchMedia('(max-width: 600px)');
+    const compactMobileQuery = window.matchMedia('(max-width: 900px)');
 
     let scheduled = false;
 

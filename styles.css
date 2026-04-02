@@ -4369,6 +4369,64 @@ footer a {
     }
 }
 
+@media (min-width: 600px) and (max-width: 900px) {
+    .meilensteine-teilziele {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+
+    .teilziele-copied-heading,
+    .teilziele-filter-wrap {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    .teilziele-matrix {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: 1fr !important;
+        gap: 0.9rem !important;
+        width: 100% !important;
+    }
+
+    .teilziele-sticky-goals {
+        order: 1 !important;
+        position: relative !important;
+        left: auto !important;
+        width: 100% !important;
+        padding: 0 1rem 0.4rem 1rem !important;
+    }
+
+    .teilziele-goal-tabs,
+    .teilziele-sticky-goal {
+        width: clamp(21rem, 62vw, 33rem) !important;
+        max-width: min(66vw, 33rem) !important;
+        margin-left: 0 !important;
+        margin-right: auto !important;
+    }
+
+    .teilziele-goal-tab {
+        padding: 0.5rem 0.55rem !important;
+        font-size: clamp(0.9rem, 1.45vw, 1rem) !important;
+    }
+
+    .teilziele-sticky-goal {
+        padding: 0.8rem 0.95rem !important;
+    }
+
+    .teilziele-timeline {
+        order: 2 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-top: 0.7rem !important;
+        padding-right: 0 !important;
+        padding-bottom: 1rem !important;
+        padding-left: 1rem !important;
+    }
+}
+
 @media (min-width: 901px) and (max-width: 64rem) {
     #ziele-meilensteine .meilensteine-two-column {
         display: grid;
@@ -4437,7 +4495,7 @@ footer a {
     height: auto;
     min-height: 0;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -4666,7 +4724,10 @@ footer a {
 .teilziele-timeline {
     position: relative;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
+    height: auto;
+    min-height: 0;
+    max-height: none;
     min-width: 0;
     padding: 0.7rem 0.35rem 1rem 0.1rem;
     -webkit-overflow-scrolling: touch;
@@ -5334,7 +5395,9 @@ footer a {
     .teilziele-cell li {
         width: min(100%, clamp(11.25rem, 72%, 20rem));
         line-height: 1.35;
-        padding: 0.56rem 0.62rem;
+        padding: 0.56rem 0.62rem 0.62rem 2.95rem;
+        min-height: fit-content;
+        height: auto;
     }
 
     .kurzportrait-main {
@@ -5537,7 +5600,9 @@ footer a {
     }
 
     .teilziele-cell li {
-        padding: 0.38rem 0.45rem;
+        padding: 0.4rem 0.5rem 0.48rem 2.7rem;
+        min-height: fit-content;
+        height: auto;
     }
 
     .qst-text-overlay {
@@ -6835,5 +6900,56 @@ footer a {
         width: 100% !important;
         height: 100% !important;
         max-height: none !important;
+    }
+}
+
+/* Finaler Sicherheits-Override: Teilziele-Zeitstrahl niemals an Viewport-Hoehe koppeln. */
+.meilensteine-teilziele {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+.teilziele-timeline {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+}
+
+/* Finaler Abstands-Override: Teilziele 600-900 konsistent. */
+@media (min-width: 600px) and (max-width: 900px) {
+    .meilensteine-teilziele {
+        padding-top: 1rem !important;
+    }
+
+    .teilziele-copied-heading h2 {
+        margin-top: 2rem !important;
+        margin-bottom: 3rem !important;
+    }
+
+    .teilziele-filter-wrap {
+        margin-bottom: 0.55rem !important;
+    }
+
+    .teilziele-matrix {
+        gap: 0.75rem !important;
+    }
+
+    .teilziele-sticky-goals {
+        gap: 0 !important;
+        row-gap: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 3rem !important;
+    }
+
+    .teilziele-goal-tabs {
+        transform: none !important;
+    }
+
+    .teilziele-goal-tabs + .teilziele-sticky-goal {
+        margin-top: 0 !important;
     }
 }
