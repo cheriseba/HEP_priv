@@ -1,0 +1,85 @@
+:root {
+    /* Breakpoint map (desktop-first)
+       - xl desktop: <= 90rem (1440px)
+       - desktop: <= 75rem (1200px)
+       - small desktop: <= 64rem (1024px)
+       - large tablet: <= 56.25rem (900px)
+       - tablet: <= 48rem (768px)
+       - large phone: <= 37.5rem (600px)
+    */
+    --bp-xl: 90rem;
+    --bp-desktop: 75rem;
+    --bp-desktop-sm: 64rem;
+    --bp-tablet-lg: 56.25rem;
+    --bp-tablet: 48rem;
+    --bp-phone-lg: 37.5rem;
+
+    /* Global responsive tokens */
+    --section-padding-block: 4rem;
+    --section-padding-inline: 2rem;
+    --main-graphic-max-width: 90%;
+    --main-graphic-max-height: 80vh;
+    --main-graphic-section-padding-top: 0;
+    --main-graphic-section-padding-bottom: var(--section-padding-block);
+    --main-graphic-container-margin-bottom: 2rem;
+    --main-graphic-align-items: center;
+
+    /* Project-wide heading scale */
+    --fs-h1-global: clamp(1.5rem, 0.7vw + 1.25rem, 1.95rem);
+    --fs-h2-global: clamp(1.4rem, 0.95vw + 1.08rem, 2.25rem);
+    --fs-h3-global: clamp(1.18rem, 0.65vw + 0.98rem, 1.75rem);
+    --fs-h4-global: clamp(0.98rem, 0.2vw + 0.9rem, 1.14rem);
+
+    --fs-text-base: 1rem;
+    --fs-text-lg: 1.05rem;
+    --fs-text-sm: 0.95rem;
+    --header-height: 5.75rem;
+    --glstu-sticky-top: 5rem;
+    --glstu-content-offset: 5rem;
+    --glstu-sticky-height: calc(100vh - var(--glstu-sticky-top));
+    --glstu-text-offset: 10rem;
+    --glstu-min-height: 100dvh;
+    --glstu-header-track-height: 180dvh;
+    --glstu-grid-columns: minmax(17.5rem, 44%) minmax(20rem, 56%);
+    --desktop-sticky-top: 5rem;
+    --desktop-sticky-height: calc(100vh - var(--desktop-sticky-top));
+    --desktop-scroll-stage-height: calc(100% - (100dvh - var(--desktop-sticky-top)));
+    --kurzportrait-main-height: 100dvh;
+    --gs-sticky-top: var(--header-height);
+    --gs-sticky-height: calc(100vh - var(--gs-sticky-top));
+    --section-header-start-gap: clamp(1.15rem, 3vh, 1.8rem);
+    --qst-overlap-px: 80;
+}
+
+@media (max-width: 900px) {
+    :root {
+        --fs-h1-global: clamp(1.34rem, 2vw + 0.82rem, 1.72rem);
+        --fs-h2-global: clamp(1.24rem, 2.15vw + 0.76rem, 1.62rem);
+        --fs-h3-global: clamp(1.08rem, 1.45vw + 0.72rem, 1.4rem);
+        --fs-h4-global: clamp(0.94rem, 0.8vw + 0.72rem, 1.04rem);
+    }
+}
+
+@media (min-width: 56.3125rem) and (max-width: 74.999rem) {
+    :root {
+        --fs-h1-global: clamp(1.52rem, 0.5vw + 1.3rem, 2rem);
+        --fs-h2-global: clamp(1.42rem, 0.68vw + 1.06rem, 2.22rem);
+        --fs-h3-global: clamp(1.2rem, 0.4vw + 0.98rem, 1.72rem);
+        --fs-h4-global: clamp(0.99rem, 0.18vw + 0.9rem, 1.12rem);
+        --fs-text-base: clamp(1rem, 0.1vw + 0.95rem, 1.12rem);
+        --fs-text-lg: clamp(1.04rem, 0.12vw + 0.99rem, 1.16rem);
+        --fs-text-sm: clamp(0.92rem, 0.07vw + 0.88rem, 1rem);
+    }
+}
+
+@media (min-width: 75rem) and (max-width: 159.999rem) {
+    :root {
+        --fs-h1-global: clamp(1.54rem, 0.3vw + 1.34rem, 1.92rem);
+        --fs-h2-global: clamp(1.44rem, 0.4vw + 1.16rem, 2.02rem);
+        --fs-h3-global: clamp(1.22rem, 0.28vw + 1.02rem, 1.58rem);
+        --fs-h4-global: clamp(1.01rem, 0.14vw + 0.91rem, 1.14rem);
+        --fs-text-base: clamp(1.01rem, 0.08vw + 0.96rem, 1.1rem);
+        --fs-text-lg: clamp(1.06rem, 0.1vw + 1rem, 1.16rem);
+        --fs-text-sm: clamp(0.94rem, 0.06vw + 0.9rem, 1rem);
+    }
+}

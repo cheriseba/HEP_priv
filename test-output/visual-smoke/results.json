@@ -1,0 +1,199 @@
+[
+  {
+    "group": "Handy Portrait",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "screenshot": "C:\\Users\\cheri\\Desktop\\HEP_ohnescrollen\\test-output\\visual-smoke\\handy-portrait.png",
+    "consoleErrors": [
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/1_Hauptgrafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/GLSTU.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Karte.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik_mobil.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/teilziele-checks.json. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Ziele.svg. URL scheme \"file\" is not supported."
+    ],
+    "consoleWarnings": [],
+    "topMetrics": {
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "bodyScrollWidth": 390,
+      "overflowX": "clip",
+      "hasHorizontalOverflow": false
+    },
+    "bottomMetrics": {
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "bodyScrollWidth": 390,
+      "hasHorizontalOverflow": false,
+      "scrollTop": 0,
+      "scrollHeight": 8207
+    }
+  },
+  {
+    "group": "Handy Landscape",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "screenshot": "C:\\Users\\cheri\\Desktop\\HEP_ohnescrollen\\test-output\\visual-smoke\\handy-landscape.png",
+    "consoleErrors": [
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/1_Hauptgrafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/GLSTU.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Karte.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/teilziele-checks.json. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Ziele.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik.svg. URL scheme \"file\" is not supported."
+    ],
+    "consoleWarnings": [],
+    "topMetrics": {
+      "scrollWidth": 844,
+      "clientWidth": 844,
+      "bodyScrollWidth": 844,
+      "overflowX": "clip",
+      "hasHorizontalOverflow": false
+    },
+    "bottomMetrics": {
+      "scrollWidth": 844,
+      "clientWidth": 844,
+      "bodyScrollWidth": 844,
+      "hasHorizontalOverflow": false,
+      "scrollTop": 5108,
+      "scrollHeight": 6466
+    }
+  },
+  {
+    "group": "Tablet Portrait",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "screenshot": "C:\\Users\\cheri\\Desktop\\HEP_ohnescrollen\\test-output\\visual-smoke\\tablet-portrait.png",
+    "consoleErrors": [
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/1_Hauptgrafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/GLSTU.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Karte.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/teilziele-checks.json. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Ziele.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik.svg. URL scheme \"file\" is not supported."
+    ],
+    "consoleWarnings": [],
+    "topMetrics": {
+      "scrollWidth": 768,
+      "clientWidth": 768,
+      "bodyScrollWidth": 768,
+      "overflowX": "clip",
+      "hasHorizontalOverflow": false
+    },
+    "bottomMetrics": {
+      "scrollWidth": 768,
+      "clientWidth": 768,
+      "bodyScrollWidth": 768,
+      "hasHorizontalOverflow": false,
+      "scrollTop": 5862,
+      "scrollHeight": 8360
+    }
+  },
+  {
+    "group": "Tablet/Laptop klein",
+    "viewport": {
+      "width": 1024,
+      "height": 768
+    },
+    "screenshot": "C:\\Users\\cheri\\Desktop\\HEP_ohnescrollen\\test-output\\visual-smoke\\tablet-laptop-klein.png",
+    "consoleErrors": [
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/1_Hauptgrafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/GLSTU.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Karte.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/teilziele-checks.json. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Ziele.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik.svg. URL scheme \"file\" is not supported."
+    ],
+    "consoleWarnings": [],
+    "topMetrics": {
+      "scrollWidth": 1024,
+      "clientWidth": 1024,
+      "bodyScrollWidth": 1024,
+      "overflowX": "clip",
+      "hasHorizontalOverflow": false
+    },
+    "bottomMetrics": {
+      "scrollWidth": 1024,
+      "clientWidth": 1024,
+      "bodyScrollWidth": 1024,
+      "hasHorizontalOverflow": false,
+      "scrollTop": 5627,
+      "scrollHeight": 7851
+    }
+  },
+  {
+    "group": "Desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "screenshot": "C:\\Users\\cheri\\Desktop\\HEP_ohnescrollen\\test-output\\visual-smoke\\desktop.png",
+    "consoleErrors": [
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/1_Hauptgrafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/GLSTU.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Karte.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/teilziele-checks.json. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Ziele.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik.svg. URL scheme \"file\" is not supported."
+    ],
+    "consoleWarnings": [],
+    "topMetrics": {
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "bodyScrollWidth": 1575,
+      "overflowX": "clip",
+      "hasHorizontalOverflow": false
+    },
+    "bottomMetrics": {
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "bodyScrollWidth": 1575,
+      "hasHorizontalOverflow": false,
+      "scrollTop": 5590,
+      "scrollHeight": 7917
+    }
+  },
+  {
+    "group": "Sehr gross/Ultrawide",
+    "viewport": {
+      "width": 3440,
+      "height": 1440
+    },
+    "screenshot": "C:\\Users\\cheri\\Desktop\\HEP_ohnescrollen\\test-output\\visual-smoke\\sehr-gross-ultrawide.png",
+    "consoleErrors": [
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/1_Hauptgrafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/GLSTU.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Karte.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/teilziele-checks.json. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Ziele.svg. URL scheme \"file\" is not supported.",
+      "Fetch API cannot load file:///C:/Users/cheri/Desktop/HEP_ohnescrollen/assets/images/svg/Wissensspeicher_grafik.svg. URL scheme \"file\" is not supported."
+    ],
+    "consoleWarnings": [],
+    "topMetrics": {
+      "scrollWidth": 3440,
+      "clientWidth": 3440,
+      "bodyScrollWidth": 3440,
+      "overflowX": "clip",
+      "hasHorizontalOverflow": false
+    },
+    "bottomMetrics": {
+      "scrollWidth": 3440,
+      "clientWidth": 3440,
+      "bodyScrollWidth": 3440,
+      "hasHorizontalOverflow": false,
+      "scrollTop": 7534,
+      "scrollHeight": 11341
+    }
+  }
+]

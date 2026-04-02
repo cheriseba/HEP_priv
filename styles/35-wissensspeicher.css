@@ -1,0 +1,416 @@
+#wissensspeicher.section {
+    background: #003e7e;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+    min-height: auto;
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+    position: relative;
+    z-index: 1;
+}
+
+#wissensspeicher .container {
+    text-align: left;
+    padding: 0;
+    position: relative;
+}
+
+#wissensspeicher-inhalte.section {
+    background: #003e7e;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: clamp(0.75rem, 2vh, 1.5rem) 0 calc(clamp(3.5rem, 8vh, 6rem) + 5rem);
+    min-height: auto;
+}
+
+#wissensspeicher-inhalte .container {
+    text-align: left;
+    padding: 0;
+    position: relative;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-content-main {
+    width: 100%;
+}
+
+#wissensspeicher .wissensspeicher-main {
+    height: auto;
+    min-height: 0;
+    width: 100%;
+    background: transparent;
+    padding: 0;
+
+    overflow: visible;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-svg-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding-top: clamp(2rem, 4vh, 3.5rem);
+    margin: 0;
+
+    /* SVG geometry for precise Schritt 1 arrow positioning. */
+    --ws-svg-top-offset: clamp(2rem, 4vh, 3.5rem);
+    --ws-svg-width: min(100vw, 86rem);
+    --ws-svg-aspect: 2.7243;
+    --ws-step1-corner-x: 0.239;
+    --ws-step1-corner-y: 0.795;
+    --ws-step1-inset-x: 0.55rem;
+    --ws-step1-inset-y: 0.45rem;
+    --ws-step1-arrow-size: 2rem;
+}
+
+#wissensspeicher-inhalte #wissensspeicher-svg-container {
+    width: var(--ws-svg-width);
+}
+
+#wissensspeicher-inhalte #wissensspeicher-svg-container svg {
+    display: block;
+    width: var(--ws-svg-width);
+    height: auto;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-svg-wrap.steps-ready svg [data-orig-id="Schritt1"],
+#wissensspeicher-inhalte .wissensspeicher-svg-wrap.steps-ready svg [data-orig-id="Schritt2"],
+#wissensspeicher-inhalte .wissensspeicher-svg-wrap.steps-ready svg [data-orig-id="Schritt3"],
+#wissensspeicher-inhalte .wissensspeicher-svg-wrap.steps-ready svg [data-orig-id="Schritt4"] {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-svg-wrap.steps-ready svg .wissensspeicher-step-visible {
+    opacity: 1;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-step1-link {
+    position: absolute;
+    left: calc(
+        50% - (var(--ws-svg-width) / 2) +
+        (var(--ws-svg-width) * var(--ws-step1-corner-x)) -
+        var(--ws-step1-inset-x) -
+        var(--ws-step1-arrow-size)
+    );
+    top: calc(
+        var(--ws-svg-top-offset) +
+        ((var(--ws-svg-width) / var(--ws-svg-aspect)) * var(--ws-step1-corner-y)) -
+        var(--ws-step1-inset-y) -
+        var(--ws-step1-arrow-size)
+    );
+    width: var(--ws-step1-arrow-size);
+    height: var(--ws-step1-arrow-size);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #ffffff;
+    border: 0.12rem solid rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    background: rgba(0, 62, 126, 0.72);
+    cursor: pointer;
+    transition: transform 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+/* Weiterleitung ueber SVG-Layer statt separatem Pfeil-Button. */
+#wissensspeicher-inhalte .wissensspeicher-step1-link {
+    display: none;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-step1-link span {
+    font-size: var(--fs-text-base);
+    line-height: 1;
+    transform: translate(0, -0.02rem);
+}
+
+#wissensspeicher-inhalte .wissensspeicher-link-preview {
+    position: absolute;
+    left: calc(100% + 0.6rem);
+    top: calc(100% + 0.6rem);
+    width: min(18rem, 44vw);
+    background: #ffffff;
+    color: #0a2e53;
+    border: 0.08rem solid rgba(7, 55, 97, 0.2);
+    box-shadow: 0 0.7rem 1.6rem rgba(0, 20, 42, 0.32);
+    border-radius: 0.45rem;
+    overflow: hidden;
+    opacity: 0;
+    transform: translate(-0.35rem, -0.35rem) scale(0.96);
+    transform-origin: top left;
+    pointer-events: none;
+    transition: opacity 0.24s ease, transform 0.24s ease;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-link-preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-bottom: 0.08rem solid rgba(7, 55, 97, 0.12);
+}
+
+#wissensspeicher-inhalte .wissensspeicher-link-preview-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.5rem 0.65rem 0.6rem;
+    line-height: 1.25;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-link-preview-meta strong {
+    font-size: var(--fs-h4-global);
+    font-weight: 700;
+    color: #003e7e;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-link-preview-meta small {
+    font-size: var(--fs-text-sm);
+    color: #2e5d87;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-step1-link:hover {
+    transform: translate(0.12rem, -0.12rem) scale(1.08);
+    background: rgba(36, 148, 202, 0.95);
+    box-shadow: 0 0.4rem 1rem rgba(0, 20, 42, 0.35);
+}
+
+#wissensspeicher-inhalte .wissensspeicher-step1-link:hover .wissensspeicher-link-preview,
+#wissensspeicher-inhalte .wissensspeicher-step1-link:focus-visible .wissensspeicher-link-preview {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+}
+
+#wissensspeicher-inhalte .wissensspeicher-step1-link:focus-visible {
+    outline: 0.15rem solid rgba(255, 255, 255, 0.95);
+    outline-offset: 0.1rem;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-bottom-cards {
+    width: min(100vw, 86rem);
+    margin: 0 auto 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2.2vw, 2rem);
+}
+
+#wissensspeicher-inhalte .wissensspeicher-bottom-card {
+    background: rgba(205, 206, 214, 0.158);
+    padding: clamp(1.3rem, 2.8vw, 2rem);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: clamp(0.8rem, 1.6vw, 1.2rem);
+    box-shadow: 0 0.35rem 0.95rem rgba(2, 16, 33, 0.24);
+    backdrop-filter: blur(0.15rem);
+}
+
+#wissensspeicher-inhalte .wissensspeicher-card-icon {
+    width: 3.8rem;
+    height: 3.8rem;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.32);
+
+    color: #ffffff;
+    font-size: var(--fs-h2-global);
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 0.25rem 0.8rem rgba(0, 20, 42, 0.28);
+    transform: none;
+}
+
+#wissensspeicher-inhalte .wissensspeicher-bottom-card p {
+    margin: 0;
+    color: rgba(245, 251, 255, 0.95);
+    max-width: none;
+}
+
+@media (max-width: 48rem) {
+    #wissensspeicher-inhalte .wissensspeicher-bottom-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+    #wissensspeicher-inhalte .wissensspeicher-svg-wrap {
+        --ws-svg-width: min(100%, 84vw);
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    #wissensspeicher-inhalte #wissensspeicher-svg-container {
+        width: var(--ws-svg-width);
+        margin: 0 auto;
+    }
+
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg {
+        width: 100%;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-cards {
+        grid-template-columns: 1fr;
+        width: min(100%, 80ch);
+        margin: 0 auto;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-card {
+        width: min(100%, 80ch);
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 901px) and (max-width: 112.5rem) {
+    #wissensspeicher-inhalte .wissensspeicher-bottom-cards {
+        width: min(100%, 86rem);
+        padding-left: clamp(1rem, 2.2vw, 2rem);
+        padding-right: clamp(1rem, 2.2vw, 2rem);
+        box-sizing: border-box;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-card p {
+        font-size: clamp(0.88rem, 1.15vw, 0.98rem);
+        line-height: 1.45;
+    }
+}
+
+@media (max-width: 600px) {
+    #wissensspeicher-inhalte .wissensspeicher-svg-wrap {
+        --ws-svg-width: min(100%, 90vw);
+        padding-top: 1.2rem;
+        margin-bottom: 2rem;
+        overflow: visible;
+    }
+
+    #wissensspeicher-inhalte #wissensspeicher-svg-container {
+        width: var(--ws-svg-width);
+        margin: 0 auto;
+    }
+
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg {
+        width: 100%;
+    }
+
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg [data-orig-id="Schritt1"],
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg [data-orig-id="Schritt2"],
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg [data-orig-id="Schritt3"],
+    #wissensspeicher-inhalte #wissensspeicher-svg-container svg [data-orig-id="Schritt4"] {
+        transition: opacity 0.6s ease;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-step1-link {
+        display: none;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-cards {
+        width: min(100%, 88vw);
+        gap: 1rem;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-card {
+        width: min(100%, 30rem);
+        margin: 0 auto;
+        padding: 1rem 1rem 1.15rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.55rem;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-bottom-card p {
+        font-size: 0.7rem;
+        line-height: 1.4;
+    }
+
+    #wissensspeicher-inhalte .wissensspeicher-card-icon {
+        width: 3rem;
+        height: 3rem;
+        margin-bottom: 0.15rem;
+        align-self: center;
+    }
+}
+
+#wissensspeicher .wissensspeicher-fakultaeten-card {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    min-height: 0;
+    gap: 0;
+    padding: clamp(1rem, 2vw, 1.6rem) clamp(1.2rem, 3vw, 2.4rem);
+    background: linear-gradient(90deg, #004E9E 0%, #2494CA 100%);
+    transition: transform 1.15s cubic-bezier(0.22, 0.61, 0.36, 1);
+    transform: translateX(-112%);
+    pointer-events: none;
+}
+
+#wissensspeicher .wissensspeicher-top-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
+    gap: clamp(1rem, 2.5vw, 2.2rem);
+    align-items: center;
+}
+
+#wissensspeicher .wissensspeicher-top-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    --wissensspeicher-title-gap: calc(clamp(1.6rem, 3.2vh, 2.4rem) + 1rem);
+    --wissensspeicher-text-max-width: 85ch;
+}
+
+#wissensspeicher .wissensspeicher-top-text .intro-title {
+    margin-bottom: var(--wissensspeicher-title-gap);
+}
+
+#wissensspeicher .wissensspeicher-top-text .kurzportrait-slide-card-text {
+    width: min(100%, var(--wissensspeicher-text-max-width));
+}
+
+#wissensspeicher .wissensspeicher-top-photo {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+#wissensspeicher .wissensspeicher-top-photo img {
+    width: 100%;
+    height: 100%;
+    min-height: clamp(14rem, 28vh, 20rem);
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 0.4rem 1rem rgba(1, 14, 28, 0.3);
+}
+
+@media (max-width: 56.25rem) {
+    #wissensspeicher .wissensspeicher-top-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #wissensspeicher .wissensspeicher-top-photo img {
+        min-height: clamp(12rem, 35vh, 18rem);
+    }
+}
+
+@media (max-width: 48rem) and (orientation: portrait) {
+    #wissensspeicher .wissensspeicher-fakultaeten-card {
+        width: min(100%, 100vw);
+        max-width: 100vw;
+        min-width: 0;
+    }
+}
+
+#wissensspeicher.wissensspeicher-entered .wissensspeicher-fakultaeten-card {
+    transform: translateX(0);
+}
+
+@media (max-width: 64rem) and (orientation: landscape) {
+    #wissensspeicher.section {
+        padding-top: clamp(2.4rem, 7vh, 3.8rem);
+    }
+}

@@ -1,0 +1,1428 @@
+/* Meilensteine Section */
+#ziele-svg-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24rem;
+    min-width: 18rem;
+    background: transparent;
+}
+
+#ziele-svg-container svg {
+    width: 100%;
+    height: auto;
+    max-width: 38rem;
+    min-width: 18rem;
+    min-height: 24rem;
+    display: block;
+    overflow: visible;
+}
+
+#ziele-svg-container g {
+    opacity: 1;
+    visibility: visible;
+}
+
+#ziele-svg-container [id*="Ziele"] {
+    opacity: 1;
+    visibility: visible;
+}
+
+.meilensteine-header {
+    text-align: left;
+}
+
+.meilensteine-header h2 {
+    display: inline-block;
+    background: #004E9E;
+    color: #ffffff;
+    font-size: var(--fs-h2-global);
+    font-weight: 600;
+    letter-spacing: 0.03125rem;
+    line-height: 1.2;
+    padding: 0.25rem 4rem;
+    padding-left: 10rem;
+    margin-left: -6vw;
+    margin-bottom: 2rem;
+    border-radius: 0;
+}
+
+#ziele-meilensteine.section {
+    background: linear-gradient(180deg, #c1d1e5 0%, #b0c3e0 58%, #a1bad7 100%);
+    padding-left: 0;
+    padding-right: 0; /* Abschnitt ohne seitlichen Abstand bis zum Bildschirmrand */
+    padding-top: 8rem;
+    padding-bottom: 0;
+}
+
+#ziele-meilensteine .meilensteine-header h2 {
+    margin-bottom: 0rem;
+}
+
+@media (min-width: 160rem) {
+    .meilensteine-header h2,
+    .teilziele-copied-heading h2 {
+        margin-left: 0;
+    }
+}
+
+.meilensteine-split {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    max-width: none; /* volle Breite bis zum Bildschirmrand */
+    --meilensteine-content-scale: 0.96;
+    height: 100vh;
+    height: 100svh;
+    height: 100dvh;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+    margin-top: clamp(-6.2rem, -10.5vh, -4.6rem);
+
+    padding: 0 0 1.1rem 2rem; /* links etwas Abstand zur Grafik, rechts bündig */
+}
+
+.meilensteine-left,
+.meilensteine-right {
+    transform: scale(var(--meilensteine-content-scale));
+    transform-origin: top left;
+}
+
+@media (min-width: 64.0625rem) and (max-height: 56rem) {
+    .meilensteine-split {
+        --meilensteine-content-scale: 0.91;
+    }
+}
+
+@media (min-width: 64.0625rem) and (max-height: 50rem) {
+    .meilensteine-split {
+        --meilensteine-content-scale: 0.85;
+    }
+}
+
+@media (min-width: 64.0625rem) and (max-height: 44rem) {
+    .meilensteine-split {
+        --meilensteine-content-scale: 0.79;
+    }
+}
+
+.meilensteine-left {
+    flex: 1.1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: center; /* Grafik vertikal mittig in der linken Spalte */
+}
+
+.meilensteine-subtitle {
+	color: #004E9E;
+	text-align: left;
+	margin: 0 0 0.5rem 2rem; /* etwas eingerückt über der SVG */
+}
+
+.ziel-box {
+    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+    border-left: 0.25rem solid #004E9E;
+    padding: 2rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.ziel-box h3 {
+    margin: 0 0 1rem 0;
+    color: #004E9E;
+}
+
+.ziel-box p {
+    margin: 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+.ziel-box:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 78, 158, 0.15);
+    transform: translateY(-0.25rem);
+    border-left-color: #764ba2;
+}
+
+.ziel-box.active {
+    background: linear-gradient(135deg, #004E9E 0%, #2494CA 100%);
+    border-left-color: #764ba2;
+}
+
+.ziel-box.active h3,
+.ziel-box.active p {
+    color: white;
+}
+
+.meilensteine-right {
+    flex: 1.5; /* rechte Spalte etwas schmaler */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1.5rem; /* Abstand zwischen den Ziel-Karten */
+    width: 100%;
+}
+
+@media (min-width: 64.0625rem) {
+    .meilensteine-right {
+        justify-content: center;
+    }
+}
+
+.meilensteine-ziel {
+    background: #d5d5d5;
+    background: linear-gradient(90deg, #d5d5d5 60%, #e8e8e8 100%);
+    border-left: 0.375rem solid #2494CA;
+    padding: 1rem 4rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 0.625rem 1.5625rem rgba(0, 0, 0, 0.08);
+    width: 100%;
+    margin-left: 0; /* Karte bis zum rechten Rand laufen lassen */
+    transform: translateX(-1.25rem);
+    opacity: 0;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.meilensteine-ziel[data-goal-target] {
+    cursor: pointer;
+}
+
+.meilensteine-ziel[data-goal-target]:focus-visible {
+    outline: 0.1875rem solid rgba(36, 148, 202, 0.45);
+    outline-offset: 0.125rem;
+}
+
+.meilensteine-ziel-content {
+    max-width: 70%; /* Text schmaler als die Karte */
+}
+
+.meilensteine-ziel-visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.meilensteine-ziel-hover {
+    box-shadow: 0 1.125rem 2.375rem rgba(0, 0, 0, 0.22);
+    transform: translateY(-0.25rem);
+    background: linear-gradient(90deg, #e2e2e2 50%, #f5f5f5 100%);
+}
+
+.meilensteine-ziel[data-goal-target]:hover {
+    box-shadow: 0 1.125rem 2.375rem rgba(0, 0, 0, 0.22);
+    transform: translateY(-0.25rem);
+    background: linear-gradient(90deg, #e2e2e2 50%, #f5f5f5 100%);
+}
+
+/* Farbzuordnung der Ziele zu den Ringfarben der SVG "Ziel.svg" */
+.meilensteine-ziel.ziel-1 {
+    border-left-color: #2494CA; /* äußerer Ring (bereits Standard) */
+    margin-left: 20%;
+    width: 80%;
+}
+
+.meilensteine-ziel.ziel-1 .meilensteine-ziel-content h3 {
+    color: #2494CA;
+}
+
+.meilensteine-ziel.ziel-2 {
+    border-left-color: #074F8D; /* mittlerer Ring */
+    margin-left: 10%;
+    width: 90%;
+}
+
+.meilensteine-ziel.ziel-2 .meilensteine-ziel-content h3 {
+    color: #074F8D;
+}
+
+.meilensteine-ziel.ziel-3 {
+    border-left-color: #003E7E; /* innerer Ring */
+    margin-left: 0;
+    width: 100%;
+}
+
+.meilensteine-ziel.ziel-3 .meilensteine-ziel-content h3 {
+    color: #003E7E;
+}
+
+/* Hover-Effekt für die Ringe der Ziel-SVG */
+.ziel-ring-hover {
+    filter: drop-shadow(0 0 0.875rem rgba(0, 0, 0, 0.35));
+    transform: scale(1.05);
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.ziele-rings {
+    width: 100%;
+    max-width: 27.5rem; /* ca. 10% größer als zuvor */
+    height: auto;
+}
+
+#ziele-svg-container #Außen,
+#ziele-svg-container #Außen path {
+    visibility: visible;
+    opacity: 1;
+    fill: #2494ca;
+}
+
+#ziele-svg-container #Mitte,
+#ziele-svg-container #Mitte path {
+    fill: #074f8d;
+}
+
+#ziele-svg-container #Innen,
+#ziele-svg-container #Innen path,
+#ziele-svg-container #Innen circle {
+    fill: #003e7e;
+}
+
+.ring-circle {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ring-circle:hover {
+    opacity: 1;
+    stroke-width: 50;
+}
+
+.ring-label {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#ziele-meilensteine .meilensteine-two-column {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(22rem, 38vw);
+    gap: clamp(1rem, 2.5vw, 2.5rem);
+    align-items: start;
+    margin-top: 1.5rem;
+}
+
+#ziele-meilensteine .meilensteine-visual {
+    position: sticky;
+    top: 8.5rem;
+    align-self: start;
+    justify-self: center;
+    border-radius: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    margin-right: 0;
+    margin-bottom: clamp(3rem, 8vh, 6rem);
+}
+
+#ziele-meilensteine .meilensteine-visual img {
+    display: block;
+    width: clamp(24rem, 42vw, 44rem);
+    max-width: none;
+    height: auto;
+}
+
+/* Abstand unter den Karten vergrößern */
+#ziele-meilensteine .meilensteine-cards {
+    min-width: 0;
+    display: grid;
+    grid-template-rows: repeat(3, minmax(8.5rem, 1fr));
+    gap: clamp(2.2rem, 4vw, 3.2rem);
+    min-height: clamp(28rem, 70vh, 42rem);
+    align-self: stretch;
+    width: min(100%, clamp(37.4rem, 64.6vw, 49.3rem));
+    justify-self: start;
+    margin-top: clamp(2.2rem, 4vw, 3.2rem);
+    padding-bottom: clamp(3.5rem, 7vw, 6rem);
+    position: relative;
+    z-index: 4;
+    overflow: visible;
+}
+
+/* Slide-in von links für Meilensteine-Karten */
+#ziele-meilensteine .meilensteine-slide-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: clamp(30rem, 52vw, 48rem);
+    height: clamp(15.5rem, 38vh, 23.5rem);
+    padding: clamp(2.2rem, 3vw, 3.2rem) clamp(2.2rem, 4vw, 3.2rem);
+    border-radius: 0;
+    border: 0;
+    background: linear-gradient(120deg, rgba(36,148,202,0.98) 0%, rgba(7,79,141,0.98) 100%);
+    box-shadow: 0 1.2rem 2.8rem rgba(6, 35, 64, 0.18), 0 0.4rem 1.2rem rgba(0,0,0,0.13);
+    opacity: 1;
+    transform: translateX(0);
+    transition: transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 1.2s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s, border 0.3s;
+    text-align: left;
+    gap: 1.2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+#ziele-meilensteine .meilensteine-slide-card.meilensteine-reveal-ready:not(.meilensteine-card-visible) {
+    opacity: 0;
+    transform: translateX(-60%);
+}
+
+#ziele-meilensteine .meilensteine-slide-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 0;
+    pointer-events: none;
+    box-shadow: none;
+    opacity: 0;
+}
+
+#ziele-meilensteine .meilensteine-slide-card.meilensteine-card-visible {
+    opacity: 1;
+    transform: translateX(0);
+    box-shadow: 0 2.2rem 4.2rem rgba(36, 148, 202, 0.18), 0 0.7rem 2.2rem rgba(0,0,0,0.13);
+    border: 0;
+}
+
+#ziele-meilensteine .meilensteine-slide-card.meilensteine-card-active {
+    transform: translateX(clamp(1.2rem, 2.5vw, 2.8rem));
+    box-shadow: 0 2.4rem 4.6rem rgba(36, 148, 202, 0.26), 0 0.9rem 2.4rem rgba(0,0,0,0.16);
+    z-index: 6;
+}
+
+#ziele-meilensteine .meilensteine-slide-card:nth-child(1) {
+    background: linear-gradient(120deg, #2494CA 0%, #42A8D0 100%);
+}
+
+#ziele-meilensteine .meilensteine-slide-card:nth-child(2) {
+    background: linear-gradient(120deg, #074F8D 0%, #2494CA 100%);
+}
+
+#ziele-meilensteine .meilensteine-slide-card:nth-child(3) {
+    background: linear-gradient(120deg, #003E7E 0%, #074F8D 100%);
+}
+
+#ziele-meilensteine .meilensteine-slide-card h3 {
+    margin: 0 0 0.7rem 0;
+    color: #fff;
+    text-align: left;
+    font-size: var(--fs-h2-global);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+}
+
+#ziele-meilensteine .meilensteine-slide-card p {
+    margin: 0;
+    color: #eaf6ff;
+    text-align: left;
+    font-size: var(--fs-text-lg);
+    line-height: 1.6;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    padding-right: 0.2em;
+}
+
+#ziele-meilensteine .meilensteine-slide-card.goal-jump-trigger {
+    cursor: pointer;
+}
+
+#ziele-meilensteine .meilensteine-slide-card.goal-jump-trigger:hover,
+#ziele-meilensteine .meilensteine-slide-card.goal-jump-trigger:focus-visible {
+    box-shadow: 0 2.8rem 5rem rgba(36, 148, 202, 0.3), 0 1rem 2.6rem rgba(0, 0, 0, 0.18);
+    filter: brightness(1.06);
+}
+
+#ziele-svg-container .ziele-goal-jump-trigger {
+    cursor: pointer;
+    transition: transform 0.28s ease, filter 0.28s ease, opacity 0.28s ease;
+    transform-box: fill-box;
+    transform-origin: center;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#ziele-svg-container .ziele-goal-jump-trigger:hover,
+#ziele-svg-container .ziele-goal-jump-trigger:focus-visible {
+    transform: scale(1.04);
+    filter: drop-shadow(0 0 0.65rem rgba(36, 148, 202, 0.5)) brightness(1.08);
+    opacity: 1;
+    outline: none;
+}
+
+#ziele-svg-container .ziele-goal-jump-trigger:focus {
+    outline: none;
+}
+
+#ziele-svg-container .ziele-goal-jump-trigger::-moz-focus-inner {
+    border: 0;
+}
+
+
+
+#ziele-meilensteine .meilensteine-content {
+    min-width: 0;
+}
+
+#ziele-meilensteine .meilensteine-column-placeholder {
+    min-height: clamp(14rem, 40vh, 26rem);
+    border-radius: 0;
+    background: transparent;
+    border: 0;
+}
+
+@media (max-width: 64rem) {
+    #ziele-meilensteine .meilensteine-two-column {
+        grid-template-columns: 1fr;
+    }
+
+    #ziele-meilensteine .meilensteine-visual {
+        position: relative;
+        top: auto;
+        max-width: 20rem;
+        margin-right: 0;
+        margin: 0 auto 0.75rem;
+        padding: 0;
+    }
+
+    #ziele-meilensteine .meilensteine-visual img {
+        width: min(100%, 24rem);
+        max-width: 24rem;
+        margin: 0 auto;
+    }
+
+    #ziele-meilensteine .meilensteine-cards {
+        grid-template-rows: repeat(3, minmax(6.8rem, auto));
+        min-height: 0;
+        width: 100%;
+    }
+
+
+    /* Entfernt: transform-Überschreibung für Reveal-Animation, damit Karten immer sichtbar werden */
+}
+
+@media (max-width: 900px) {
+    #ziele-meilensteine .meilensteine-two-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 0.8rem;
+    }
+
+    #ziele-meilensteine .meilensteine-visual {
+        order: 1;
+        position: relative;
+        top: auto;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+        display: flex;
+        justify-content: center;
+    }
+
+    #ziele-meilensteine #ziele-svg-container,
+    #ziele-meilensteine .meilensteine-visual img {
+        width: min(80vw, 24rem);
+        max-width: 100%;
+    }
+
+    #ziele-meilensteine .meilensteine-cards {
+        order: 2;
+        width: min(80vw, 40rem);
+        max-width: 80vw;
+        min-height: 0;
+        grid-template-rows: none;
+        gap: 0.95rem;
+        margin-top: 0;
+        padding-bottom: 0;
+        justify-self: center;
+        justify-items: center;
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card {
+        width: 100%;
+        max-width: none;
+        height: auto;
+        min-height: clamp(9.5rem, 24vh, 13rem);
+        padding: 1rem 1.1rem;
+        margin-inline: auto;
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card h3 {
+        font-size: clamp(1.08rem, 4.2vw, 1.3rem);
+        margin-bottom: 0.45rem;
+        text-align: left;
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card p {
+        font-size: clamp(0.8rem, 2.6vw, 0.9rem);
+        line-height: 1.45;
+        text-align: left;
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card.meilensteine-card-active {
+        transform: translateX(0);
+    }
+
+}
+
+@media (max-width: 600px) {
+    #ziele-meilensteine .meilensteine-header h2 {
+        padding: 0 1rem;
+        padding-left: 1rem;
+        margin-left: 0.6rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .meilensteine-teilziele {
+        padding-top: 1.1rem;
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+        padding-bottom: 0;
+    }
+
+    .teilziele-copied-heading {
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .teilziele-copied-heading h2 {
+        padding: 0 0.65rem;
+        margin-left: 0;
+        margin-top: 0.35rem;
+        margin-bottom: 1rem;
+        white-space: nowrap;
+        font-size: clamp(1rem, 4.2vw, 1.22rem);
+    }
+
+    .teilziele-matrix {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .teilziele-sticky-goals {
+        order: 1;
+        position: relative;
+        left: auto;
+        width: 100%;
+        padding-bottom: 0.4rem;
+    }
+
+    .teilziele-timeline {
+        order: 2;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .teilziele-sticky-spacer--timeline {
+        position: static;
+        top: auto;
+        margin-bottom: 0.45rem;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+    .meilensteine-teilziele {
+        width: 100%;
+        max-width: 100%;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .teilziele-copied-heading,
+    .teilziele-filter-wrap {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .teilziele-matrix {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+        width: 100%;
+    }
+
+    .teilziele-sticky-goals {
+        order: 1;
+        position: relative;
+        left: auto;
+        width: 100%;
+        padding: 0 1rem 0.4rem 1rem;
+    }
+
+    .teilziele-goal-tabs,
+    .teilziele-sticky-goal {
+        width: clamp(21rem, 62vw, 33rem);
+        max-width: min(66vw, 33rem);
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    .teilziele-goal-tab {
+        padding: 0.5rem 0.55rem;
+        font-size: clamp(0.9rem, 1.45vw, 1rem);
+    }
+
+    .teilziele-sticky-goal {
+        padding: 0.8rem 0.95rem;
+    }
+
+    .teilziele-timeline {
+        order: 2;
+        width: 100%;
+        max-width: 100%;
+        padding-top: 0.7rem;
+        padding-right: 0;
+        padding-bottom: 1rem;
+        padding-left: 1rem;
+    }
+}
+
+@media (min-width: 901px) {
+    #ziele-meilensteine .meilensteine-cards {
+        min-height: 0;
+        grid-template-rows: repeat(3, minmax(0, auto));
+        align-content: start;
+    }
+
+    #ziele-meilensteine .meilensteine-slide-card {
+        height: auto;
+        min-height: 0;
+        justify-content: flex-start;
+        padding: clamp(1.1rem, 1.6vw, 1.6rem) clamp(1.4rem, 2.2vw, 2rem);
+        gap: clamp(0.45rem, 0.9vw, 0.8rem);
+    }
+}
+
+/* Teilziele Zeitstrahl */
+.meilensteine-teilziele {
+    width: 100%;
+    padding: 5rem 2rem 8rem;
+    margin-top: 3rem;
+    text-align: left;
+    height: 100vh;
+    height: auto;
+    min-height: 0;
+    position: relative;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: linear-gradient(145deg, #004E9E 0%, #074F8D 56%, #003E7E 100%);
+    border-radius: 0;
+}
+
+.meilensteine-teilziele::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 16% 18%, rgba(36, 148, 202, 0.14) 0, rgba(36, 148, 202, 0) 42%),
+        radial-gradient(circle at 88% 80%, rgba(0, 78, 158, 0.16) 0, rgba(0, 78, 158, 0) 36%);
+    pointer-events: none;
+}
+
+.meilensteine-teilziele::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(191, 230, 255, 0.045) 0.0625rem, transparent 0.0625rem),
+                      linear-gradient(90deg, rgba(191, 230, 255, 0.035) 0.0625rem, transparent 0.0625rem);
+    opacity: 0.08;
+    pointer-events: none;
+}
+
+.teilziele-copied-heading {
+    text-align: left;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.teilziele-copied-heading h2 {
+    display: inline-block;
+    background: rgba(241, 246, 250, 0.92);
+    color: #004E9E;
+    padding: 0 4rem;
+    padding-left: 10rem;
+    margin-left: -6vw;
+    margin-bottom: 4rem;
+    border-radius: 0;
+    box-shadow: 0 0.3125rem 0.875rem rgba(7, 37, 64, 0.2);
+}
+
+.teilziele-filter-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.65rem;
+    margin: 0 0 0.9rem 0;
+    position: relative;
+    z-index: 1;
+}
+
+.teilziele-filter-label {
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #e8f1f9;
+}
+
+.teilziele-filter-select {
+    min-width: 8.75rem;
+    border: 0.0625rem solid rgba(198, 217, 234, 0.62);
+    border-radius: 0;
+    padding: 0.42rem 0.9rem;
+    background: rgba(14, 61, 104, 0.78);
+    color: #edf6fd;
+    box-shadow: inset 0 0.0625rem 0 rgba(255, 255, 255, 0.08);
+}
+
+.teilziele-filter-select:focus {
+    outline: 0.125rem solid rgba(170, 223, 255, 0.65);
+    outline-offset: 0.0625rem;
+}
+
+.teilziele-matrix {
+    display: grid;
+    grid-template-columns: minmax(13.75rem, 20rem) 1fr;
+    gap: 1.75rem;
+    align-items: start;
+    width: 100%;
+    position: relative;
+    min-height: 0;
+    z-index: 1;
+}
+
+.teilziele-sticky-goals {
+    --teilziele-goal-card-height: clamp(10rem, 17vh, 12.5rem);
+    --teilziele-surface: linear-gradient(160deg, rgba(233, 244, 255, 1) 0%, rgba(233, 244, 255, 1) 30%, rgba(217, 234, 250, 0.8) 100%);
+    --teilziele-surface-text: #123e61;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: transparent;
+    padding: 0 0 1rem 0;
+    display: grid;
+    row-gap: 0;
+    align-self: start;
+}
+
+.teilziele-goal-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.1rem;
+    margin-bottom: 0;
+    transform: translateY(0.12rem);
+}
+
+.teilziele-goal-tab {
+    border: 0;
+    background: #093c70a9;
+    color: #e7f3ff;
+    font-family: inherit;
+    font-size: var(--fs-text-lg);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1.15;
+    padding: 0.6rem 0.7rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, filter 0.2s ease;
+}
+
+.teilziele-goal-tab.is-active {
+    background: rgba(233, 244, 255);
+    color: var(--teilziele-surface-text);
+    filter: none;
+    box-shadow: 0 0.3rem 0.7rem rgba(8, 43, 72, 0.18);
+}
+
+.teilziele-goal-tab:not(.is-active) {
+    color: #e7f3ff;
+    filter: none;
+}
+
+.teilziele-goal-tab:focus-visible {
+    outline: 0.125rem solid rgba(170, 223, 255, 0.9);
+    outline-offset: 0.0625rem;
+}
+
+.teilziele-sticky-spacer {
+    min-height: 2.05rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    border-radius: 0;
+    padding: 0.5rem 0.9rem;
+    width: fit-content;
+    margin-left: 0;
+    justify-self: start;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    position: relative;
+    z-index: 3;
+}
+
+.teilziele-sticky-spacer--timeline {
+    position: sticky;
+    top: -0.35rem;
+    left: 0;
+    z-index: 4;
+    margin-bottom: 0.65rem;
+}
+
+.teilziele-sticky-goal {
+    position: relative;
+    background: var(--teilziele-surface);
+    border-left: 0;
+    padding: 1rem 1.1rem;
+    border-radius: 0;
+    box-shadow: 0 0.35rem 0.7rem rgba(8, 43, 72, 0.12), 0 1rem 2rem rgba(7, 45, 77, 0.2);
+    color: var(--teilziele-surface-text);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: var(--teilziele-goal-card-height);
+    backdrop-filter: none;
+    overflow: hidden;
+}
+
+.teilziele-goal-tabs + .teilziele-sticky-goal {
+    margin-top: 0;
+}
+
+.teilziele-sticky-goal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    pointer-events: none;
+}
+
+.teilziele-sticky-goal-title {
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.teilziele-sticky-goal-text {
+    letter-spacing: normal;
+    text-transform: none;
+    line-height: 1.55;
+    color: #1b3f61;
+    opacity: 1;
+    padding-right: 0.3rem;
+}
+
+.teilziele-sticky-goal-1 {
+    border-left-color: #2494CA;
+    color: #0f3557;
+}
+
+.teilziele-sticky-goal-2 {
+    border-left-color: #2494CA;
+    color: #0f3557;
+}
+
+.teilziele-sticky-goal-3 {
+    border-left-color: #2494CA;
+    color: #0f3557;
+}
+
+.teilziele-timeline {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: visible;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    min-width: 0;
+    padding: 0.7rem 0.35rem 1rem 0.1rem;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 0;
+    background: linear-gradient(180deg, rgba(14, 63, 106, 0.3) 0%, rgba(10, 47, 82, 0.2) 100%);
+}
+
+.teilziele-track {
+    position: relative;
+    display: flex;
+    gap: 0.8rem;
+    column-gap: 0.8rem;
+    row-gap: 0.8rem;
+    width: max-content;
+    min-width: 100%;
+    padding: 0 0.4rem 0.2rem;
+}
+
+.teilziele-track::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 1rem;
+    top: 1.07rem;
+    height: 0.24rem;
+    background: linear-gradient(90deg, rgba(15, 55, 96, 0.5) 0%, rgba(18, 68, 116, 0.36) 50%, rgba(15, 55, 96, 0.5) 100%);
+    border-radius: 0;
+    opacity: 0.62;
+    box-shadow: none;
+    pointer-events: none;
+}
+
+.teilziele-track::after {
+    content: none;
+}
+
+.teilziele-year {
+    flex: 0 0 min(32.5rem, 85vw);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.teilziele-year.teilziele-year-hidden {
+    display: none;
+}
+
+.teilziele-year::before {
+    content: none;
+}
+
+.teilziele-year-head {
+    display: inline-block;
+    background: #093c70a9;
+    color: #ececec;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.34rem 0.92rem;
+    border-radius: 0;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    box-shadow: 0 0.24rem 0.6rem rgba(4, 24, 46, 0.24);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.teilziele-year-head::before {
+    content: none;
+}
+
+.teilziele-year-content {
+    width: 100%;
+    margin-top: 2.8rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+}
+
+.teilziele-cell {
+    padding: 0;
+}
+
+.teilziele-cell ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+    justify-items: center;
+}
+
+.teilziele-cell li {
+    margin: 0;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.88) 0%, rgba(239, 247, 255, 0.774) 100%);
+    border-radius: 0;
+    box-shadow: 0 0.75rem 1.35rem rgba(8, 33, 58, 0.2);
+    padding: 0.95rem 1rem 1.05rem 3.3rem;
+    border-left: 0;
+    line-height: 1.5;
+    color: #000000;
+    width: min(100%, clamp(12.5rem, 66%, 22.5rem));
+    min-height: fit-content;
+    position: relative;
+    display: grid;
+    gap: 0.55rem;
+}
+
+.teilziele-cell li .teilziel-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2.35rem;
+    padding: 0.35rem 0.2rem;
+    background: rgba(0, 78, 158, 0.24);
+    color: #003e7e;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+.teilziele-cell li.teilziel-checked .teilziel-code {
+    background: rgba(21, 118, 41, 0.24);
+    color: #146f2b;
+}
+
+.teilziele-cell li .teilziel-body {
+    color: #102a42;
+    font-weight: 400;
+    line-height: 1.55;
+}
+
+.teilziele-cell li.teilziel-checked {
+    background: linear-gradient(160deg, rgba(233, 244, 255, 0.96) 0%, rgba(217, 234, 250, 0.9) 100%);
+    box-shadow: 0 0.85rem 1.5rem rgba(15, 73, 120, 0.24);
+    padding-top: 2.45rem;
+}
+
+.teilziele-cell li.teilziel-checked::after {
+    content: 'Ziel erreicht';
+    position: absolute;
+    top: 0.55rem;
+    right: 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.35rem;
+    padding: 0 0.45rem;
+    background: rgba(21, 118, 41, 0.24);
+    color: #146f2b;
+    border: 0.0625rem solid rgba(20, 111, 43, 0.52);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: clamp(0.62rem, calc(var(--fs-text-sm) * 0.68), 0.74rem);
+    line-height: 1;
+}
+
+.teilziele-cell-empty {
+    color: #e4f2ff;
+    opacity: 0.85;
+    font-size: var(--fs-text-sm);
+}
+
+.teilziele-timeline::-webkit-scrollbar {
+    height: 0.38rem;
+}
+
+.teilziele-timeline::-webkit-scrollbar-track {
+    background: rgba(7, 44, 78, 0.14);
+    border-radius: 0;
+}
+
+.teilziele-timeline::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, rgba(49, 92, 131, 0.55) 0%, rgba(71, 117, 158, 0.5) 100%);
+    border-radius: 0;
+}
+
+.teilziele-timeline {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(60, 104, 145, 0.55) rgba(7, 44, 78, 0.14);
+}
+
+.teilziele-cell-1 {
+    border-left-color: #2494CA;
+}
+
+.teilziele-cell-1 li {
+    border-left-color: #2494CA;
+}
+
+.teilziele-cell-2 {
+    border-left-color: #2494CA;
+}
+
+.teilziele-cell-2 li {
+    border-left-color: #2494CA;
+}
+
+.teilziele-cell-3 {
+    border-left-color: #2494CA;
+}
+
+.teilziele-cell-3 li {
+    border-left-color: #2494CA;
+}
+
+/* Filterzustand: jeweils nur ein Ziel (Sticky + Jahreskarten) sichtbar halten. */
+.teilziele-matrix[data-goal-filter="1"] .teilziele-sticky-goal-2,
+.teilziele-matrix[data-goal-filter="1"] .teilziele-sticky-goal-3,
+.teilziele-matrix[data-goal-filter="1"] .teilziele-cell-2,
+.teilziele-matrix[data-goal-filter="1"] .teilziele-cell-3 {
+    display: none;
+}
+
+.teilziele-matrix[data-goal-filter="2"] .teilziele-sticky-goal-1,
+.teilziele-matrix[data-goal-filter="2"] .teilziele-sticky-goal-3,
+.teilziele-matrix[data-goal-filter="2"] .teilziele-cell-1,
+.teilziele-matrix[data-goal-filter="2"] .teilziele-cell-3 {
+    display: none;
+}
+
+.teilziele-matrix[data-goal-filter="3"] .teilziele-sticky-goal-1,
+.teilziele-matrix[data-goal-filter="3"] .teilziele-sticky-goal-2,
+.teilziele-matrix[data-goal-filter="3"] .teilziele-cell-1,
+.teilziele-matrix[data-goal-filter="3"] .teilziele-cell-2 {
+    display: none;
+}
+
+@media (max-width: 64rem) {
+    .meilensteine-split {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .meilensteine-right {
+        padding: 2rem 0;
+    }
+}
+
+@media (max-width: 48rem) {
+    .meilensteine-split {
+        padding: 0 1rem;
+    }
+
+    .ziel-box {
+        padding: 1.5rem;
+    }
+
+
+    .meilensteine-teilziele {
+        padding: 0 1rem;
+        margin-top: 2.25rem;
+    }
+
+    .teilziele-filter-wrap {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin-bottom: 0.8rem;
+    }
+
+    .teilziele-matrix {
+        grid-template-columns: minmax(10rem, 13.75rem) 1fr;
+        gap: 1.25rem;
+    }
+
+    .teilziele-sticky-goals {
+        --teilziele-goal-card-height: clamp(9rem, 21vh, 11rem);
+        gap: 1.1rem;
+    }
+
+    .teilziele-goal-tabs {
+        gap: 0.25rem;
+    }
+
+    .teilziele-goal-tab {
+        font-size: var(--fs-text-base);
+        padding: 0.46rem 0.4rem;
+    }
+
+    .teilziele-sticky-goal {
+        padding: 0.9rem 0.85rem;
+        gap: 0.4rem;
+    }
+
+    .teilziele-sticky-goal-text {
+              line-height: 1.45;
+    }
+
+    .teilziele-year {
+        flex-basis: 86vw;
+    }
+}
+
+/* Finaler Sicherheits-Override: Teilziele unter 600px immer untereinander. */
+@media (max-width: 600px) {
+    #ziele-meilensteine.section {
+        height: auto;
+        min-height: auto;
+        max-height: none;
+        overflow: visible;
+        padding-bottom: 1rem;
+    }
+
+    .meilensteine-teilziele {
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        overflow: visible;
+        margin-top: 1.25rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .teilziele-matrix {
+        display: flex;
+        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .teilziele-sticky-goals {
+        order: 1;
+        position: relative;
+        left: auto;
+        width: 100%;
+        gap: 0;
+        row-gap: 0;
+        padding-bottom: 0;
+    }
+
+    .teilziele-goal-tabs {
+        margin-bottom: 0;
+        gap: 0;
+        transform: none;
+    }
+
+    .teilziele-goal-tabs + .teilziele-sticky-goal {
+        margin-top: 0;
+    }
+
+    .teilziele-sticky-goal {
+        margin-top: 0;
+    }
+
+    .teilziele-timeline {
+        order: 2;
+        width: 100%;
+        max-width: 100%;
+        overflow: visible;
+        padding: 0 0.25rem;
+        max-height: none;
+    }
+
+    .teilziele-sticky-spacer--timeline {
+        position: static;
+        top: auto;
+        margin-bottom: 0.6rem;
+    }
+
+    .teilziele-track {
+        display: grid;
+        width: 100%;
+        min-width: 0;
+        gap: 0.35rem;
+        column-gap: 0.35rem;
+        row-gap: 0.35rem;
+        padding: 0 0.2rem 0.15rem;
+    }
+
+    .teilziele-track::before,
+    .teilziele-track::after {
+        content: none;
+        display: none;
+    }
+
+    .teilziele-year {
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .teilziele-year.teilziele-year-hidden {
+        display: none;
+    }
+
+    .teilziele-year-head {
+        display: inline-block;
+        width: auto;
+        max-width: fit-content;
+        padding: 0.28rem 0.75rem;
+        margin: 1rem auto 0;
+    }
+
+    .teilziele-year-content {
+        width: 100%;
+        margin-top: 0.55rem;
+        gap: 0.65rem;
+    }
+
+    .teilziele-cell {
+        display: block;
+    }
+
+    .teilziele-matrix[data-goal-filter="1"] .teilziele-cell-2,
+    .teilziele-matrix[data-goal-filter="1"] .teilziele-cell-3,
+    .teilziele-matrix[data-goal-filter="2"] .teilziele-cell-1,
+    .teilziele-matrix[data-goal-filter="2"] .teilziele-cell-3,
+    .teilziele-matrix[data-goal-filter="3"] .teilziele-cell-1,
+    .teilziele-matrix[data-goal-filter="3"] .teilziele-cell-2 {
+        display: none;
+    }
+
+    .teilziele-cell li {
+        width: min(100%, 92vw);
+    }
+}
+
+/* Finaler Abstands-Override: Teilziele 600-900 konsistent. */
+@media (min-width: 600px) and (max-width: 900px) {
+    .meilensteine-teilziele {
+        padding-top: 1rem;
+    }
+
+    .teilziele-copied-heading h2 {
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .teilziele-filter-wrap {
+        margin-bottom: 0.55rem;
+    }
+
+    .teilziele-matrix {
+        gap: 0.75rem;
+    }
+
+    .teilziele-sticky-goals {
+        gap: 0;
+        row-gap: 0;
+        padding-top: 0;
+        padding-bottom: 3rem;
+    }
+
+    .teilziele-goal-tabs {
+        transform: none;
+    }
+
+    .teilziele-goal-tabs + .teilziele-sticky-goal {
+        margin-top: 0;
+    }
+}
+
+@media (min-width: 901px) {
+    .meilensteine-teilziele {
+        padding-right: 0;
+    }
+
+    .teilziele-matrix {
+        padding-right: 0;
+    }
+
+    .teilziele-timeline {
+        padding-right: 0;
+    }
+
+    .teilziele-track {
+        padding-right: 0;
+    }
+
+    .teilziele-track::before {
+        right: 0;
+    }
+}
+

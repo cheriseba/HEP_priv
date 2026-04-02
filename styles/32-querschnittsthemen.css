@@ -1,0 +1,428 @@
+#querschnittsthemen.section {
+    background: #004E9E;
+    min-height: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    scroll-margin-top: clamp(11.25rem, 30vh, 21.25rem);
+    margin-bottom: 0;
+}
+
+#querschnittsthemen .container {
+    display: block;
+    height: auto;
+}
+
+#querschnittsthemen .intro-card {
+    height: auto;
+    min-height: 0;
+    padding-top: calc(var(--section-header-start-gap) + 2rem);
+    padding-bottom: calc(clamp(1.35rem, 3vh, 2.15rem) + 2rem);
+}
+
+#querschnittsthemen .intro-content {
+    width: min(80vw, 65.625rem);
+}
+
+#querschnittsthemen .intro-content > p {
+    max-width: 90ch;
+}
+
+.qst-svg-subsection.section {
+    background: linear-gradient(180deg, #c1d1e5 0%, #b0c3e0 58%, #a1bad7 100%);
+    min-height: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.qst-svg-subsection-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: clamp(1.5rem, 3vh, 2.5rem);
+    padding-bottom: clamp(3rem, 8vh, 5rem);
+}
+
+.qst-svg-container {
+    width: min(96vw, 96rem);
+    max-width: calc(100vw - 1rem);
+    margin: 0 auto;
+}
+
+.qst-svg-container img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: 85vh;
+    display: block;
+}
+
+/* Querschnittsthemen Intro Columns - 4 Spalten */
+.qst-intro-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+.qst-column {
+    color: #ffffff;
+}
+
+.qst-column h3 {
+    margin: 0 0 1rem 0;
+    color: #ffffff;
+}
+
+.qst-column p {
+    max-width: 100%;
+    margin: 0;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+/* Querschnittsthemen Slideshow */
+.qst-slideshow-section.section {
+    display: block;
+    height: 100vh;
+    height: 100svh;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 0;
+}
+
+.qst-slideshow {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+.qst-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qst-slide.active {
+    opacity: 1;
+    z-index: 10;
+}
+
+.qst-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.qst-text-overlay {
+    position: absolute;
+    bottom: 3rem;
+    left: 3rem;
+    background: rgba(0, 78, 158, 0.92);
+    color: white;
+    padding: 2rem;
+    max-width: 50rem;
+    border-radius: 0.625rem;
+    border: 0.125rem solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0.875rem 2.125rem rgba(0, 35, 70, 0.4);
+    backdrop-filter: blur(0.3125rem);
+    z-index: 20;
+    animation: slideInUp 0.6s ease-out 0.3s both;
+}
+
+.qst-text-overlay h3 {
+    font-size: var(--fs-h3-global);
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    letter-spacing: 0.03125rem;
+}
+
+.qst-text-overlay p {
+    margin: 0;
+    line-height: 1.6;
+    color: #e0e0e0;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(1.25rem);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Navigation Buttons */
+.qst-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #004E9E;
+    color: #ffffff;
+    border: 0.125rem solid rgba(255, 255, 255, 0.2);
+    width: 4.75rem;
+    height: 4.75rem;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    box-shadow: 0 0.75rem 1.75rem rgba(0, 25, 50, 0.45);
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.qst-nav-btn:hover {
+    background: #0065ca;
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 1rem 2.125rem rgba(0, 25, 50, 0.55);
+}
+
+.qst-nav-btn:focus-visible {
+    outline: 0.1875rem solid rgba(255, 255, 255, 0.95);
+    outline-offset: 0.125rem;
+}
+
+.qst-nav-btn svg {
+    width: 2.375rem;
+    height: 2.375rem;
+    stroke-width: 3.2;
+}
+
+.qst-prev {
+    left: 1.25rem;
+}
+
+.qst-next {
+    right: 1.25rem;
+}
+
+/* Slide Indicators */
+.qst-indicators {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1rem;
+    z-index: 30;
+}
+
+.qst-indicator {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.qst-indicator.active {
+    background: white;
+    width: 1.875rem;
+    border-radius: 0.375rem;
+}
+
+.qst-indicator:hover {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 48rem) {
+    #querschnittsthemen.section {
+        scroll-margin-top: 6rem;
+    }
+}
+
+@media (min-width: 160rem) {
+    .qst-slideshow-section.section,
+    .qst-slideshow,
+    #querschnittsthemen .intro-card {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #querschnittsthemen.section,
+    .qst-svg-subsection.section,
+    .qst-slideshow-section.section {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+/* Handy hochformat: QST-Teilabschnitte viewport-hoch, Inhalte bei Bedarf intern scrollen. */
+@media (max-width: 48rem) and (orientation: portrait) {
+    #querschnittsthemen.section {
+        padding: 1rem 0.8rem 0 ;
+    }
+
+    #querschnittsthemen .container {
+        height: auto;
+        display: flex;
+        align-items: flex-start;
+        transform: none;
+    }
+
+    #querschnittsthemen .intro-card {
+        height: auto;
+        padding: calc(var(--section-header-start-gap) + 2rem) 0 calc(clamp(1.35rem, 3vh, 2.15rem) + 2rem);
+        overflow: visible;
+    }
+
+    #querschnittsthemen .intro-columns {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+        overflow: auto;
+        padding-right: 0.3rem;
+    }
+
+    #querschnittsthemen .intro-footnote {
+        grid-column: 1;
+    }
+
+    #querschnittsthemen.section {
+        min-height: 100dvh;
+    }
+}
+
+/* Handy querformat: QST Slideshow dynamisch skalieren. */
+@media (orientation: landscape) and (max-height: 33.75rem) and (max-width: 60rem) {
+    .qst-slideshow {
+        height: var(--landscape-stage-height);
+        min-height: var(--landscape-stage-height);
+    }
+
+    .qst-text-overlay {
+        left: 1rem;
+        bottom: 0.9rem;
+        max-width: min(80vw, 47.5rem);
+        padding: 0.8rem 1rem;
+        max-height: calc(100dvh - 8.125rem);
+        overflow: auto;
+    }
+
+    .qst-nav-btn {
+        width: 2.75rem;
+        height: 2.75rem;
+    }
+}
+
+/* Profil A: sehr niedrige Landscape-Hoehe (typisch iPhone quer, etwa 24.375rem-26.875rem). */
+@media (orientation: landscape) and (max-width: 64rem) and (pointer: coarse) and (max-height: 26.875rem) {
+    #querschnittsthemen .container,
+    .qst-slideshow {
+        height: var(--landscape-a-stage-height);
+        min-height: var(--landscape-a-stage-height);
+    }
+
+    .qst-text-overlay {
+        max-height: calc(100dvh - 6.875rem);
+        max-width: min(74vw, 36.25rem);
+        padding: 0.52rem 0.62rem;
+    }
+
+    .qst-nav-btn {
+        width: 2.125rem;
+        height: 2.125rem;
+    }
+
+    .qst-indicators {
+        bottom: 0.5rem;
+    }
+}
+
+/* Profil B: mittlere Landscape-Hoehe (viele Android-Geraete, etwa 26.9375rem-32.5rem). */
+@media (orientation: landscape) and (max-width: 64rem) and (pointer: coarse) and (min-height: 26.9375rem) and (max-height: 32.5rem) {
+    #querschnittsthemen .container,
+    .qst-slideshow {
+        height: var(--landscape-b-stage-height);
+        min-height: var(--landscape-b-stage-height);
+    }
+}
+
+#querschnittsthemen.section {
+    padding-top: 0.25rem ;
+}
+
+@media (max-width: 53rem) and (orientation: portrait) {
+    #querschnittsthemen.section {
+        padding-top: 0 ;
+    }
+
+    .qst-svg-subsection-container {
+        height: auto;
+        padding-top: var(--section-header-start-gap) ;
+        padding-bottom: 0 ;
+        align-items: flex-start;
+        transform: none;
+    }
+
+    .qst-svg-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .qst-svg-container img {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        max-height: min(72vh, 42rem);
+    }
+
+    .qst-svg-subsection.section {
+        min-height: auto ;
+        padding-top: 0 ;
+        padding-bottom: 0 ;
+        border-bottom: 0;
+    }
+}
+
+@media (orientation: landscape) and (min-width: 41rem) and (max-width: 64rem) and (max-height: 33.75rem) {
+    .qst-slideshow {
+        height: 100vh;
+        height: 100svh;
+        min-height: 100vh;
+        min-height: 100svh;
+    }
+
+    .qst-text-overlay {
+        bottom: 1.5rem;
+        left: 1.5rem;
+        max-width: 37.5rem;
+        padding: 1.5rem;
+    }
+
+    .qst-nav-btn {
+        width: 3.125rem;
+        height: 3.125rem;
+        left: 1rem;
+    }
+
+    .qst-next {
+        right: 1rem;
+    }
+
+    .qst-indicators {
+        bottom: 1rem;
+    }
+}
+
