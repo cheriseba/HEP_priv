@@ -7427,3 +7427,30 @@ footer a {
         right: 0 !important;
     }
 }
+
+/* Finaler Hauptgrafik-Override: Desktop/Laptop wieder gross und stabil skalieren. */
+@media (min-width: 56.3125rem) {
+    #hauptgrafik.section {
+        padding-top: clamp(0.25rem, 0.8vh, 0.9rem) !important;
+        padding-bottom: clamp(0.4rem, 1.2vh, 1.2rem) !important;
+        min-height: calc(100dvh - var(--header-height)) !important;
+    }
+
+    #hauptgrafik .container {
+        min-height: calc(100dvh - var(--header-height) - clamp(0.7rem, 1.8vh, 2rem)) !important;
+    }
+
+    #svg-container {
+        width: min(95vw, 92rem) !important;
+        max-width: min(95vw, 92rem) !important;
+        max-height: calc(100dvh - var(--header-height) - clamp(1rem, 3.2vh, 3rem)) !important;
+        margin: 0 auto !important;
+        overflow: visible !important;
+    }
+
+    #svg-container svg {
+        width: 100% !important;
+        height: auto !important;
+        max-height: calc(100dvh - var(--header-height) - clamp(1rem, 3.2vh, 3rem)) !important;
+    }
+}
