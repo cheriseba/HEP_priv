@@ -1,3 +1,136 @@
+// Inline-Laden und Scroll-Rotation der Ziele-SVG
+function initZieleSVGScrollRotation() {
+    fetch('assets/images/svg/Ziele.svg')
+        .then(response => response.text())
+        .then(svgText => {
+            const container = document.getElementById('ziele-svg-container');
+            if (!container) return;
+            // IDs und Klassen eindeutig machen
+            const svg = isolateInlineSvg(svgText, 'ziele');
+            if (!svg) return;
+            container.replaceChildren(svg);
+
+            // Ziel-Ebene selektieren
+            const zieleGroup = svg.querySelector('[data-orig-id="Ziele"], [id^="ziele-Ziele"]');
+            if (!zieleGroup) return;
+
+            let renderedAngle = 0;
+            let targetAngle = 0;
+            let rotationRafId = null;
+
+            // Scroll-Listener für Rotation
+            function updateRotation() {
+                const section = document.getElementById('ziele-meilensteine');
+                if (!section) return 0;
+                const cards = Array.from(document.querySelectorAll('#ziele-meilensteine .meilensteine-slide-card'));
+                const visual = document.querySelector('#ziele-meilensteine .meilensteine-visual');
+                if (cards.length < 3) return 0;
+
+                const viewportCenter = window.innerHeight * 0.5;
+                const viewportHeight = window.innerHeight;
+                const currentScrollY = window.scrollY;
+                const sectionStartY = section.offsetTop;
+                const anchorAngles = [85, 190, 337];
+
+                const cardMetrics = cards.map((card) => {
+                    const rect = card.getBoundingClientRect();
+                    const cardCenterInViewport = rect.top + rect.height * 0.5;
+                    return {
+                        card,
+                        cardCenterInViewport,
+                        anchorY: currentScrollY + cardCenterInViewport - viewportCenter
+                    };
+                });
+
+                const anchorScrollY = cardMetrics.map((metric) => metric.anchorY);
+
+                let nearestCardIndex = -1;
+                let nearestCardDistance = Number.POSITIVE_INFINITY;
+                cardMetrics.forEach((metric, index) => {
+                    const distance = Math.abs(metric.cardCenterInViewport - viewportCenter);
+                    if (distance < nearestCardDistance) {
+                        nearestCardDistance = distance;
+                        nearestCardIndex = index;
+                    }
+                });
+
+                const activationWindow = viewportHeight * 0.16;
+                cards.forEach((card, index) => {
+                    const isActive = index === nearestCardIndex && nearestCardDistance <= activationWindow;
+                    card.classList.toggle('meilensteine-card-active', isActive);
+                });
+
+                // Start der Rotation, sobald die rechte Grafik sichtbar wird.
+                let rotationStartY = sectionStartY;
+                if (visual) {
+                    const visualRect = visual.getBoundingClientRect();
+                    const visualEnterViewportY = viewportHeight * 0.8;
+                    rotationStartY = currentScrollY + visualRect.top - visualEnterViewportY;
+                }
+
+                function clamp01(value) {
+                    return Math.max(0, Math.min(1, value));
+                }
+
+                function lerp(a, b, t) {
+                    return a + (b - a) * t;
+                }
+
+                let angle = 0;
+                const firstAnchorY = Math.max(anchorScrollY[0], rotationStartY + viewportHeight * 0.28);
+                const secondAnchorY = Math.max(anchorScrollY[1], firstAnchorY + 120);
+                const thirdAnchorY = Math.max(anchorScrollY[2], secondAnchorY + 120);
+
+                if (currentScrollY <= rotationStartY) {
+                    angle = 0;
+                } else if (currentScrollY < firstAnchorY) {
+                    const denom = Math.max(1, firstAnchorY - rotationStartY);
+                    const t = clamp01((currentScrollY - rotationStartY) / denom);
+                    angle = lerp(0, anchorAngles[0], t);
+                } else if (currentScrollY < secondAnchorY) {
+                    const denom = Math.max(1, secondAnchorY - firstAnchorY);
+                    const t = clamp01((currentScrollY - firstAnchorY) / denom);
+                    angle = lerp(anchorAngles[0], anchorAngles[1], t);
+                } else if (currentScrollY < thirdAnchorY) {
+                    const denom = Math.max(1, thirdAnchorY - secondAnchorY);
+                    const t = clamp01((currentScrollY - secondAnchorY) / denom);
+                    angle = lerp(anchorAngles[1], anchorAngles[2], t);
+                } else {
+                    angle = anchorAngles[2];
+                }
+
+                return angle;
+            }
+
+            function renderRotationFrame() {
+                const diff = targetAngle - renderedAngle;
+                renderedAngle += diff * 0.16;
+                if (Math.abs(diff) < 0.05) {
+                    renderedAngle = targetAngle;
+                }
+
+                // SVG center from viewBox/ellipse: (365.65, 268.86)
+                zieleGroup.setAttribute('transform', `rotate(${-renderedAngle} 365.65 268.86)`);
+
+                if (Math.abs(targetAngle - renderedAngle) >= 0.05) {
+                    rotationRafId = window.requestAnimationFrame(renderRotationFrame);
+                } else {
+                    rotationRafId = null;
+                }
+            }
+
+            function scheduleRotationUpdate() {
+                targetAngle = updateRotation();
+                if (rotationRafId === null) {
+                    rotationRafId = window.requestAnimationFrame(renderRotationFrame);
+                }
+            }
+
+            window.addEventListener('scroll', scheduleRotationUpdate, { passive: true });
+            window.addEventListener('resize', scheduleRotationUpdate);
+            scheduleRotationUpdate();
+        });
+}
 // Timeline-Menü Scroll-Tracking
 function initMobileOrientationGate() {
     const gate = document.getElementById('orientation-gate');
@@ -42,9 +175,23 @@ function initMobileOrientationGate() {
 }
 
 function initTimelineMenu() {
-    const steps = document.querySelectorAll('.timeline-step');
-    const sectionIds = Array.from(steps).map(step => step.getAttribute('data-section'));
+    const desktopSteps = Array.from(document.querySelectorAll('.timeline-step'));
+    const mobileSteps = Array.from(document.querySelectorAll('.timeline-mobile-step'));
+    const steps = [...desktopSteps, ...mobileSteps];
+    const sectionIds = Array.from(new Set(steps.map(step => step.getAttribute('data-section')).filter(Boolean)));
     const sections = sectionIds.map(id => document.getElementById(id));
+
+    // Einheitliches Scroll-Verhalten fuer Menue-Klicks.
+    steps.forEach((step) => {
+        const link = step.querySelector('a[href^="#"]');
+        const sectionId = step.getAttribute('data-section');
+        if (!link || !sectionId) return;
+
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            smoothScrollToSectionById(sectionId);
+        });
+    });
 
     function updateTimeline() {
         let activeIdx = 0;
@@ -54,7 +201,10 @@ function initTimelineMenu() {
                 activeIdx = i;
             }
         }
-        steps.forEach((step, i) => {
+        steps.forEach((step) => {
+            const sectionId = step.getAttribute('data-section');
+            const i = sectionIds.indexOf(sectionId);
+            if (i < 0) return;
             step.classList.remove('active', 'completed');
             if (i < activeIdx) step.classList.add('completed');
             if (i === activeIdx) step.classList.add('active');
@@ -64,65 +214,134 @@ function initTimelineMenu() {
     updateTimeline();
 }
 
-function initMobileMenuToggle() {
+function initMobileTimelineMenu() {
     const header = document.querySelector('.sticky-header');
-    const toggleButton = document.querySelector('.mobile-menu-toggle');
-    const menu = document.getElementById('timeline-menu');
-    if (!header || !toggleButton || !menu) return;
+    const burger = document.querySelector('.timeline-burger');
+    const panel = document.getElementById('timeline-mobile-panel');
+    if (!header || !burger || !panel) return;
+    if (header.dataset.mobileMenuBound === 'true') return;
 
-    const mobileQuery = window.matchMedia('(max-width: 64rem)');
-    const menuLinks = menu.querySelectorAll('a');
+    header.dataset.mobileMenuBound = 'true';
+    const mobileWidthQuery = window.matchMedia('(max-width: 56.3125rem)');
 
-    function setMenuOpen(isOpen) {
-        header.classList.toggle('is-menu-open', isOpen);
-        toggleButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        toggleButton.setAttribute('aria-label', isOpen ? 'Menü schließen' : 'Menü öffnen');
+    function setMenuOpen(nextOpen) {
+        burger.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
+        panel.hidden = !nextOpen;
+        panel.classList.toggle('is-open', nextOpen);
+        document.body.classList.toggle('mobile-menu-open', nextOpen);
     }
 
-    toggleButton.addEventListener('click', () => {
-        if (!mobileQuery.matches) return;
-        setMenuOpen(!header.classList.contains('is-menu-open'));
+    burger.addEventListener('click', () => {
+        const isOpen = burger.getAttribute('aria-expanded') === 'true';
+        setMenuOpen(!isOpen);
     });
 
-    menuLinks.forEach((link) => {
-        link.addEventListener('click', () => {
-            if (mobileQuery.matches) {
-                setMenuOpen(false);
-            }
-        });
+    panel.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', () => setMenuOpen(false));
     });
 
-    document.addEventListener('click', (event) => {
-        if (!mobileQuery.matches) return;
-        if (!header.classList.contains('is-menu-open')) return;
-        if (header.contains(event.target)) return;
+    window.addEventListener('scroll', () => {
+        if (burger.getAttribute('aria-expanded') === 'true') {
+            setMenuOpen(false);
+        }
+    }, { passive: true });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
         setMenuOpen(false);
     });
 
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
+    const closeIfDesktop = () => {
+        if (!mobileWidthQuery.matches) {
             setMenuOpen(false);
+        }
+    };
+
+    if (typeof mobileWidthQuery.addEventListener === 'function') {
+        mobileWidthQuery.addEventListener('change', closeIfDesktop);
+    } else if (typeof mobileWidthQuery.addListener === 'function') {
+        mobileWidthQuery.addListener(closeIfDesktop);
+    }
+
+    setMenuOpen(false);
+}
+
+function initMobileHeaderAutoHide() {
+    const mobileWidthQuery = window.matchMedia('(max-width: 56.3125rem)');
+    let lastScrollY = window.scrollY;
+
+    function updateHeaderVisibility() {
+        if (!mobileWidthQuery.matches) {
+            document.body.classList.remove('mobile-header-hidden');
+            lastScrollY = window.scrollY;
+            return;
+        }
+
+        const currentScrollY = window.scrollY;
+        const delta = currentScrollY - lastScrollY;
+        const isMenuOpen = document.body.classList.contains('mobile-menu-open');
+
+        if (isMenuOpen) {
+            document.body.classList.remove('mobile-header-hidden');
+            lastScrollY = currentScrollY;
+            return;
+        }
+
+        if (currentScrollY <= 12) {
+            document.body.classList.remove('mobile-header-hidden');
+        } else if (delta > 6) {
+            document.body.classList.add('mobile-header-hidden');
+        } else if (delta < -6) {
+            document.body.classList.remove('mobile-header-hidden');
+        }
+
+        lastScrollY = currentScrollY;
+    }
+
+    window.addEventListener('scroll', updateHeaderVisibility, { passive: true });
+    window.addEventListener('resize', updateHeaderVisibility, { passive: true });
+
+    if (typeof mobileWidthQuery.addEventListener === 'function') {
+        mobileWidthQuery.addEventListener('change', updateHeaderVisibility);
+    } else if (typeof mobileWidthQuery.addListener === 'function') {
+        mobileWidthQuery.addListener(updateHeaderVisibility);
+    }
+
+    updateHeaderVisibility();
+}
+
+function initTimelineLogoHomeLink() {
+    const logoElement = document.querySelector('.timeline-logo');
+    const logoContainer = document.querySelector('.timeline-logo-container');
+    const backToGraphic = document.getElementById('back-to-graphic');
+    const interactiveLogo = logoElement || logoContainer;
+    if (!interactiveLogo || !backToGraphic) return;
+
+    interactiveLogo.style.cursor = 'pointer';
+    interactiveLogo.setAttribute('role', 'button');
+    interactiveLogo.setAttribute('tabindex', '0');
+    interactiveLogo.setAttribute('aria-label', 'Zur Hauptgrafik');
+
+    const triggerBackToGraphic = (event) => {
+        if (event) event.preventDefault();
+        backToGraphic.click();
+    };
+
+    interactiveLogo.addEventListener('click', triggerBackToGraphic);
+    interactiveLogo.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            triggerBackToGraphic(event);
         }
     });
-
-    function syncWithViewport() {
-        if (!mobileQuery.matches) {
-            setMenuOpen(false);
-        }
-    }
-
-    if (typeof mobileQuery.addEventListener === 'function') {
-        mobileQuery.addEventListener('change', syncWithViewport);
-    } else if (typeof mobileQuery.addListener === 'function') {
-        mobileQuery.addListener(syncWithViewport);
-    }
-    syncWithViewport();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
     initMobileOrientationGate();
     initTimelineMenu();
-    initMobileMenuToggle();
+    initMobileTimelineMenu();
+    initMobileHeaderAutoHide();
+    initTimelineLogoHomeLink();
+    initZieleSVGScrollRotation();
 });
 // ============================================================================
 // HEP Frontend Script
@@ -133,11 +352,136 @@ window.addEventListener('DOMContentLoaded', () => {
 // 4) Teilziele-Filter, Timeline und Reveal-Animationen
 // ============================================================================
 
+function escapeRegExp(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function isolateInlineSvg(svgText, prefix) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(svgText, 'image/svg+xml');
+    const svg = doc.documentElement;
+    if (!svg || svg.tagName.toLowerCase() !== 'svg') return null;
+
+    const idMap = new Map();
+
+    // IDs pro SVG eindeutig machen und Original-ID als Datenattribut behalten.
+    svg.querySelectorAll('[id]').forEach((node) => {
+        const oldId = node.getAttribute('id');
+        if (!oldId) return;
+        const newId = `${prefix}-${oldId}`;
+        idMap.set(oldId, newId);
+        node.setAttribute('data-orig-id', oldId);
+        node.setAttribute('id', newId);
+    });
+
+    function rewriteIdRefs(text) {
+        if (!text) return text;
+        let result = text;
+
+        idMap.forEach((newId, oldId) => {
+            const oldIdEscaped = escapeRegExp(oldId);
+            result = result.replace(new RegExp(`url\\(#${oldIdEscaped}\\)`, 'g'), `url(#${newId})`);
+            result = result.replace(new RegExp(`(["'])#${oldIdEscaped}\\1`, 'g'), `$1#${newId}$1`);
+            result = result.replace(new RegExp(`=#${oldIdEscaped}(?=[\\s;]|$)`, 'g'), `=#${newId}`);
+        });
+
+        return result;
+    }
+
+    // Klassen pro SVG eindeutig machen, damit .st0/.cls-1 nicht kollidieren.
+    const classMap = new Map();
+    const classNames = new Set();
+
+    svg.querySelectorAll('[class]').forEach((node) => {
+        (node.getAttribute('class') || '')
+            .split(/\s+/)
+            .filter(Boolean)
+            .forEach((className) => classNames.add(className));
+    });
+
+    svg.querySelectorAll('style').forEach((styleNode) => {
+        const cssText = styleNode.textContent || '';
+        const matches = cssText.match(/\.([_a-zA-Z][_a-zA-Z0-9-]*)/g) || [];
+        matches.forEach((match) => classNames.add(match.slice(1)));
+    });
+
+    classNames.forEach((className) => {
+        classMap.set(className, `${prefix}-${className}`);
+    });
+
+    svg.querySelectorAll('[class]').forEach((node) => {
+        const nextClasses = (node.getAttribute('class') || '')
+            .split(/\s+/)
+            .filter(Boolean)
+            .map((className) => classMap.get(className) || className)
+            .join(' ');
+        node.setAttribute('class', nextClasses);
+    });
+
+    svg.querySelectorAll('*').forEach((node) => {
+        ['href', 'xlink:href'].forEach((attr) => {
+            const value = node.getAttribute(attr);
+            if (!value || !value.startsWith('#')) return;
+            const targetId = value.slice(1);
+            const mappedId = idMap.get(targetId);
+            if (mappedId) {
+                node.setAttribute(attr, `#${mappedId}`);
+            }
+        });
+
+        [
+            'fill',
+            'stroke',
+            'filter',
+            'clip-path',
+            'mask',
+            'marker-start',
+            'marker-mid',
+            'marker-end'
+        ].forEach((attr) => {
+            const value = node.getAttribute(attr);
+            if (!value) return;
+            const rewritten = rewriteIdRefs(value);
+            if (rewritten !== value) {
+                node.setAttribute(attr, rewritten);
+            }
+        });
+
+        const inlineStyle = node.getAttribute('style');
+        if (inlineStyle) {
+            node.setAttribute('style', rewriteIdRefs(inlineStyle));
+        }
+    });
+
+    svg.querySelectorAll('style').forEach((styleNode) => {
+        let cssText = styleNode.textContent || '';
+
+        classMap.forEach((newClass, oldClass) => {
+            const oldClassEscaped = escapeRegExp(oldClass);
+            cssText = cssText.replace(new RegExp(`\\.${oldClassEscaped}(?![\\w-])`, 'g'), `.${newClass}`);
+        });
+
+        idMap.forEach((newId, oldId) => {
+            const oldIdEscaped = escapeRegExp(oldId);
+            cssText = cssText.replace(new RegExp(`#${oldIdEscaped}(?![\\w-])`, 'g'), `#${newId}`);
+        });
+
+        cssText = rewriteIdRefs(cssText);
+        styleNode.textContent = cssText;
+    });
+
+    return svg;
+}
+
 // Initiales Laden der Hauptgrafik und Start aller intro-nahen Effekte.
 fetch('assets/images/svg/1_Hauptgrafik.svg')
     .then(response => response.text())
     .then(svgText => {
-        document.getElementById('svg-container').innerHTML = svgText;
+        const mainContainer = document.getElementById('svg-container');
+        if (!mainContainer) return;
+        const mainSvg = isolateInlineSvg(svgText, 'main');
+        if (!mainSvg) return;
+        mainContainer.replaceChildren(mainSvg);
         applyIntroAnimation();
         initSVGInteractions();
         initSectionReveal();
@@ -149,7 +493,9 @@ fetch('assets/images/svg/GLSTU.svg')
     .then(svgText => {
         const glstuContainer = document.getElementById('glstu-svg-container');
         if (!glstuContainer) return;
-        glstuContainer.innerHTML = svgText;
+        const glstuSvg = isolateInlineSvg(svgText, 'glstu');
+        if (!glstuSvg) return;
+        glstuContainer.replaceChildren(glstuSvg);
         initGLSTUInteractions();
     });
 
@@ -158,20 +504,35 @@ const narrativeControllers = {
     kurzportrait: null
 };
 
-// Laden der Ziel-Ringe fuer die Meilenstein-Sektion inklusive Hover-Verknuepfung.
-fetch('assets/images/svg/Ziel.svg')
-    .then(response => response.text())
-    .then(svgText => {
-        const zieleContainer = document.getElementById('ziele-svg-container');
-        if (!zieleContainer) return;
-        zieleContainer.innerHTML = svgText;
+function getSectionScrollOffset(sectionId) {
+    const stickyHeader = document.querySelector('.sticky-header');
+    const headerOffset = stickyHeader ? stickyHeader.offsetHeight : 0;
 
-        const svg = zieleContainer.querySelector('svg');
-        if (svg) {
-            svg.style.overflow = 'visible'; // verhindert Abschneiden bei Hover-Scale
-        }
-        initZielInteractions();
+    // Feintuning fuer Abschnittsspruenge: etwas straffer als reiner Header-Abzug.
+    if (
+        sectionId === 'querschnittsthemen'
+        || sectionId === 'kurzportrait'
+        || sectionId === 'ziele-meilensteine'
+    ) {
+        return Math.max(0, headerOffset - 8);
+    }
+
+    return headerOffset;
+}
+
+function smoothScrollToSectionById(sectionId) {
+    const targetSection = document.getElementById(sectionId);
+    if (!targetSection) return;
+
+    const targetTop = targetSection.getBoundingClientRect().top + window.scrollY;
+    const scrollOffset = getSectionScrollOffset(sectionId);
+    const targetY = Math.max(0, targetTop - scrollOffset);
+
+    window.scrollTo({
+        top: targetY,
+        behavior: 'smooth'
     });
+}
 
 // Laden der Standortkarte fuer das Kurzportrait.
 fetch('assets/images/svg/Karte.svg')
@@ -179,17 +540,70 @@ fetch('assets/images/svg/Karte.svg')
     .then(svgText => {
         const karteContainer = document.getElementById('karte-svg-container');
         if (!karteContainer) return;
-        karteContainer.innerHTML = svgText;
+        const karteSvg = isolateInlineSvg(svgText, 'karte');
+        if (!karteSvg) return;
+        karteContainer.replaceChildren(karteSvg);
         initKarteInteractions();
     });
 
-function setKarteGebietVisible(isVisible) {
-    const gebietLayer = document.getElementById('Gebiet');
+// Laden der Wissensspeicher-Grafik fuer stufenweises Einblenden von Schritt 1-4.
+// Unter 600px wird die mobile 2x2-Variante geladen.
+const wissensspeicherMobileQuery = window.matchMedia('(max-width: 600px)');
+
+function loadWissensspeicherSvg() {
+    const wsContainer = document.getElementById('wissensspeicher-svg-container');
+    if (!wsContainer) return;
+
+    const svgPath = wissensspeicherMobileQuery.matches
+        ? 'assets/images/svg/Wissensspeicher_grafik_mobil.svg'
+        : 'assets/images/svg/Wissensspeicher_grafik.svg';
+
+    if (wsContainer.dataset.wissensspeicherSvgPath === svgPath && wsContainer.querySelector('svg')) {
+        return;
+    }
+
+    fetch(svgPath)
+        .then(response => response.text())
+        .then(svgText => {
+            const wsSvg = isolateInlineSvg(svgText, 'wissens');
+            if (!wsSvg) return;
+            wsContainer.replaceChildren(wsSvg);
+            wsContainer.dataset.wissensspeicherSvgPath = svgPath;
+
+            const wrap = wsContainer.closest('.wissensspeicher-svg-wrap');
+            if (wrap) {
+                wrap.classList.remove('steps-ready');
+                delete wrap.dataset.wissensspeicherStepsBound;
+            }
+
+            initWissensspeicherStepsReveal();
+            initWissensspeicherHotspotInteraction();
+        });
+}
+
+loadWissensspeicherSvg();
+if (typeof wissensspeicherMobileQuery.addEventListener === 'function') {
+    wissensspeicherMobileQuery.addEventListener('change', loadWissensspeicherSvg);
+} else if (typeof wissensspeicherMobileQuery.addListener === 'function') {
+    wissensspeicherMobileQuery.addListener(loadWissensspeicherSvg);
+}
+
+function setKarteGebietVisible(karteRoot, isVisible) {
+    if (!karteRoot) return;
+    const gebietLayer = karteRoot.querySelector('[data-orig-id="Gebiet"], [id="Gebiet"]');
     if (!gebietLayer) return;
     gebietLayer.classList.toggle('karte-gebiet-hidden', !isVisible);
 }
 
 function initKarteInteractions() {
+    const karteRoot = document.querySelector('#karte-svg-container svg');
+    if (!karteRoot) return;
+    const kurzportraitSection = document.getElementById('kurzportrait');
+
+    function getKarteLayer(id) {
+        return karteRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
+    }
+
     // Zuordnung der klickbaren Stadt-Layer zu ihren Info-Karten in der SVG.
     const cityToCardMap = {
         Holzminden: 'Karte_Holzminden',
@@ -197,13 +611,22 @@ function initKarteInteractions() {
         Hildesheim: 'Karte_Hildesheim'
     };
 
-    setKarteGebietVisible(false);
+    setKarteGebietVisible(karteRoot, false);
 
     const cardIds = Object.values(cityToCardMap);
     let hasCityBeenClicked = false;
 
+    function syncKarteExpandedState() {
+        if (!kurzportraitSection) return;
+        const hasVisibleCard = cardIds.some((cardId) => {
+            const layer = getKarteLayer(cardId);
+            return layer && layer.classList.contains('karte-city-card-visible');
+        });
+        kurzportraitSection.classList.toggle('kurzportrait-map-expanded', hasVisibleCard);
+    }
+
     cardIds.forEach((cardId) => {
-        const cardLayer = document.getElementById(cardId);
+        const cardLayer = getKarteLayer(cardId);
         if (!cardLayer) return;
         cardLayer.classList.add('karte-city-card', 'karte-city-card-hidden');
         cardLayer.classList.remove('karte-city-card-visible');
@@ -211,22 +634,26 @@ function initKarteInteractions() {
 
     // Schaltet die zugehoerige Karte ein/aus (Toggle), ohne andere Layer zu veraendern.
     function showCityCard(targetCardId) {
-        const cardLayer = document.getElementById(targetCardId);
+        const cardLayer = getKarteLayer(targetCardId);
         if (!cardLayer) return;
 
         const isVisible = cardLayer.classList.contains('karte-city-card-visible');
         if (isVisible) {
             cardLayer.classList.add('karte-city-card-hidden');
             cardLayer.classList.remove('karte-city-card-visible');
+            syncKarteExpandedState();
             return;
         }
 
         cardLayer.classList.add('karte-city-card-visible');
         cardLayer.classList.remove('karte-city-card-hidden');
+        syncKarteExpandedState();
     }
 
+    syncKarteExpandedState();
+
     Object.entries(cityToCardMap).forEach(([cityId, cardId]) => {
-        const cityLayer = document.getElementById(cityId);
+        const cityLayer = getKarteLayer(cityId);
         if (!cityLayer) return;
 
         cityLayer.classList.add('karte-city-layer', 'karte-city-layer-pulse');
@@ -246,7 +673,7 @@ function initKarteInteractions() {
             if (!hasCityBeenClicked) {
                 hasCityBeenClicked = true;
                 Object.keys(cityToCardMap).forEach((layerId) => {
-                    const layer = document.getElementById(layerId);
+                    const layer = getKarteLayer(layerId);
                     if (layer) {
                         layer.classList.remove('karte-city-layer-pulse');
                     }
@@ -262,6 +689,10 @@ function initSectionReveal() {
     const revealElements = document.querySelectorAll('.reveal-on-scroll');
     if (!revealElements.length) return;
 
+    const slowLandscapeReveal = window.matchMedia(
+        '(orientation: landscape) and (pointer: coarse) and (max-width: 60rem) and (max-height: 33.75rem)'
+    ).matches;
+
     // Bewegt Intro-Karten horizontal ein, abhaengig von der Position ihrer Section im Viewport.
     function updateTransforms() {
         const windowHeight = window.innerHeight;
@@ -272,15 +703,28 @@ function initSectionReveal() {
             if (!section) return;
 
             const rect = section.getBoundingClientRect();
-            const endTop = section.id === 'querschnittsthemen'
-                ? headerOffset + (windowHeight * 0.18)
-                : headerOffset;
+            let endTop;
+            
+            if (section.id === 'einleitung') {
+                endTop = slowLandscapeReveal ? 0 : 300; // Querformat-Handys deutlich langsamer
+            } else if (section.id === 'querschnittsthemen') {
+                endTop = slowLandscapeReveal
+                    ? headerOffset - 24
+                    : headerOffset + (windowHeight * 0.18);
+            } else {
+                endTop = slowLandscapeReveal ? headerOffset - 16 : headerOffset;
+            }
 
             // Fortschritt berechnen:
             // 0 wenn der Abschnitt unten am Bildschirmrand auftaucht (rect.top = windowHeight)
             // 1 wenn der Abschnitt am definierten Endpunkt ist (rect.top = endTop)
             let progress = (windowHeight - rect.top) / (windowHeight - endTop);
             progress = Math.max(0, Math.min(1, progress));
+
+            if (slowLandscapeReveal) {
+                progress = Math.pow(progress, 2.1);
+                progress = Math.min(1, progress * 0.78);
+            }
 
             // Lineare Verschiebung von -100% zu 0%
             const xPercent = (1 - progress) * -100;
@@ -296,6 +740,13 @@ function initSectionReveal() {
 
 function applyIntroAnimation() {
     // Intro-Choreografie: zentrales Symbol laden -> Gruppen aufbauen -> ausgewaehlte Gruppen wieder einklappen.
+    const svgRoot = document.querySelector('#svg-container svg');
+    if (!svgRoot) return;
+
+    function getMainLayer(id) {
+        return svgRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
+    }
+
     const loadingId = 'Gelingendes_Studium';
     const buildGroups = [
         { ids: ['Ziele'], delay: 0 },
@@ -304,13 +755,13 @@ function applyIntroAnimation() {
     ];
     const retractIds = ['F', 'SGE', 'KIR', 'NHK'];
 
-    const loadingElement = document.getElementById(loadingId);
+    const loadingElement = getMainLayer(loadingId);
     if (loadingElement) {
         loadingElement.classList.add('loading-symbol-minimal');
     }
     buildGroups.forEach(group => {
         group.ids.forEach(id => {
-            const element = document.getElementById(id);
+            const element = getMainLayer(id);
             if (element) {
                 element.classList.add('intro-hidden');
             }
@@ -329,7 +780,7 @@ function applyIntroAnimation() {
 
         buildGroups.forEach(group => {
             group.ids.forEach(id => {
-                const element = document.getElementById(id);
+                const element = getMainLayer(id);
                 if (element) {
                     element.classList.remove('intro-hidden');
                     element.classList.add('intro-unit');
@@ -342,7 +793,7 @@ function applyIntroAnimation() {
 
         setTimeout(() => {
             retractIds.forEach((id, index) => {
-                const element = document.getElementById(id);
+                const element = getMainLayer(id);
                 if (element) {
                     element.classList.remove('intro-unit');
                     element.classList.add('retract-unit');
@@ -355,6 +806,13 @@ function applyIntroAnimation() {
 
 function initSVGInteractions() {
     // Interaktive Layer der Hauptgrafik (Hover, Klick, optionales Scroll-Ziel).
+    const svgRoot = document.querySelector('#svg-container svg');
+    if (!svgRoot) return;
+
+    function getMainLayer(id) {
+        return svgRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
+    }
+
     const elements = ['F', 'K1', 'K2', 'K3', 'K4', 'QST', 'SGE', 'NHK', 'KIR', 'Gelingendes_Studium', 'Ziele'];
     const linkedSections = {
         K2: 'F',
@@ -394,9 +852,7 @@ function initSVGInteractions() {
     window.addEventListener('scroll', updateBackToGraphicVisibility, { passive: true });
 
     function scrollToSection(sectionId) {
-        const targetSection = document.getElementById(sectionId);
-        if (!targetSection) return;
-        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        smoothScrollToSectionById(sectionId);
     }
 
     function showHint(event, text) {
@@ -429,7 +885,7 @@ function initSVGInteractions() {
     }
 
     function expandSection(sectionId) {
-        const section = document.getElementById(sectionId);
+        const section = getMainLayer(sectionId);
         if (!section) return;
 
         section.classList.remove('retract-unit', 'intro-hidden', 'intro-unit');
@@ -439,7 +895,7 @@ function initSVGInteractions() {
     }
 
     function collapseSection(sectionId) {
-        const section = document.getElementById(sectionId);
+        const section = getMainLayer(sectionId);
         if (!section) return;
 
         section.classList.remove('intro-unit', 'intro-hidden', 'retract-unit');
@@ -453,20 +909,11 @@ function initSVGInteractions() {
         const targetId = linkedSections[controlId];
         if (!targetId) return;
 
-        const target = document.getElementById(targetId);
+        const target = getMainLayer(targetId);
         if (!target) return;
 
-        // Verhindert visuelle Artefakte durch Ueberlagerung:
-        // Immer nur ein Segment gleichzeitig offen lassen.
-        const allLinkedTargets = Object.values(linkedSections);
-        allLinkedTargets.forEach((id) => {
-            if (id === targetId) return;
-            const other = document.getElementById(id);
-            if (!other) return;
-            if (!(other.classList.contains('retract-unit') || other.classList.contains('intro-hidden'))) {
-                collapseSection(id);
-            }
-        });
+        // Jeder Bereich toggelt nur sich selbst: offen bleibt offen,
+        // bis derselbe Bereich erneut geklickt wird.
 
         if (target.classList.contains('retract-unit') || target.classList.contains('intro-hidden')) {
             expandSection(targetId);
@@ -477,7 +924,7 @@ function initSVGInteractions() {
     }
 
     elements.forEach(id => {
-        const element = document.getElementById(id);
+        const element = getMainLayer(id);
         if (element) {
             // Hover-Effekt
             element.addEventListener('mouseenter', function(e) {
@@ -538,7 +985,7 @@ function initSVGInteractions() {
     // Entferne die active-Klasse wenn Hintergrund geklickt wird
     document.getElementById('svg-container').addEventListener('click', function() {
         elements.forEach(id => {
-            const el = document.getElementById(id);
+            const el = getMainLayer(id);
             if (el) el.classList.remove('svg-element-active');
         });
         hideHint();
@@ -546,6 +993,16 @@ function initSVGInteractions() {
 }
 
 function initGLSTUInteractions() {
+    const glstuRoot = document.querySelector('#glstu-svg-container svg');
+    if (!glstuRoot) return;
+    const glstuSection = document.getElementById('gelingendes-studium');
+    const mobilePortraitGLSTUQuery = window.matchMedia('(max-width: 53rem) and (orientation: portrait)');
+    const mobileLandscapeGLSTUQuery = window.matchMedia('(orientation: landscape) and (max-width: 64rem) and (max-height: 33.75rem)');
+
+    function getGLSTULayer(id) {
+        return glstuRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
+    }
+
     // Basisebene (Lehrende/Studierende/Hochschule) steuert jeweils ein Overlay in der GLSTU-SVG.
     const layerMap = {
         Lehrende: 'O_x5F_Lehrende',
@@ -554,8 +1011,60 @@ function initGLSTUInteractions() {
     };
     const overlayIds = Object.values(layerMap);
 
+    function setGLSTUMobileOverflowPadding(pixels) {
+        if (!glstuSection) return;
+        const safePixels = Number.isFinite(pixels) ? Math.max(0, pixels) : 0;
+        glstuSection.style.setProperty('--glstu-expanded-overflow-pad', `${safePixels}px`);
+    }
+
+    function updateGLSTUMobileOverflowPadding() {
+        const isPortrait = mobilePortraitGLSTUQuery.matches;
+        const isLandscape = mobileLandscapeGLSTUQuery.matches;
+        if (!isPortrait && !isLandscape) {
+            setGLSTUMobileOverflowPadding(0);
+            return;
+        }
+
+        const viewBox = glstuRoot.viewBox && glstuRoot.viewBox.baseVal
+            ? glstuRoot.viewBox.baseVal
+            : null;
+        if (!viewBox || !viewBox.height) {
+            setGLSTUMobileOverflowPadding(0);
+            return;
+        }
+
+        let maxOverlayBottom = viewBox.height;
+        let hasVisibleOverlay = false;
+
+        overlayIds.forEach((id) => {
+            const overlay = getGLSTULayer(id);
+            if (!overlay || !overlay.classList.contains('glstu-overlay-visible')) return;
+            hasVisibleOverlay = true;
+            try {
+                const bbox = overlay.getBBox();
+                maxOverlayBottom = Math.max(maxOverlayBottom, bbox.y + bbox.height);
+            } catch {
+                // Ignore non-renderable overlay states and keep fallback padding.
+            }
+        });
+
+        if (!hasVisibleOverlay) {
+            setGLSTUMobileOverflowPadding(0);
+            return;
+        }
+
+        const overflowInViewBoxUnits = Math.max(0, maxOverlayBottom - viewBox.height);
+        const renderedHeight = glstuRoot.getBoundingClientRect().height;
+        const unitToPixelScale = renderedHeight > 0 ? renderedHeight / viewBox.height : 0;
+        const overflowPixels = Math.ceil(overflowInViewBoxUnits * unitToPixelScale);
+        const mobileSafetyPadding = isLandscape ? 90 : 28;
+        const maxPadding = isLandscape ? 760 : 320;
+        const clampedPadding = Math.min(maxPadding, overflowPixels + mobileSafetyPadding);
+        setGLSTUMobileOverflowPadding(clampedPadding);
+    }
+
     overlayIds.forEach(id => {
-        const overlay = document.getElementById(id);
+        const overlay = getGLSTULayer(id);
         if (overlay) {
             overlay.classList.add('glstu-overlay', 'glstu-overlay-hidden');
         }
@@ -563,11 +1072,11 @@ function initGLSTUInteractions() {
 
     // Es ist immer nur ein Overlay sichtbar; erneuter Klick blendet alle aus.
     function showOverlay(targetId) {
-        const target = document.getElementById(targetId);
+        const target = getGLSTULayer(targetId);
         const isVisible = target ? target.classList.contains('glstu-overlay-visible') : false;
 
         overlayIds.forEach(id => {
-            const overlay = document.getElementById(id);
+            const overlay = getGLSTULayer(id);
             if (!overlay) return;
             if (!isVisible && id === targetId) {
                 overlay.classList.add('glstu-overlay-visible');
@@ -577,10 +1086,20 @@ function initGLSTUInteractions() {
                 overlay.classList.remove('glstu-overlay-visible');
             }
         });
+
+        if (glstuSection) {
+            const anyOverlayVisible = overlayIds.some((id) => {
+                const overlay = getGLSTULayer(id);
+                return overlay && overlay.classList.contains('glstu-overlay-visible');
+            });
+            glstuSection.classList.toggle('glstu-overlay-open', anyOverlayVisible);
+        }
+
+        updateGLSTUMobileOverflowPadding();
     }
 
     Object.entries(layerMap).forEach(([baseId, overlayId]) => {
-        const baseLayer = document.getElementById(baseId);
+        const baseLayer = getGLSTULayer(baseId);
         if (!baseLayer) return;
         baseLayer.classList.add('glstu-layer');
         baseLayer.addEventListener('mouseenter', () => {
@@ -598,151 +1117,25 @@ function initGLSTUInteractions() {
             });
         });
     });
-}
 
-// Alte Ziel-Box/Ring-Interaktion (nur aktiv, wenn die entsprechenden Klassen im DOM vorhanden sind).
-function initMeilesteine() {
-    const zielBoxes = document.querySelectorAll('.ziel-box');
-    const ringCircles = document.querySelectorAll('.ring-circle');
-    const ringLabels = document.querySelectorAll('.ring-label');
+    if (glstuSection && glstuSection.dataset.glstuMobileOverflowObserverBound !== 'true') {
+        const refreshOverflowPadding = () => {
+            updateGLSTUMobileOverflowPadding();
+        };
 
-    // Scroll-Reveal für die sichtbaren Ziel-Karten
-    const zielCards = document.querySelectorAll('.meilensteine-ziel');
-    if (zielCards.length) {
-        zielCards.forEach((card, index) => {
-            // leichte Staffelung der Animation
-            card.style.transitionDelay = `${index * 0.05}s`;
-        });
-
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('meilensteine-ziel-visible');
-                    obs.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 1,
-            rootMargin: '0px 0px -5px 0px' // recht früh „ankommen“
-        });
-
-        zielCards.forEach(card => observer.observe(card));
+        window.addEventListener('resize', refreshOverflowPadding, { passive: true });
+        if (typeof mobilePortraitGLSTUQuery.addEventListener === 'function') {
+            mobilePortraitGLSTUQuery.addEventListener('change', refreshOverflowPadding);
+        }
+        if (typeof mobileLandscapeGLSTUQuery.addEventListener === 'function') {
+            mobileLandscapeGLSTUQuery.addEventListener('change', refreshOverflowPadding);
+        }
+        glstuSection.dataset.glstuMobileOverflowObserverBound = 'true';
     }
 
-    zielBoxes.forEach(box => {
-        const zielNum = box.getAttribute('data-ziel');
-
-        box.addEventListener('mouseenter', () => {
-            zielBoxes.forEach(b => b.classList.remove('active'));
-            box.classList.add('active');
-
-            ringCircles.forEach(ring => {
-                const ringNum = ring.getAttribute('data-ring');
-                if (ringNum === zielNum) {
-                    ring.style.opacity = '1';
-                    ring.style.strokeWidth = '50';
-                } else {
-                    ring.style.opacity = '0.3';
-                }
-            });
-        });
-
-        box.addEventListener('mouseleave', () => {
-            box.classList.remove('active');
-            ringCircles.forEach(ring => {
-                const originalOpacity = ring.getAttribute('data-ring');
-                ring.style.opacity = (5 - parseInt(originalOpacity)) * 0.2;
-                ring.style.strokeWidth = '40';
-            });
-        });
-    });
-
-    ringCircles.forEach(ring => {
-        ring.addEventListener('mouseenter', () => {
-            const zielNum = ring.getAttribute('data-ring');
-            zielBoxes.forEach(box => {
-                if (box.getAttribute('data-ziel') === zielNum) {
-                    box.classList.add('active');
-                } else {
-                    box.classList.remove('active');
-                }
-            });
-        });
-    });
-
-    ringLabels.forEach(label => {
-        label.addEventListener('mouseenter', () => {
-            const ring = label.parentElement.querySelector('.ring-circle');
-            if (ring) {
-                const zielNum = ring.getAttribute('data-ring');
-                zielBoxes.forEach(box => {
-                    if (box.getAttribute('data-ziel') === zielNum) {
-                        box.classList.add('active');
-                    } else {
-                        box.classList.remove('active');
-                    }
-                });
-            }
-        });
-    });
+    updateGLSTUMobileOverflowPadding();
 }
 
-// Hover-Verknuepfung zwischen den drei Ziel-Ringen und den drei Textkarten.
-function initZielInteractions() {
-    const ringToZielMap = {
-        'Außen': { selector: '.meilensteine-ziel.ziel-1', goal: '1' },
-        'Mitte': { selector: '.meilensteine-ziel.ziel-2', goal: '2' },
-        'Innen': { selector: '.meilensteine-ziel.ziel-3', goal: '3' }
-    };
-
-    Object.entries(ringToZielMap).forEach(([ringId, config]) => {
-        const { selector: zielSelector, goal } = config;
-        const ringGroup = document.getElementById(ringId);
-        const zielCard = document.querySelector(zielSelector);
-        if (!ringGroup || !zielCard) return;
-
-        ringGroup.style.transformBox = 'fill-box';
-        ringGroup.style.transformOrigin = '50% 50%';
-        ringGroup.style.cursor = 'pointer';
-
-        const handleEnter = () => {
-            ringGroup.classList.add('ziel-ring-hover');
-            zielCard.classList.add('meilensteine-ziel-hover');
-        };
-
-        const handleLeave = () => {
-            ringGroup.classList.remove('ziel-ring-hover');
-            zielCard.classList.remove('meilensteine-ziel-hover');
-        };
-
-        ringGroup.addEventListener('mouseenter', handleEnter);
-        ringGroup.addEventListener('mouseleave', handleLeave);
-
-        // Hover funktioniert auch umgekehrt: Karte -> Ring.
-        zielCard.addEventListener('mouseenter', handleEnter);
-        zielCard.addEventListener('mouseleave', handleLeave);
-
-        // Klick auf einen Ring setzt den Teilziele-Filter und springt in den Teilziele-Bereich.
-        ringGroup.addEventListener('click', (event) => {
-            event.stopPropagation();
-
-            const matrix = document.querySelector('.teilziele-matrix');
-            const filterSelect = document.getElementById('teilziele-goal-filter');
-            const teilzieleSection = document.getElementById('teilziele-bereich');
-
-            if (matrix) {
-                matrix.dataset.goalFilter = goal;
-                matrix.dispatchEvent(new Event('teilziele:filter-change'));
-            }
-            if (filterSelect) {
-                filterSelect.value = goal;
-            }
-            if (teilzieleSection) {
-                teilzieleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-}
 
 // Querschnittsthemen als manuelle Slideshow (Buttons, Dots, Tastatur im sichtbaren Bereich).
 function initQSTSlideshow() {
@@ -866,47 +1259,148 @@ function initTeilzieleTimeline() {
 function initTeilzieleFilter() {
     const matrix = document.querySelector('.teilziele-matrix');
     const filterSelect = document.getElementById('teilziele-goal-filter');
+    const goalTabs = Array.from(document.querySelectorAll('.teilziele-goal-tab[data-goal-tab]'));
     const teilzieleSection = document.getElementById('teilziele-bereich');
-    const goalTriggers = Array.from(document.querySelectorAll('.meilensteine-ziel[data-goal-target]'));
-    if (!matrix || !filterSelect) return;
+    const goalTriggers = Array.from(document.querySelectorAll('.meilensteine-ziel[data-goal-target], .meilensteine-slide-card[data-goal-target]'));
+    const zieleSvgContainer = document.getElementById('ziele-svg-container');
+    const yearCards = Array.from(document.querySelectorAll('.teilziele-year'));
+    if (!matrix) return;
 
     const allowedValues = new Set(['1', '2', '3']);
-    const initialValue = allowedValues.has(filterSelect.value) ? filterSelect.value : '1';
+    const selectInitialValue = filterSelect && allowedValues.has(filterSelect.value)
+        ? filterSelect.value
+        : null;
+    const matrixInitialValue = allowedValues.has(matrix.dataset.goalFilter)
+        ? matrix.dataset.goalFilter
+        : null;
+    const activeTab = goalTabs.find((tab) => tab.classList.contains('is-active'));
+    const tabInitialValue = activeTab ? activeTab.getAttribute('data-goal-tab') : null;
+    const initialValue = selectInitialValue || matrixInitialValue || tabInitialValue || '1';
 
     function applyFilter(value) {
         const selectedValue = allowedValues.has(value) ? value : '1';
         matrix.dataset.goalFilter = selectedValue;
-        filterSelect.value = selectedValue;
+
+        if (filterSelect) {
+            filterSelect.value = selectedValue;
+        }
+
+        goalTabs.forEach((tab) => {
+            const isActive = tab.getAttribute('data-goal-tab') === selectedValue;
+            tab.classList.toggle('is-active', isActive);
+            tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            tab.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+
+        yearCards.forEach((yearCard) => {
+            const goalCell = yearCard.querySelector(`.teilziele-cell-${selectedValue}`);
+            if (!goalCell) {
+                yearCard.classList.add('teilziele-year-hidden');
+                yearCard.setAttribute('aria-hidden', 'true');
+                return;
+            }
+
+            const hasListEntries = goalCell.querySelectorAll('li').length > 0;
+            const hasEmptyMarker = Boolean(goalCell.querySelector('.teilziele-cell-empty'));
+            const hasContent = hasListEntries && !hasEmptyMarker;
+
+            yearCard.classList.toggle('teilziele-year-hidden', !hasContent);
+            yearCard.setAttribute('aria-hidden', hasContent ? 'false' : 'true');
+        });
+
         matrix.dispatchEvent(new Event('teilziele:filter-change'));
     }
 
     applyFilter(initialValue);
 
-    filterSelect.addEventListener('change', () => {
-        applyFilter(filterSelect.value);
+    if (filterSelect) {
+        filterSelect.addEventListener('change', () => {
+            applyFilter(filterSelect.value);
+        });
+    }
+
+    goalTabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => {
+            applyFilter(tab.getAttribute('data-goal-tab'));
+        });
+
+        tab.addEventListener('keydown', (event) => {
+            let nextIndex = index;
+
+            if (event.key === 'ArrowRight') {
+                nextIndex = (index + 1) % goalTabs.length;
+            } else if (event.key === 'ArrowLeft') {
+                nextIndex = (index - 1 + goalTabs.length) % goalTabs.length;
+            } else if (event.key === 'Home') {
+                nextIndex = 0;
+            } else if (event.key === 'End') {
+                nextIndex = goalTabs.length - 1;
+            } else {
+                return;
+            }
+
+            event.preventDefault();
+            const nextTab = goalTabs[nextIndex];
+            if (!nextTab) return;
+            nextTab.focus();
+            applyFilter(nextTab.getAttribute('data-goal-tab'));
+        });
     });
 
-    // Klick auf Zielkarten oberhalb der Timeline setzt den Filter und scrollt zur Teilziele-Sektion.
-    goalTriggers.forEach((trigger) => {
-        const targetValue = trigger.getAttribute('data-goal-target');
-        if (!allowedValues.has(targetValue)) return;
+    function jumpToGoal(value) {
+        applyFilter(value);
+        if (teilzieleSection) {
+            teilzieleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    function bindGoalTrigger(trigger, targetValue) {
+        if (!trigger || !allowedValues.has(targetValue)) return;
+        if (trigger.dataset.goalJumpBound === 'true') return;
+
+        trigger.dataset.goalJumpBound = 'true';
+        trigger.setAttribute('role', 'button');
+        trigger.setAttribute('tabindex', '0');
+        trigger.classList.add('goal-jump-trigger');
 
         trigger.addEventListener('click', () => {
-            applyFilter(targetValue);
-            if (teilzieleSection) {
-                teilzieleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            jumpToGoal(targetValue);
         });
 
         trigger.addEventListener('keydown', (event) => {
             if (event.key !== 'Enter' && event.key !== ' ') return;
             event.preventDefault();
-            applyFilter(targetValue);
-            if (teilzieleSection) {
-                teilzieleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            jumpToGoal(targetValue);
         });
+    }
+
+    // Klick auf Zielkarten oberhalb der Timeline setzt den Filter und scrollt zur Teilziele-Sektion.
+    goalTriggers.forEach((trigger) => {
+        const targetValue = trigger.getAttribute('data-goal-target');
+        bindGoalTrigger(trigger, targetValue);
     });
+
+    function bindSvgGoalTriggers() {
+        if (!zieleSvgContainer) return;
+        const svg = zieleSvgContainer.querySelector('svg');
+        if (!svg) return;
+
+        [1, 2, 3].forEach((goal) => {
+            const layer = svg.querySelector(`[data-orig-id="Ziel${goal}"], [id$="-Ziel${goal}"]`);
+            if (!layer) return;
+            layer.classList.add('ziele-goal-jump-trigger');
+            bindGoalTrigger(layer, String(goal));
+        });
+    }
+
+    bindSvgGoalTriggers();
+    if (zieleSvgContainer && zieleSvgContainer.dataset.goalSvgObserverBound !== 'true') {
+        zieleSvgContainer.dataset.goalSvgObserverBound = 'true';
+        const observer = new MutationObserver(() => {
+            bindSvgGoalTriggers();
+        });
+        observer.observe(zieleSvgContainer, { childList: true, subtree: true });
+    }
 }
 
 function initTeilzieleChecks() {
@@ -924,6 +1418,36 @@ function initTeilzieleChecks() {
         return `item-${fallbackIndex + 1}`;
     }
 
+    function formatTeilzielItems() {
+        goalItems.forEach((item) => {
+            if (item.dataset.teilzielFormatted === 'true') return;
+
+            const rawText = (item.textContent || '').trim();
+            const match = rawText.match(/^(Z\.?\s*\d+\.\d+)\s*:\s*(.+)$/i);
+            if (!match) {
+                item.dataset.teilzielFormatted = 'true';
+                return;
+            }
+
+            const code = match[1].replace(/\s+/g, ' ').trim();
+            const body = match[2].trim();
+
+            item.textContent = '';
+
+            const codeEl = document.createElement('span');
+            codeEl.className = 'teilziel-code';
+            codeEl.textContent = code;
+
+            const bodyEl = document.createElement('span');
+            bodyEl.className = 'teilziel-body';
+            bodyEl.textContent = body;
+
+            item.appendChild(codeEl);
+            item.appendChild(bodyEl);
+            item.dataset.teilzielFormatted = 'true';
+        });
+    }
+
     function applyChecks(checks) {
         goalItems.forEach((item, index) => {
             const key = extractKey(item.textContent || '', index);
@@ -932,6 +1456,8 @@ function initTeilzieleChecks() {
             item.classList.toggle('teilziel-checked', isChecked);
         });
     }
+
+    formatTeilzielItems();
 
     fetch('teilziele-checks.json', { cache: 'no-store' })
         .then((response) => {
@@ -959,32 +1485,78 @@ function initTeilzieleRowSync() {
     if (matrix.dataset.rowSyncBound === 'true') return;
     matrix.dataset.rowSyncBound = 'true';
 
+    const stickyGoalsWrap = matrix.querySelector('.teilziele-sticky-goals');
     const stickyGoals = Array.from(matrix.querySelectorAll('.teilziele-sticky-goal'));
     const rowSelectors = ['.teilziele-cell-1', '.teilziele-cell-2', '.teilziele-cell-3'];
+    const compactMobileQuery = window.matchMedia('(max-width: 900px)');
 
     let scheduled = false;
 
-    // Hoehen angleichen: Sticky-Zielspalte und alle Jahreszellen einer Zeile bleiben deckungsgleich.
+    // Hoehen angleichen nur fuer die Jahreszellen je Zielzeile.
+    // Sticky-Zielkarten behalten ihre feste CSS-Hoehe und werden nicht dynamisch mitgezogen.
     function syncHeights() {
         scheduled = false;
 
+        if (compactMobileQuery.matches) {
+            stickyGoals.forEach((goal) => {
+                goal.style.height = '';
+                goal.style.minHeight = '';
+                goal.style.maxHeight = '';
+            });
+
+            rowSelectors.forEach((selector) => {
+                matrix.querySelectorAll(selector).forEach((cell) => {
+                    cell.style.minHeight = '';
+                });
+            });
+
+            return;
+        }
+
+        // Sticky-Zielkarten: einheitliche Hoehe anhand der laengsten Karte.
+        const stickyColumnWidth = stickyGoalsWrap?.clientWidth || 0;
+        if (stickyGoals.length > 0 && stickyColumnWidth > 0) {
+            const measureLayer = document.createElement('div');
+            measureLayer.style.position = 'absolute';
+            measureLayer.style.left = '-9999px';
+            measureLayer.style.top = '0';
+            measureLayer.style.visibility = 'hidden';
+            measureLayer.style.pointerEvents = 'none';
+            measureLayer.style.width = `${stickyColumnWidth}px`;
+            document.body.appendChild(measureLayer);
+
+            let maxStickyHeight = 0;
+            stickyGoals.forEach((goal) => {
+                const clone = goal.cloneNode(true);
+                clone.style.display = 'grid';
+                clone.style.height = 'auto';
+                clone.style.minHeight = '0';
+                clone.style.maxHeight = 'none';
+                clone.style.width = '100%';
+                measureLayer.appendChild(clone);
+                maxStickyHeight = Math.max(maxStickyHeight, clone.offsetHeight);
+            });
+
+            measureLayer.remove();
+
+            if (maxStickyHeight > 0) {
+                stickyGoals.forEach((goal) => {
+                    goal.style.height = `${maxStickyHeight}px`;
+                    goal.style.minHeight = `${maxStickyHeight}px`;
+                    goal.style.maxHeight = `${maxStickyHeight}px`;
+                });
+            }
+        }
+
         // Reset so we can measure natural heights
-        stickyGoals.forEach((el) => {
-            el.style.minHeight = '';
-        });
         rowSelectors.forEach((selector) => {
             matrix.querySelectorAll(selector).forEach((cell) => {
                 cell.style.minHeight = '';
             });
         });
 
-        rowSelectors.forEach((selector, index) => {
+        rowSelectors.forEach((selector) => {
             let maxHeight = 0;
-
-            const sticky = stickyGoals[index];
-            if (sticky) {
-                maxHeight = Math.max(maxHeight, sticky.offsetHeight);
-            }
 
             const cells = Array.from(matrix.querySelectorAll(selector));
             cells.forEach((cell) => {
@@ -992,10 +1564,6 @@ function initTeilzieleRowSync() {
             });
 
             if (!maxHeight) return;
-
-            if (sticky) {
-                sticky.style.minHeight = `${maxHeight}px`;
-            }
             cells.forEach((cell) => {
                 cell.style.minHeight = `${maxHeight}px`;
             });
@@ -1013,66 +1581,35 @@ function initTeilzieleRowSync() {
     matrix.addEventListener('teilziele:filter-change', scheduleSync);
 }
 
-function initWissensspeicherReveal() {
-    // Stufenweises Einblenden der drei Wissensspeicher-Schritte beim ersten Sichtkontakt.
-    const stepsWrap = document.querySelector('.wissensspeicher-steps');
-    if (!stepsWrap) return;
-    if (stepsWrap.dataset.revealBound === 'true') return;
+function initMeilensteineCardsReveal() {
+    const section = document.getElementById('ziele-meilensteine');
+    const cards = document.querySelectorAll('#ziele-meilensteine .meilensteine-slide-card');
+    if (!section || !cards.length) return;
+    if (section.dataset.meilensteineObserverBound === 'true') return;
 
-    stepsWrap.dataset.revealBound = 'true';
+    section.dataset.meilensteineObserverBound = 'true';
 
-    const steps = Array.from(stepsWrap.querySelectorAll('.wissensspeicher-step'));
-    const stepTransitionMs = 550;
-    const stepStaggerMs = 120;
-    steps.forEach((step, index) => {
-        step.style.transitionDelay = `${index * 0.12}s`;
-    });
+    if (typeof IntersectionObserver !== 'function') {
+        cards.forEach(card => card.classList.add('meilensteine-card-visible'));
+        return;
+    }
 
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-
-            steps.forEach((step) => {
-                step.classList.add('wissensspeicher-step-visible');
+    cards.forEach((card, idx) => {
+        card.classList.add('meilensteine-reveal-ready');
+        card.classList.remove('meilensteine-card-visible');
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio >= 0.28) {
+                    card.classList.add('meilensteine-card-visible');
+                    obs.unobserve(card);
+                }
             });
-
-            const firstStepFullyVisibleMs = stepTransitionMs;
-            const lineDelayMs = firstStepFullyVisibleMs + 40;
-            window.setTimeout(() => {
-                stepsWrap.classList.add('wissensspeicher-steps-visible');
-            }, lineDelayMs);
-
-            obs.unobserve(entry.target);
+        }, {
+            threshold: [0.12, 0.28, 0.55],
+            rootMargin: '-6% 0px -14% 0px'
         });
-    }, {
-        threshold: 0.25,
-        rootMargin: '0px 0px -8% 0px'
+        observer.observe(card);
     });
-
-    observer.observe(stepsWrap);
-}
-
-function initWissensspeicherSlidein() {
-    // Zweiter Wissensspeicher-Block schiebt beim Erreichen der Section ein.
-    const slideSection = document.querySelector('.wissensspeicher-slidein-section');
-    const slideCard = document.querySelector('.wissensspeicher-slidein-card');
-    if (!slideSection || !slideCard) return;
-    if (slideSection.dataset.slideBound === 'true') return;
-
-    slideSection.dataset.slideBound = 'true';
-
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            slideCard.classList.add('wissensspeicher-slidein-visible');
-            obs.unobserve(entry.target);
-        });
-    }, {
-        threshold: 0.28,
-        rootMargin: '0px 0px -8% 0px'
-    });
-
-    observer.observe(slideSection);
 }
 
 function initKurzportraitStickyTextObserver() {
@@ -1144,81 +1681,136 @@ function initKurzportraitStickyTextObserver() {
     setActiveText(0);
 }
 
-function initGLSTUStickyTextObserver() {
-    // Textwechsel via Klick-Pfeile neben den Indikatoren.
-    const section = document.getElementById('gelingendes-studium');
+function initKurzportraitEntranceAnimation() {
+    const section = document.getElementById('kurzportrait');
     if (!section) return;
-    if (section.dataset.glstuObserverBound === 'true') return;
+    if (section.dataset.kurzportraitEntranceBound === 'true') return;
 
-    const sourcePages = Array.from(section.querySelectorAll('.glstu-text-source .glstu-text-page'));
-    const titleElement = section.querySelector('.glstu-display-title');
-    const bodyElement = section.querySelector('.glstu-display-body');
-    const progressDots = Array.from(section.querySelectorAll('.glstu-progress-dot'));
-    const progressCount = section.querySelector('.glstu-progress-count');
-    const prevButton = section.querySelector('.glstu-nav-btn-prev');
-    const nextButton = section.querySelector('.glstu-nav-btn-next');
+    const mainBlock = section.querySelector('.kurzportrait-main');
+    const slideCard = section.querySelector('.kurzportrait-slide-card');
+    const graphic = section.querySelector('.kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic');
+    if (!mainBlock || !slideCard || !graphic) return;
 
-    if (!sourcePages.length || !bodyElement) return;
+    section.dataset.kurzportraitEntranceBound = 'true';
 
-    section.dataset.glstuObserverBound = 'true';
-
-    const mediaQuery = window.matchMedia('(max-width: 900px)');
-    const payload = sourcePages.map((page) => {
-        const heading = page.querySelector('h3');
-        const paragraph = page.querySelector('p');
-
-        return {
-            title: heading ? heading.textContent.trim() : '',
-            body: paragraph ? paragraph.textContent.trim() : page.textContent.trim()
-        };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            const isActive = entry.isIntersecting && entry.intersectionRatio >= 0.28;
+            section.classList.toggle('kurzportrait-entered', isActive);
+        });
+    }, {
+        threshold: [0.12, 0.28, 0.55],
+        rootMargin: '-6% 0px -14% 0px'
     });
 
-    let activeIndex = -1;
-    function updateNavState() {
-        if (prevButton) prevButton.disabled = activeIndex <= 0;
-        if (nextButton) nextButton.disabled = activeIndex >= payload.length - 1;
+    observer.observe(mainBlock);
+}
+
+function initWissensspeicherEntranceAnimation() {
+    const section = document.getElementById('wissensspeicher');
+    if (!section) return;
+    if (section.dataset.wissensspeicherEntranceBound === 'true') return;
+
+    const mainBlock = section.querySelector('.wissensspeicher-main');
+    const slideCard = section.querySelector('.wissensspeicher-fakultaeten-card');
+    if (!mainBlock || !slideCard) return;
+
+    section.dataset.wissensspeicherEntranceBound = 'true';
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            const isActive = entry.isIntersecting && entry.intersectionRatio >= 0.18;
+            section.classList.toggle('wissensspeicher-entered', isActive);
+        });
+    }, {
+        threshold: [0.08, 0.18, 0.4],
+        rootMargin: '0px 0px -10% 0px'
+    });
+
+    observer.observe(mainBlock);
+}
+
+function initWissensspeicherStepsReveal() {
+    const wrap = document.querySelector('#wissensspeicher-inhalte .wissensspeicher-svg-wrap');
+    const svgRoot = document.querySelector('#wissensspeicher-svg-container svg');
+    if (!wrap || !svgRoot) return;
+    if (wrap.dataset.wissensspeicherStepsBound === 'true') return;
+
+    const stepIds = ['Schritt1', 'Schritt2', 'Schritt3', 'Schritt4'];
+    const stepLayers = stepIds
+        .map((id) => svgRoot.querySelector(`[data-orig-id="${id}"]`))
+        .filter(Boolean);
+
+    if (!stepLayers.length) return;
+
+    wrap.dataset.wissensspeicherStepsBound = 'true';
+    wrap.classList.add('steps-ready');
+
+    function revealSteps() {
+        stepLayers.forEach((layer, index) => {
+            window.setTimeout(() => {
+                layer.classList.add('wissensspeicher-step-visible');
+            }, index * 180);
+        });
     }
 
-    function setActiveText(index) {
-        const safeIndex = Math.max(0, Math.min(payload.length - 1, index));
-        if (safeIndex === activeIndex) return;
-
-        activeIndex = safeIndex;
-        const item = payload[safeIndex];
-        if (!item) return;
-
-        if (titleElement) {
-            titleElement.textContent = item.title;
-            titleElement.style.display = item.title ? '' : 'none';
-        }
-
-        bodyElement.textContent = item.body;
-        bodyElement.classList.remove('glstu-text-display-enter');
-        void bodyElement.offsetWidth;
-        bodyElement.classList.add('glstu-text-display-enter');
-
-        if (progressDots.length) {
-            progressDots.forEach((dot, dotIndex) => {
-                dot.classList.toggle('is-active', dotIndex === safeIndex);
-            });
-        }
-        if (progressCount) {
-            progressCount.textContent = `${safeIndex + 1}/${payload.length}`;
-        }
-        updateNavState();
-
-        section.classList.toggle('glstu-show-scroll-hint', false);
+    if (typeof IntersectionObserver !== 'function') {
+        revealSteps();
+        return;
     }
 
-    if (prevButton) {
-        prevButton.addEventListener('click', () => setActiveText(activeIndex - 1));
-    }
-    if (nextButton) {
-        nextButton.addEventListener('click', () => setActiveText(activeIndex + 1));
-    }
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting || entry.intersectionRatio < 0.22) return;
+            revealSteps();
+            obs.disconnect();
+        });
+    }, {
+        threshold: [0.12, 0.22, 0.45],
+        rootMargin: '-4% 0px -14% 0px'
+    });
 
-    mediaQuery.addEventListener('change', () => setActiveText(Math.max(activeIndex, 0)));
-    setActiveText(0);
+    observer.observe(wrap);
+}
+
+function initWissensspeicherHotspotInteraction() {
+    const svgRoot = document.querySelector('#wissensspeicher-svg-container svg');
+    const legacyLink = document.querySelector('#wissensspeicher-inhalte .wissensspeicher-step1-link');
+    if (!svgRoot || !legacyLink) return;
+
+    const targetUrl = legacyLink.getAttribute('href');
+    if (!targetUrl) return;
+
+    // Ebenennamen-Reihenfolge: zuerst künftiger Name, dann aktueller Fallback.
+    // Wenn die finale SVG da ist, nur noch 'Pfeil' hier stehen lassen.
+    const hotspotLayerNames = ['Pfeil', 'Schritt1'];
+    const hotspotLayer = hotspotLayerNames
+        .map((name) => svgRoot.querySelector(`[data-orig-id="${name}"], [id="${name}"]`))
+        .find(Boolean);
+
+    if (!hotspotLayer) return;
+    if (hotspotLayer.dataset.wissensHotspotBound === 'true') return;
+
+    hotspotLayer.dataset.wissensHotspotBound = 'true';
+    hotspotLayer.classList.add('wissensspeicher-hotspot-layer');
+    hotspotLayer.style.cursor = 'pointer';
+    hotspotLayer.setAttribute('role', 'link');
+    hotspotLayer.setAttribute('tabindex', '0');
+
+    const openTarget = () => {
+        window.open(targetUrl, '_blank', 'noopener,noreferrer');
+    };
+
+    hotspotLayer.addEventListener('click', (event) => {
+        event.stopPropagation();
+        openTarget();
+    });
+
+    hotspotLayer.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        openTarget();
+    });
 }
 
 function initSectionSnapScrolling() {
@@ -1253,13 +1845,6 @@ function initSectionSnapScrolling() {
             pushIf(section.querySelector('.kurzportrait-top'));
             pushIf(section.querySelector('.kurzportrait-main'));
             pushIf(section.querySelector('.kurzportrait-third'));
-            return;
-        }
-
-        if (section.id === 'wissensspeicher-hawk') {
-            pushIf(section.querySelector('.wissensspeicher-intro'));
-            pushIf(section.querySelector('.wissensspeicher-slidein-section'));
-            pushIf(section.querySelector('.wissensspeicher-final'));
             return;
         }
 
@@ -1420,17 +2005,19 @@ function initSectionSnapScrolling() {
 // Startet alle Initialisierer in einer klaren, zentralen Reihenfolge.
 function initializeApp() {
     initMobileOrientationGate();
-    initMeilesteine();
+    initMeilensteineCardsReveal();
     initQSTSlideshow();
     initFullscreenSlideshow();
     initTeilzieleFilter();
     initTeilzieleRowSync();
     initTeilzieleChecks();
-    initGLSTUStickyTextObserver();
     initKurzportraitStickyTextObserver();
+    initKurzportraitEntranceAnimation();
+    initWissensspeicherEntranceAnimation();
+    initWissensspeicherStepsReveal();
     // Globales Snap-Scrolling zwischen Abschnitten deaktiviert.
-    initWissensspeicherReveal();
-    initWissensspeicherSlidein();
+}
+
 // Fullscreen Slideshow: transform-based horizontal slide transitions
 function initFullscreenSlideshow() {
     let currentSlide = 1;
@@ -1520,7 +2107,6 @@ function initFullscreenSlideshow() {
     }
 
     updateSlides(1);
-}
 }
 
 // Einheitlicher Bootstrapping-Pfad:
