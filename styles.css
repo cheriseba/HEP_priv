@@ -112,7 +112,7 @@
     animation: slideInUp 0.6s ease-out 0.3s both;
 }
 .fullscreen-text-overlay h3 {
-    font-size: clamp(1.2rem, 1vw + 0.7rem, 1.45rem);
+    font-size: var(--fs-h3-global);
     max-width: 58ch;
     letter-spacing: 0.03125rem;
 }
@@ -341,7 +341,7 @@ h1, .ueberschrift-gross {
     }
 }
 
-@media (min-width: 901px) {
+@media (min-width: 56.3125rem) and (max-width: 74.999rem) {
     :root {
         --fs-h1-global: clamp(1.52rem, 0.5vw + 1.3rem, 2rem);
         --fs-h2-global: clamp(1.42rem, 0.68vw + 1.06rem, 2.22rem);
@@ -350,6 +350,18 @@ h1, .ueberschrift-gross {
         --fs-text-base: clamp(1rem, 0.1vw + 0.95rem, 1.12rem);
         --fs-text-lg: clamp(1.04rem, 0.12vw + 0.99rem, 1.16rem);
         --fs-text-sm: clamp(0.92rem, 0.07vw + 0.88rem, 1rem);
+    }
+}
+
+@media (min-width: 75rem) and (max-width: 159.999rem) {
+    :root {
+        --fs-h1-global: clamp(1.54rem, 0.3vw + 1.34rem, 1.92rem);
+        --fs-h2-global: clamp(1.44rem, 0.4vw + 1.16rem, 2.02rem);
+        --fs-h3-global: clamp(1.22rem, 0.28vw + 1.02rem, 1.58rem);
+        --fs-h4-global: clamp(1.01rem, 0.14vw + 0.91rem, 1.14rem);
+        --fs-text-base: clamp(1.01rem, 0.08vw + 0.96rem, 1.1rem);
+        --fs-text-lg: clamp(1.06rem, 0.1vw + 1rem, 1.16rem);
+        --fs-text-sm: clamp(0.94rem, 0.06vw + 0.9rem, 1rem);
     }
 }
 
@@ -1123,7 +1135,7 @@ main {
     align-items: center;
     gap: 0.45rem;
     color: #0f4c7f;
-    font-size: clamp(0.82rem, 0.26vw + 0.72rem, 0.95rem);
+    font-size: var(--fs-text-sm);
     font-weight: 600;
     letter-spacing: 0.02em;
     opacity: 0;
@@ -2560,7 +2572,7 @@ p {
     align-items: center;
     gap: 0.45rem;
     color: #bfe6ff;
-    font-size: clamp(0.82rem, 0.26vw + 0.72rem, 0.95rem);
+    font-size: var(--fs-text-sm);
     font-weight: 600;
     letter-spacing: 0.02em;
     opacity: 0;
@@ -4057,7 +4069,7 @@ footer a {
     letter-spacing: 0.02em;
     text-transform: uppercase;
     font-weight: 700;
-    font-size: 0.62rem;
+    font-size: clamp(0.62rem, calc(var(--fs-text-sm) * 0.68), 0.74rem);
     line-height: 1;
 }
 
