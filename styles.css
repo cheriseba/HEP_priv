@@ -737,6 +737,128 @@ body.mobile-portrait-blocked .orientation-gate {
     transform: translateY(-0.3rem);
 }
 
+.timeline-burger {
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 0.125rem solid rgba(255, 255, 255, 0.62);
+    background: transparent;
+    color: #ffffff;
+    border-radius: 0.45rem;
+    padding: 0.45rem;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.3rem;
+    cursor: pointer;
+}
+
+.timeline-burger span {
+    width: 1.25rem;
+    height: 0.125rem;
+    background: #ffffff;
+    display: block;
+}
+
+.timeline-mobile-panel {
+    display: none;
+}
+
+.timeline-mobile-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 56.3125rem) {
+    :root {
+        --header-height: 4.2rem;
+    }
+
+    .sticky-header {
+        transition: transform 0.26s ease;
+    }
+
+    .timeline-nav {
+        grid-template-columns: auto auto;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.15rem 0.65rem;
+        transform: none;
+    }
+
+    .timeline-logo-container {
+        width: auto;
+        height: var(--header-height);
+    }
+
+    .timeline-logo {
+        width: 2.9rem;
+        height: 2.9rem;
+        left: 0;
+        transform: none;
+    }
+
+    .timeline-menu,
+    .timeline-nav-spacer {
+        display: none;
+    }
+
+    .timeline-burger {
+        display: inline-flex;
+        width: 2.35rem;
+        height: 2.35rem;
+        padding: 0.34rem;
+    }
+
+    .timeline-mobile-panel {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        z-index: 999;
+        background: rgba(0, 63, 130, 0.9);
+        border-top: 0.0625rem solid rgba(255, 255, 255, 0.2);
+        padding: 0.65rem 1rem 1rem;
+    }
+
+    body.mobile-header-hidden .sticky-header {
+        transform: translateY(calc(-1 * var(--header-height) - 0.6rem));
+    }
+
+    body.mobile-header-hidden .timeline-mobile-panel {
+        display: none !important;
+    }
+
+    .timeline-mobile-panel.is-open {
+        display: block;
+    }
+
+    .timeline-mobile-step {
+        border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.16);
+    }
+
+    .timeline-mobile-step:last-child {
+        border-bottom: 0;
+    }
+
+    .timeline-mobile-link {
+        display: block;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 0.8rem 0.2rem;
+    }
+
+    .timeline-mobile-step.active .timeline-mobile-link {
+        color: #bfe6ff;
+        font-weight: 700;
+    }
+
+    body.mobile-menu-open {
+        overflow: hidden;
+    }
+}
+
 /* Main Content */
 main {
     margin-top: var(--header-height); /* Offset for sticky header */

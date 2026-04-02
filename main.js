@@ -175,8 +175,10 @@ function initMobileOrientationGate() {
 }
 
 function initTimelineMenu() {
-    const steps = document.querySelectorAll('.timeline-step');
-    const sectionIds = Array.from(steps).map(step => step.getAttribute('data-section'));
+    const desktopSteps = Array.from(document.querySelectorAll('.timeline-step'));
+    const mobileSteps = Array.from(document.querySelectorAll('.timeline-mobile-step'));
+    const steps = [...desktopSteps, ...mobileSteps];
+    const sectionIds = Array.from(new Set(steps.map(step => step.getAttribute('data-section')).filter(Boolean)));
     const sections = sectionIds.map(id => document.getElementById(id));
 
     // Einheitliches Scroll-Verhalten fuer Menue-Klicks.
@@ -199,7 +201,10 @@ function initTimelineMenu() {
                 activeIdx = i;
             }
         }
-        steps.forEach((step, i) => {
+        steps.forEach((step) => {
+            const sectionId = step.getAttribute('data-section');
+            const i = sectionIds.indexOf(sectionId);
+            if (i < 0) return;
             step.classList.remove('active', 'completed');
             if (i < activeIdx) step.classList.add('completed');
             if (i === activeIdx) step.classList.add('active');
@@ -207,6 +212,102 @@ function initTimelineMenu() {
     }
     window.addEventListener('scroll', updateTimeline, { passive: true });
     updateTimeline();
+}
+
+function initMobileTimelineMenu() {
+    const header = document.querySelector('.sticky-header');
+    const burger = document.querySelector('.timeline-burger');
+    const panel = document.getElementById('timeline-mobile-panel');
+    if (!header || !burger || !panel) return;
+    if (header.dataset.mobileMenuBound === 'true') return;
+
+    header.dataset.mobileMenuBound = 'true';
+    const mobileWidthQuery = window.matchMedia('(max-width: 56.3125rem)');
+
+    function setMenuOpen(nextOpen) {
+        burger.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
+        panel.hidden = !nextOpen;
+        panel.classList.toggle('is-open', nextOpen);
+        document.body.classList.toggle('mobile-menu-open', nextOpen);
+    }
+
+    burger.addEventListener('click', () => {
+        const isOpen = burger.getAttribute('aria-expanded') === 'true';
+        setMenuOpen(!isOpen);
+    });
+
+    panel.querySelectorAll('a[href^="#"]').forEach((link) => {
+        link.addEventListener('click', () => setMenuOpen(false));
+    });
+
+    window.addEventListener('scroll', () => {
+        if (burger.getAttribute('aria-expanded') === 'true') {
+            setMenuOpen(false);
+        }
+    }, { passive: true });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        setMenuOpen(false);
+    });
+
+    const closeIfDesktop = () => {
+        if (!mobileWidthQuery.matches) {
+            setMenuOpen(false);
+        }
+    };
+
+    if (typeof mobileWidthQuery.addEventListener === 'function') {
+        mobileWidthQuery.addEventListener('change', closeIfDesktop);
+    } else if (typeof mobileWidthQuery.addListener === 'function') {
+        mobileWidthQuery.addListener(closeIfDesktop);
+    }
+
+    setMenuOpen(false);
+}
+
+function initMobileHeaderAutoHide() {
+    const mobileWidthQuery = window.matchMedia('(max-width: 56.3125rem)');
+    let lastScrollY = window.scrollY;
+
+    function updateHeaderVisibility() {
+        if (!mobileWidthQuery.matches) {
+            document.body.classList.remove('mobile-header-hidden');
+            lastScrollY = window.scrollY;
+            return;
+        }
+
+        const currentScrollY = window.scrollY;
+        const delta = currentScrollY - lastScrollY;
+        const isMenuOpen = document.body.classList.contains('mobile-menu-open');
+
+        if (isMenuOpen) {
+            document.body.classList.remove('mobile-header-hidden');
+            lastScrollY = currentScrollY;
+            return;
+        }
+
+        if (currentScrollY <= 12) {
+            document.body.classList.remove('mobile-header-hidden');
+        } else if (delta > 6) {
+            document.body.classList.add('mobile-header-hidden');
+        } else if (delta < -6) {
+            document.body.classList.remove('mobile-header-hidden');
+        }
+
+        lastScrollY = currentScrollY;
+    }
+
+    window.addEventListener('scroll', updateHeaderVisibility, { passive: true });
+    window.addEventListener('resize', updateHeaderVisibility, { passive: true });
+
+    if (typeof mobileWidthQuery.addEventListener === 'function') {
+        mobileWidthQuery.addEventListener('change', updateHeaderVisibility);
+    } else if (typeof mobileWidthQuery.addListener === 'function') {
+        mobileWidthQuery.addListener(updateHeaderVisibility);
+    }
+
+    updateHeaderVisibility();
 }
 
 function initTimelineLogoHomeLink() {
@@ -237,6 +338,8 @@ function initTimelineLogoHomeLink() {
 window.addEventListener('DOMContentLoaded', () => {
     initMobileOrientationGate();
     initTimelineMenu();
+    initMobileTimelineMenu();
+    initMobileHeaderAutoHide();
     initTimelineLogoHomeLink();
     initZieleSVGScrollRotation();
 });
