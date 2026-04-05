@@ -1,72 +1,79 @@
 # CODE OVERVIEW
 
-Diese Datei hilft beim schnellen Einarbeiten in die wichtigsten Logik- und Stylingbereiche.
+Diese Datei ist die schnelle Orientierung fuer die Abgabe. Sie zeigt, wo Inhalte liegen, welche Funktionen in `main.js` die Interaktion steuern und welche Stellen bei spaeteren Aenderungen besonders wichtig sind.
 
-## 1) Architektur in einem Satz
+## 1) Gesamtarchitektur
 
-Die Seite wird ueber index.html strukturiert, ueber styles.css gestaltet und ueber main.js interaktiv gemacht (SVG-Interaktionen, Filter, Slideshow und gesteuertes Scrolling).
+Die Anwendung ist eine statische One-Page-Seite. `index.html` strukturiert die Inhalte, `styles.css` bzw. die Dateien unter `styles/` regeln Layout und Responsive-Verhalten, und `main.js` laedt SVGs, steuert Interaktionen, Filter, Slideshow-Logik und das gefuehrte Scrolling.
 
-## 2) HTML: Wo ist was?
+## 2) Inhalte in `index.html`
 
-- #hauptgrafik: Einstieg mit interaktiver Haupt-SVG.
-- #einleitung: Intro-Textkarte mit Reveal-Effekt.
-- #gelingendes-studium: GLSTU-SVG + narrative Textseiten (.glstu-text-page).
-- #querschnittsthemen: Textintro + Bildslideshow.
-- #ziele-meilensteine: Ringgrafik + Zielkarten + Teilziele-Timeline.
-- #kurzportrait: drei Scroll-Teilschritte (.kurzportrait-top/.main/.third).
-- #wissensspeicher-hawk: drei Scroll-Teilschritte (intro/slidein/final).
+- `#hauptgrafik`: Einstieg mit interaktiver Haupt-SVG und den Verknuepfungen zu den weiteren Bereichen.
+- `#einleitung`: kurze Einfuehrung mit Reveal-Effekt.
+- `#gelingendes-studium`: GLSTU-SVG plus narrative Textseiten.
+- `#querschnittsthemen`: Einleitung und manuelle Slideshow.
+- `#ziele-meilensteine`: Zielring, Meilenstein-Karten und Teilziele-Timeline.
+- `#kurzportrait`: dreistufiger Scroll-Aufbau mit Text- und Grafikbereich.
+- `#wissensspeicher-hawk`: mehrstufiger Bereich mit SVG-Reveal und Hotspot.
 
-## 3) JavaScript: Kernfunktionen
+## 3) Wichtige JavaScript-Bloecke
 
-### Initialisierung
+### Bootstrap und Ladepfad
 
-- initializeApp(): startet alle Feature-Initialisierer in fester Reihenfolge.
+- `initializeApp()`: zentraler Startpunkt fuer alle Initialisierer.
+- SVG-Ladepfade am Dateianfang: laden die Hauptgrafik, GLSTU, Karte und Wissensspeicher nach.
+- `isolateInlineSvg()`: macht IDs und Klassen in geladenen SVGs eindeutig, damit es keine Kollisionen gibt.
 
-### SVG und Interaktion
+### SVG- und Inhaltsinteraktion
 
-- initSVGInteractions(): Hover/Klick in der Hauptgrafik, inkl. optionalem Scrollsprung.
-- initGLSTUInteractions(): Klick auf Basiselemente blendet passende Overlays ein.
-- initZielInteractions(): koppelt Zielringe mit Zielkarten und Teilziele-Filter.
-- initKarteInteractions(): Standortkarten in der Kurzportrait-SVG ein-/ausblenden.
+- `initSVGInteractions()`: Hover, Klick und Scrollsprung in der Hauptgrafik.
+- `initGLSTUInteractions()`: steuert die Overlays in der GLSTU-SVG und passt das mobile Layout an.
+- `initKarteInteractions()`: schaltet Stadt-Layer und Infokarten im Kurzportrait.
+- `initWissensspeicherHotspotInteraction()`: macht den Hotspot in der Wissensspeicher-Grafik anklickbar.
 
-### Content-Interaktionen
+### Scrollytelling und Abschnittslogik
 
-- initQSTSlideshow(): manuelle Slideshow mit Buttons, Dots und Tastatur.
-- initTeilzieleFilter(): Dropdown + Kartenklick setzen den aktiven Zielfilter.
-- initTeilzieleTimeline(): vertikales Wheel wird horizontaler Timeline-Scroll.
-- initTeilzieleRowSync(): synchronisiert Hoehen in den Timeline-Zeilen.
+- `initSectionSnapScrolling()`: globales Snap-Scrolling zwischen Hauptabschnitten und Unterzielen.
+- `initMobileOrientationGate()`: blockiert auf kleinen Geraeten im Hochformat die problematische Ansicht.
+- `initMobileHeaderAutoHide()` und `initTimelineMenu()`: steuern die mobile Navigation im Scrollverhalten.
+- `initKurzportraitStickyTextObserver()` und `initKurzportraitEntranceAnimation()`: regeln Textwechsel und Sichtbarkeit im Kurzportrait.
+- `initWissensspeicherEntranceAnimation()` und `initWissensspeicherStepsReveal()`: blenden den Wissensspeicher stufenweise ein.
 
-### Scrollytelling und Reveal
+### Teilziele und Meilensteine
 
-- initGLSTUScrollNarrative(): seitenweises Scrollen durch GLSTU-Textseiten.
-- initKurzportraitScrollNarrative(): seitenweises Scrollen durch Kurzportrait-Textseiten.
-- initSectionSnapScrolling(): globales, schrittweises Springen zwischen (Teil-)Abschnitten.
-- initWissensspeicherReveal() / initWissensspeicherSlidein(): Einblend-Animationen.
+- `initTeilzieleFilter()`: verwaltet Dropdown, Tabs, SVG-Zieltrigger und die sichtbaren Jahreskarten.
+- `initTeilzieleTimeline()`: macht aus vertikalem Mausrad horizontales Scrollen in der Timeline.
+- `initTeilzieleRowSync()`: gleicht die Hoehen der Tabellenzeilen nach Filterwechseln an.
+- `initTeilzieleChecks()`: formatiert die Teilziel-Liste und liest den Check-Status aus JSON.
+- `initMeilensteineCardsReveal()`: setzt die Meilenstein-Karten per IntersectionObserver sichtbar.
 
-## 4) Styles: Schnell orientieren
+## 4) Styles: Schnellorientierung
 
-- Globaler Rahmen: Reset, Header, .section, .container am Anfang der Datei.
-- Hauptgrafik: #svg-container + Intro-Animationen.
-- GLSTU: .glstu-* Bereiche (SVG links, narratives Textpanel rechts).
-- Meilensteine/Teilziele: .meilensteine-* und .teilziele-* Bereiche.
-- Kurzportrait: .kurzportrait-* Bereiche.
-- Wissensspeicher: .wissensspeicher-* Bereiche.
+- `styles/00-tokens.css` bis `styles/03-layout.css`: Basis, Tokens, Header und Seitenlayout.
+- `styles/10-hauptgrafik.css`: Hauptgrafik und Intro-Animationen.
+- `styles/20-gelingendes-studium.css` und `styles/30-einleitung-qst.css`: GLSTU und Einleitung/Querschnittsthemen.
+- `styles/31-fullscreen-slideshow.css`: Vollbild-Slideshow.
+- `styles/32-querschnittsthemen.css`: Querschnittsthemen-Styling.
+- `styles/35-wissensspeicher.css`: Wissensspeicher-Bereich.
+- `styles/40-kurzportrait.css`: Kurzportrait-Aufbau und sticky Bereiche.
+- `styles/50-meilensteine-teilziele.css`: Meilensteine, Teilziele und Timeline.
+- `styles/90-responsive-overrides.css`: hoehen- und breitenbezogene Korrekturen fuer kleinere Viewports.
 
 ## 5) Typische Aenderungen
 
-- Neue Textseite bei GLSTU/Kurzportrait:
-  - Neue article-Node mit Klasse .glstu-text-page oder .kurzportrait-text-page in index.html.
-  - Die JS-Narrative-Funktionen erkennen die Seite automatisch ueber querySelectorAll.
+- Neue Textseite in GLSTU oder Kurzportrait:
+  - neue `article`-Node mit der passenden Klasse in `index.html` anlegen.
+  - die JS-Funktionen lesen die Seiten automatisch ueber `querySelectorAll()` ein.
 
 - Andere Snap-Reihenfolge:
-  - In initSectionSnapScrolling() die targets-Bildung anpassen.
+  - in `initSectionSnapScrolling()` die Ziel-Liste anpassen.
 
 - Teilziele-Filter anders vorbelegen:
-  - In initTeilzieleFilter() initialValue setzen.
-  - HTML-Select default-Wert passend setzen.
+  - in `initTeilzieleFilter()` den Initialwert anpassen.
+  - den Default-Wert im passenden HTML-Select mitziehen.
 
-## 6) Vorsicht bei Aenderungen
+## 6) Wichtige Vorsichtspunkte
 
-- IDs in SVG-Mappings nicht umbenennen, ohne die Maps in main.js mitzuziehen.
-- Klassen fuer Scroll-Teilschritte nicht entfernen, da sie Snap-Ziele sind.
-- Bei neuen interaktiven Feldern pruefen, ob shouldIgnoreGlobalSnap() erweitert werden muss.
+- SVG-IDs nicht umbenennen, ohne die Referenzen in `main.js` zu aktualisieren.
+- Scroll-Zwischenschritte wie `.kurzportrait-top` oder `#teilziele-bereich` nicht entfernen, weil sie Snap-Ziele sind.
+- Bei neuen interaktiven Elementen immer pruefen, ob `shouldIgnoreGlobalSnap()` erweitert werden muss.

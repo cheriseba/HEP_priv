@@ -136,6 +136,8 @@ function initMobileOrientationGate() {
     const gate = document.getElementById('orientation-gate');
     if (!gate || !document.body) return;
 
+    // Auf kleinen Touch-Geraeten wird das problematische Hochformat gezielt abgefangen.
+    // So bleibt die Seite in den Viewports lesbar, fuer die das Layout gedacht ist.
     const coarsePointerQuery = window.matchMedia('(pointer: coarse)');
     const smallDeviceWidthQuery = window.matchMedia('(max-width: 64rem)');
     const portraitQuery = window.matchMedia('(orientation: portrait)');
@@ -181,7 +183,7 @@ function initTimelineMenu() {
     const sectionIds = Array.from(new Set(steps.map(step => step.getAttribute('data-section')).filter(Boolean)));
     const sections = sectionIds.map(id => document.getElementById(id));
 
-    // Einheitliches Scroll-Verhalten fuer Menue-Klicks.
+    // Desktop- und Mobile-Links springen identisch in die Zielabschnitte.
     steps.forEach((step) => {
         const link = step.querySelector('a[href^="#"]');
         const sectionId = step.getAttribute('data-section');
@@ -240,6 +242,7 @@ function initMobileTimelineMenu() {
         link.addEventListener('click', () => setMenuOpen(false));
     });
 
+    // Ein offenes Mobile-Menue schliesst sich beim Scrollen automatisch.
     window.addEventListener('scroll', () => {
         if (burger.getAttribute('aria-expanded') === 'true') {
             setMenuOpen(false);
@@ -271,6 +274,7 @@ function initMobileHeaderAutoHide() {
     let lastScrollY = window.scrollY;
 
     function updateHeaderVisibility() {
+        // Auf Mobile wird der Header beim Scrollen nach unten versteckt und beim Zurueckscrollen wieder gezeigt.
         if (!mobileWidthQuery.matches) {
             document.body.classList.remove('mobile-header-hidden');
             lastScrollY = window.scrollY;
@@ -322,6 +326,7 @@ function initTimelineLogoHomeLink() {
     interactiveLogo.setAttribute('tabindex', '0');
     interactiveLogo.setAttribute('aria-label', 'Zur Hauptgrafik');
 
+    // Das Logo wirkt wie ein Home-Button zur Hauptgrafik.
     const triggerBackToGraphic = (event) => {
         if (event) event.preventDefault();
         backToGraphic.click();
@@ -508,7 +513,7 @@ function getSectionScrollOffset(sectionId) {
     const stickyHeader = document.querySelector('.sticky-header');
     const headerOffset = stickyHeader ? stickyHeader.offsetHeight : 0;
 
-    // Feintuning fuer Abschnittsspruenge: etwas straffer als reiner Header-Abzug.
+    // Einige Zielbereiche sollen optisch etwas straffer unter dem Header landen.
     if (
         sectionId === 'querschnittsthemen'
         || sectionId === 'kurzportrait'
@@ -554,6 +559,7 @@ function loadWissensspeicherSvg() {
     const wsContainer = document.getElementById('wissensspeicher-svg-container');
     if (!wsContainer) return;
 
+    // Mobile nutzt eine eigene SVG-Variante mit einem kompakteren Raster.
     const svgPath = wissensspeicherMobileQuery.matches
         ? 'assets/images/svg/Wissensspeicher_grafik_mobil.svg'
         : 'assets/images/svg/Wissensspeicher_grafik.svg';
@@ -604,7 +610,7 @@ function initKarteInteractions() {
         return karteRoot.querySelector(`[data-orig-id="${id}"], [id="${id}"]`);
     }
 
-    // Zuordnung der klickbaren Stadt-Layer zu ihren Info-Karten in der SVG.
+    // Die Stadt-Layer steuern die zugehoerigen Infokarten in derselben SVG.
     const cityToCardMap = {
         Holzminden: 'Karte_Holzminden',
         'Göttingen': 'Karte_Göttingen',
@@ -632,7 +638,7 @@ function initKarteInteractions() {
         cardLayer.classList.remove('karte-city-card-visible');
     });
 
-    // Schaltet die zugehoerige Karte ein/aus (Toggle), ohne andere Layer zu veraendern.
+    // Schaltet die zugehoerige Karte ein/aus, ohne andere Layer zu veraendern.
     function showCityCard(targetCardId) {
         const cardLayer = getKarteLayer(targetCardId);
         if (!cardLayer) return;
@@ -693,7 +699,7 @@ function initSectionReveal() {
         '(orientation: landscape) and (pointer: coarse) and (max-width: 60rem) and (max-height: 33.75rem)'
     ).matches;
 
-    // Bewegt Intro-Karten horizontal ein, abhaengig von der Position ihrer Section im Viewport.
+    // Die Intro-Karten gleiten von links ein, sobald ihre Section in den Viewport kommt.
     function updateTransforms() {
         const windowHeight = window.innerHeight;
         const headerOffset = 60; // passend zur sticky-header Hoehe
@@ -739,7 +745,7 @@ function initSectionReveal() {
 }
 
 function applyIntroAnimation() {
-    // Intro-Choreografie: zentrales Symbol laden -> Gruppen aufbauen -> ausgewaehlte Gruppen wieder einklappen.
+    // Intro-Choreografie: Ladezustand zeigen, Gruppen aufbauen und Teilbereiche anschliessend einklappen.
     const svgRoot = document.querySelector('#svg-container svg');
     if (!svgRoot) return;
 
@@ -805,7 +811,7 @@ function applyIntroAnimation() {
 }
 
 function initSVGInteractions() {
-    // Interaktive Layer der Hauptgrafik (Hover, Klick, optionales Scroll-Ziel).
+    // Hauptgrafik: interaktive Layer mit Hover, Klick, Hint und Sprungzielen.
     const svgRoot = document.querySelector('#svg-container svg');
     if (!svgRoot) return;
 
@@ -933,7 +939,6 @@ function initSVGInteractions() {
                 if (hoverHints[id]) {
                     showHint(e, hoverHints[id]);
                 }
-                console.log(id + ' hovered');
             });
 
             element.addEventListener('mousemove', function(e) {
@@ -975,7 +980,6 @@ function initSVGInteractions() {
                     scrollToSection(scrollTargets[id].sectionId);
                 }
 
-                console.log(id + ' clicked');
             });
 
             element.style.cursor = 'pointer';
@@ -1020,6 +1024,7 @@ function initGLSTUInteractions() {
     function updateGLSTUMobileOverflowPadding() {
         const isPortrait = mobilePortraitGLSTUQuery.matches;
         const isLandscape = mobileLandscapeGLSTUQuery.matches;
+        // Wenn ein Overlay offen ist, wird der mobile Bereich unten temporaer vergroessert.
         if (!isPortrait && !isLandscape) {
             setGLSTUMobileOverflowPadding(0);
             return;
@@ -1070,7 +1075,7 @@ function initGLSTUInteractions() {
         }
     });
 
-    // Es ist immer nur ein Overlay sichtbar; erneuter Klick blendet alle aus.
+    // Es ist immer nur ein Overlay sichtbar; ein erneuter Klick blendet wieder alles aus.
     function showOverlay(targetId) {
         const target = getGLSTULayer(targetId);
         const isVisible = target ? target.classList.contains('glstu-overlay-visible') : false;
@@ -1111,7 +1116,7 @@ function initGLSTUInteractions() {
         baseLayer.addEventListener('click', event => {
             event.stopPropagation();
             showOverlay(overlayId);
-            // Pulsieren nach erstem Klick entfernen
+            // Das Pulsieren wird nach dem ersten Klick entfernt, damit die Interaktion ruhiger wirkt.
             document.querySelectorAll('.glstu-layer').forEach(layer => {
                 layer.style.animation = 'none';
             });
@@ -1137,13 +1142,13 @@ function initGLSTUInteractions() {
 }
 
 
-// Querschnittsthemen als manuelle Slideshow (Buttons, Dots, Tastatur im sichtbaren Bereich).
+// Querschnittsthemen als manuelle Slideshow: Buttons, Dots und Tastatur reagieren nur im sichtbaren Bereich.
 function initQSTSlideshow() {
     let currentSlide = 1;
     const totalSlides = 4;
 
     function showSlide(slideNumber) {
-        // Update slide visibility
+        // Sichtbare Slide umschalten.
         document.querySelectorAll('.qst-slide').forEach(slide => {
             slide.classList.remove('active');
         });
@@ -1152,7 +1157,7 @@ function initQSTSlideshow() {
             activeSlide.classList.add('active');
         }
 
-        // Update indicators
+        // Dots und Slide-Indikatoren synchron halten.
         document.querySelectorAll('.qst-indicator').forEach(indicator => {
             indicator.classList.remove('active');
         });
@@ -1215,11 +1220,11 @@ function initQSTSlideshow() {
         }
     });
 
-    // Set initial slide
+    // Beim Laden startet immer die erste Slide.
     showSlide(1);
 }
 
-// Teilziele Timeline: Mausrad vertikal -> horizontal scrollen
+// Teilziele Timeline: vertikales Mausrad wird in horizontalen Timeline-Scroll umgelenkt.
 function initTeilzieleTimeline() {
     const matrix = document.querySelector('.teilziele-matrix');
     const timeline = document.querySelector('.teilziele-timeline');
@@ -1229,7 +1234,7 @@ function initTeilzieleTimeline() {
     matrix.dataset.wheelBound = 'true';
 
     matrix.addEventListener('wheel', (event) => {
-        // Ctrl/Cmd+Wheel wird oft für Zoom/Gesten genutzt.
+        // Ctrl/Cmd+Wheel wird oft fuer Zoom/Gesten genutzt und soll nicht abgefangen werden.
         if (event.ctrlKey || event.metaKey) return;
 
         const maxScrollLeft = timeline.scrollWidth - timeline.clientWidth;
@@ -1245,8 +1250,7 @@ function initTeilzieleTimeline() {
         const atLeftEdge = timeline.scrollLeft <= 0;
         const atRightEdge = timeline.scrollLeft >= maxScrollLeft - 1;
 
-        // An den horizontalen Kanten nicht blockieren,
-        // damit globales vertikales Abschnitts-Scrolling greifen kann.
+        // An den horizontalen Kanten nicht blockieren, damit das globale vertikale Scrolling weiter greifen kann.
         if ((movingRight && atRightEdge) || (!movingRight && atLeftEdge)) {
             return;
         }
@@ -1267,6 +1271,7 @@ function initTeilzieleFilter() {
     if (!matrix) return;
 
     const allowedValues = new Set(['1', '2', '3']);
+        // Prioritaet: Select -> vorhandener Matrix-Status -> aktiver Tab -> Default.
     const selectInitialValue = filterSelect && allowedValues.has(filterSelect.value)
         ? filterSelect.value
         : null;
@@ -1292,6 +1297,7 @@ function initTeilzieleFilter() {
             tab.setAttribute('tabindex', isActive ? '0' : '-1');
         });
 
+        // Jahreskarten ohne passende Zielspalte werden ausgeblendet.
         yearCards.forEach((yearCard) => {
             const goalCell = yearCard.querySelector(`.teilziele-cell-${selectedValue}`);
             if (!goalCell) {
@@ -1374,7 +1380,7 @@ function initTeilzieleFilter() {
         });
     }
 
-    // Klick auf Zielkarten oberhalb der Timeline setzt den Filter und scrollt zur Teilziele-Sektion.
+    // Klick auf Zielkarten oberhalb der Timeline setzt den Filter und springt zur Teilziele-Sektion.
     goalTriggers.forEach((trigger) => {
         const targetValue = trigger.getAttribute('data-goal-target');
         bindGoalTrigger(trigger, targetValue);
@@ -1449,6 +1455,7 @@ function initTeilzieleChecks() {
     }
 
     function applyChecks(checks) {
+        // Der JSON-Status markiert die Listenpunkte visuell als erledigt.
         goalItems.forEach((item, index) => {
             const key = extractKey(item.textContent || '', index);
             item.dataset.checkKey = key;
@@ -1492,8 +1499,8 @@ function initTeilzieleRowSync() {
 
     let scheduled = false;
 
-    // Hoehen angleichen nur fuer die Jahreszellen je Zielzeile.
-    // Sticky-Zielkarten behalten ihre feste CSS-Hoehe und werden nicht dynamisch mitgezogen.
+    // Hoehen werden nur fuer die Jahreszellen synchronisiert.
+    // Die Sticky-Zielkarten behalten eine getrennt gemessene, feste Hoehe.
     function syncHeights() {
         scheduled = false;
 
@@ -1548,7 +1555,7 @@ function initTeilzieleRowSync() {
             }
         }
 
-        // Reset so we can measure natural heights
+        // Vor dem Messen die natuerlichen Hoehen wieder freigeben.
         rowSelectors.forEach((selector) => {
             matrix.querySelectorAll(selector).forEach((cell) => {
                 cell.style.minHeight = '';
@@ -1613,7 +1620,7 @@ function initMeilensteineCardsReveal() {
 }
 
 function initKurzportraitStickyTextObserver() {
-    // Textwechsel via Klick-Pfeile neben den Indikatoren.
+    // Textwechsel im Kurzportrait: die sichtbare Anzeige wird aus den Quellseiten gespeist.
     const section = document.getElementById('kurzportrait');
     if (!section) return;
     if (section.dataset.kurzportraitObserverBound === 'true') return;
@@ -1664,7 +1671,7 @@ function initKurzportraitStickyTextObserver() {
         }
         updateNavState();
 
-        // Im 2. Kurzportrait-Abschnitt soll die Gebietsebene sichtbar sein.
+        // Im zweiten Kurzportrait-Schritt soll die Gebietsebene sichtbar sein.
         setKarteGebietVisible(safeIndex === 1);
 
         section.classList.toggle('kurzportrait-show-scroll-hint', false);
@@ -1747,6 +1754,7 @@ function initWissensspeicherStepsReveal() {
     wrap.classList.add('steps-ready');
 
     function revealSteps() {
+        // Die Schritte erscheinen gestaffelt, damit der Aufbau der Grafik klar lesbar bleibt.
         stepLayers.forEach((layer, index) => {
             window.setTimeout(() => {
                 layer.classList.add('wissensspeicher-step-visible');
@@ -1782,7 +1790,7 @@ function initWissensspeicherHotspotInteraction() {
     if (!targetUrl) return;
 
     // Ebenennamen-Reihenfolge: zuerst künftiger Name, dann aktueller Fallback.
-    // Wenn die finale SVG da ist, nur noch 'Pfeil' hier stehen lassen.
+    // Wenn die finale SVG vorliegt, kann der Fallback entfernt werden.
     const hotspotLayerNames = ['Pfeil', 'Schritt1'];
     const hotspotLayer = hotspotLayerNames
         .map((name) => svgRoot.querySelector(`[data-orig-id="${name}"], [id="${name}"]`))
@@ -2015,10 +2023,10 @@ function initializeApp() {
     initKurzportraitEntranceAnimation();
     initWissensspeicherEntranceAnimation();
     initWissensspeicherStepsReveal();
-    // Globales Snap-Scrolling zwischen Abschnitten deaktiviert.
+    // Globales Snap-Scrolling bleibt bewusst deaktiviert; die gefuehrte Navigation laeuft ueber die Abschnittscontroller.
 }
 
-// Fullscreen Slideshow: transform-based horizontal slide transitions
+// Fullscreen Slideshow: transform-basierte horizontale Slide-Wechsel mit synchronen Indikatoren.
 function initFullscreenSlideshow() {
     let currentSlide = 1;
     const totalSlides = 4;
@@ -2026,7 +2034,7 @@ function initFullscreenSlideshow() {
     const indicators = Array.from(document.querySelectorAll('.fullscreen-indicator'));
     const progressDots = Array.from(document.querySelectorAll('.fullscreen-progress-dot'));
     const progressCount = document.querySelector('.fullscreen-progress-count');
-    // Get all prev/next buttons inside slides
+    // Alle Prev/Next-Buttons innerhalb der Slides erfassen.
     const prevBtns = Array.from(document.querySelectorAll('.fullscreen-slide .fullscreen-prev'));
     const nextBtns = Array.from(document.querySelectorAll('.fullscreen-slide .fullscreen-next'));
 
@@ -2097,7 +2105,7 @@ function initFullscreenSlideshow() {
     });
 
     function updateNavState() {
-        // Disable only the nav buttons in the active slide
+        // Nur die Nav-Buttons der aktiven Slide werden deaktiviert, damit die Grenzen klar bleiben.
         slides.forEach((slide, idx) => {
             const prev = slide.querySelector('.fullscreen-prev');
             const next = slide.querySelector('.fullscreen-next');
