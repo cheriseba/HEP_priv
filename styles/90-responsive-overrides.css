@@ -1,2 +1,136 @@
 /* Responsive overrides have been split into section/base stylesheets.
    Keep this file for temporary cross-section patches only. */
+
+/* Real-device safety pass: landscape phones (coarse pointer) up to 64rem. */
+@media (orientation: landscape) and (pointer: coarse) and (max-width: 64rem) {
+   /* Gelingendes Studium: neutralize aggressive scaling/offset variants. */
+   #gelingendes-studium.section {
+      padding-bottom: clamp(2.2rem, 7vh, 4.2rem);
+      overflow-x: clip;
+   }
+
+   #gelingendes-studium .glstu-split {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+         "text"
+         "graphic";
+      row-gap: clamp(0.9rem, 2.8vh, 1.6rem);
+   }
+
+   #gelingendes-studium .glstu-static-text {
+      width: min(100%, 96vw);
+      max-width: 96vw;
+      margin: 0 auto;
+      padding: 0 clamp(0.65rem, 2.8vw, 1rem);
+   }
+
+   #gelingendes-studium .glstu-fixed {
+      position: static;
+      top: auto;
+      height: auto;
+      min-height: 0;
+      padding: 0;
+      justify-content: center;
+      align-items: center;
+   }
+
+   #gelingendes-studium .glstu-svg-container {
+      width: min(96vw, 56rem);
+      max-width: 96vw;
+      height: auto;
+      margin: 0 auto;
+      transform: none !important;
+   }
+
+   #gelingendes-studium .glstu-svg-container svg {
+      width: 100% !important;
+      height: auto !important;
+      max-width: 100%;
+      max-height: min(62vh, 28rem);
+      transform: none !important;
+      transform-origin: center center;
+   }
+
+   /* Querschnittsthemen: keep slideshow/text overlay inside viewport. */
+   #querschnittsthemen.section {
+      overflow-x: clip;
+   }
+
+   #querschnittsthemen .qst-svg-subsection-container {
+      padding-top: clamp(0.9rem, 2.4vh, 1.6rem);
+      padding-bottom: clamp(1.3rem, 3.5vh, 2.2rem);
+   }
+
+   #querschnittsthemen .qst-svg-container {
+      width: min(96vw, 56rem);
+      max-width: 96vw;
+   }
+
+   #querschnittsthemen .qst-svg-container img {
+      max-height: min(56vh, 22rem);
+      object-fit: contain;
+   }
+
+   #querschnittsthemen .qst-text-overlay {
+      left: 0.6rem;
+      right: 0.6rem;
+      bottom: 0.6rem;
+      max-width: none;
+      padding: 0.65rem 0.75rem;
+      max-height: 40vh;
+      overflow: auto;
+   }
+
+   #querschnittsthemen .qst-nav-btn {
+      width: 2.35rem;
+      height: 2.35rem;
+   }
+
+   #querschnittsthemen .qst-nav-btn svg {
+      width: 1.35rem;
+      height: 1.35rem;
+   }
+
+   #querschnittsthemen .qst-indicators {
+      bottom: 0.5rem;
+      gap: 0.5rem;
+   }
+
+   /* Kurzportrait: remove off-canvas offsets in phone landscape. */
+   #kurzportrait.section {
+      overflow-x: clip;
+   }
+
+   #kurzportrait .kurzportrait-header h2 {
+      margin-left: 0;
+      padding-left: clamp(1rem, 3vw, 1.6rem);
+      padding-right: clamp(1rem, 3vw, 1.6rem);
+   }
+
+   #kurzportrait .karte-svg-container {
+      width: min(96vw, 56rem);
+      max-width: 96vw;
+      margin-left: auto;
+      margin-right: auto;
+      transform: none;
+   }
+
+   #kurzportrait .karte-svg-container svg,
+   #kurzportrait .karte-svg-container img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: min(62vh, 26rem);
+   }
+
+   #kurzportrait .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic,
+   #kurzportrait.kurzportrait-entered .kurzportrait-layout--graphic-only .kurzportrait-sticky-graphic {
+      transform: none !important;
+   }
+
+   #kurzportrait .kurzportrait-slide-card {
+      width: min(96vw, 34rem);
+      max-width: 96vw;
+      min-width: 0;
+   }
+}

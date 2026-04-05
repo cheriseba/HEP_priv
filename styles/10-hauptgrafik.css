@@ -296,6 +296,34 @@
     }
 }
 
+@media (orientation: landscape) and (pointer: coarse) and (max-width: 64rem) {
+    #hauptgrafik.section {
+        padding: 0.2rem 0.4rem;
+        min-height: calc(100dvh - var(--header-height));
+    }
+
+    #hauptgrafik .container {
+        min-height: calc(100dvh - var(--header-height));
+        height: calc(100dvh - var(--header-height));
+        align-items: center;
+        justify-content: center;
+    }
+
+    #svg-container {
+        width: min(95vw, 63rem);
+        max-width: min(95vw, 63rem);
+        height: calc(100dvh - var(--header-height) - 0.8rem);
+        max-height: none;
+        margin: 0 auto;
+    }
+
+    #svg-container svg {
+        width: 100%;
+        height: 100%;
+        max-height: none;
+    }
+}
+
 /* Finaler Hauptgrafik-Override: Desktop/Laptop wieder gross und stabil skalieren. */
 @media (min-width: 56.3125rem) {
     #hauptgrafik.section {
